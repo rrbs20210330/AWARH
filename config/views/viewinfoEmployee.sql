@@ -1,0 +1,2 @@
+CREATE VIEW infoEmployee as 
+SELECT e.id, CONCAT(e.names, " ", e.last_names) as employee_full_name, e.email, e.rfc, e.nss, e.phone_number, e.birthday, a.no_exterior, a.no_interior, a.`references`, a.street, a.colony FROM employees as e INNER JOIN addresses AS a on e.id_address = a.id;

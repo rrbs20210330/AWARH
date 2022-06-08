@@ -56,10 +56,10 @@ include("components/header.php");
           <tr>
             <td>
               <?php if ($active == 0){?>
-                <a class="btn btn-secondary btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&status=0&table=announcements&location=announcements"><i class="bi bi-circle"></i></a>
+                <a class="btn btn-secondary btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&table=announcements&location=announcements"><i class="bi bi-circle"></i></a>
               <?php
               }else{?>
-                <a class="btn btn-success btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&status=1&table=announcements&location=announcements"><i class="bi bi-circle-fill"></i></a>
+                <a class="btn btn-success btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&table=announcements&location=announcements"><i class="bi bi-circle-fill"></i></a>
               <?php
               }?>
             </td>

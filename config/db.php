@@ -46,8 +46,16 @@
             return $return;
         }
 
-        public function update_active($table, $active, $id){
-            $sql = "UPDATE $table SET active='$active' WHERE id='$id'";
+        public function update_active($table,$id){
+            $sql="SELECT active FROM $table WHERE id='$id'"; 
+            $res= mysqli_query($this->con, $sql);
+            $return=mysqli_fetch_object($res);
+            if($return->active){
+                $sql ="UPDATE $table SET active=0 WHERE id='$id'";
+            }
+            else{
+                $sql ="UPDATE $table SET active=1 WHERE id='$id'";
+            }
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;

@@ -102,6 +102,6 @@ $DataBase = new db();
 
 
 <?php
-include("components/footer.php");
+include("components/footer.html");
 ?>
 

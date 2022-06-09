@@ -1,3 +1,3 @@
 <?php include('components/header.php') ?>
-
-<?php include('components/footer.php') ?>
+efe
+<?php include('components/footer.html') ?>

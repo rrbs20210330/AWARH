@@ -7,7 +7,6 @@ include('config/db.php');
 
 
 <center><h2>Lista de Actividades</h2></center>
-
 <div class="container">
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
   Nueva Actividad
@@ -15,7 +14,7 @@ include('config/db.php');
     <table class="table table-bordered" id="userTable">
         <thead>
             <th>Nombre</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
             <th>Cargo</th>
             <th></th>
         </thead>
@@ -64,7 +63,7 @@ include('config/db.php');
             <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="col-sm-4">
-            <label for="">Descripcion </label>
+            <label for="">Descripción </label>
             <input type="text" class="form-control" id="description" name="description" required>
             </div>
             <div class="col-sm-4">
@@ -101,5 +100,5 @@ include('config/db.php');
 
 
 <?php
-include("components/footer.php");
+include("components/footer.html");
 ?>

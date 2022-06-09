@@ -40,7 +40,7 @@
                                                     <div class="form-group"><input class="form-control py-2" id="inputPassword" name="password" type="password" placeholder="Contraseña"/></div>
                                                     <div class="form-group d-flex align-items-center justify-content-center mt-4 mb-0">
                                                         <!-- <button type="submit" class="btn btn-success">Entrar</button> -->
-                                                        <a class="btn btn-success" href="menu.php" role="button">Entrar</a>
+                                                        <a class="btn btn-success" href="overview.php" role="button">Entrar</a>
                                                 
                                                     </div>
                                                 </form>

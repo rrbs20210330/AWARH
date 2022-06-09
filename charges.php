@@ -32,7 +32,6 @@ include("components/header.php");
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
   Nueva cargo
 </button>
-
     <table class="table table-bordered" id="userTable">
         <thead>
             <th>Nombre</th>
@@ -104,7 +103,7 @@ include("components/header.php");
     </div>
 </div>
 
-
+</div>
 
 
 <?php

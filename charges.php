@@ -76,39 +76,32 @@ include("components/header.php");
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  
-<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registro de cargos</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form method="post">
-        <div class="row">
-            <div class="col-sm-4">
-            <label for="">Nombre </label>
-            <input type="text" class="form-control" id="name" name="name" required>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registro de cargos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-sm-4">
-            <label for="">Descripción </label>
-            <input type="text" class="form-control" id="description" name="description" required>
-            </div>
-            
-            
+            <form method="post">
+                <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label for="">Nombre </label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="">Descripción </label>
+                            <input type="text" class="form-control" id="description" name="description" required>
+                        </div>                    
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </div>
+            </form>
         </div>
-        
-        <br>
-        
-    
-      </div>
-      <div class="modal-footer">
-        
-        <button type="submit" class="btn btn-success">Registrar</button>
-      </div>
-      </form>
     </div>
-  </div>
 </div>
 
 

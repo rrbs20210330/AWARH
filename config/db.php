@@ -331,6 +331,20 @@
             }else{
                 return false;
             }
-        }    
+        } 
+        
+        #NUM OF ACTIVITIES FROM CHARGE
+
+        public function num_activities_carge($id){
+            $sql= "SELECT `numActCh`($id) AS `numActCh`;" ;
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            if($res){
+                return $obj;
+            }else{
+                return false;
+            }
+            
+        }
     }
 ?>

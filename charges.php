@@ -36,7 +36,8 @@ include("components/header.php");
     <table class="table table-bordered" id="userTable">
         <thead>
             <th>Nombre</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
+            <th># ACtividades</th>
             <th></th>
         </thead>
         <tbody>
@@ -44,9 +45,12 @@ include("components/header.php");
                 $DataBase = new db();
                 $l_charges = $DataBase->read_all_charges();
                 while ($row = mysqli_fetch_object($l_charges)) {
-                    $id = $row->id;
-                    $nombre = $row->name;
-                    $description = $row->description;
+                    $id = $row->chargeID;
+                    $cons =  $DataBase->num_activities_carge($id);
+                    $num = $cons->numActCh;
+                    $nombre = $row->chargeName;
+                    $description = $row->chargeDesc;
+                    
             ?>
             <tr>
                 <td>
@@ -54,6 +58,9 @@ include("components/header.php");
                 </td>
                 <td>
                     <?php echo $description ?>
+                </td>
+                <td>
+                    <?php echo $num; ?>
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" ><i class="bi bi-pencil-square"></i></a>
@@ -84,7 +91,7 @@ include("components/header.php");
             <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="col-sm-4">
-            <label for="">Descripcion </label>
+            <label for="">Descripción </label>
             <input type="text" class="form-control" id="description" name="description" required>
             </div>
             

@@ -1,2 +1,2 @@
 CREATE VIEW listCharges as 
-SELECT c.id, c.`name`, c.`description` FROM charges as c;
+select `c`.`id` AS `chargeID`,`c`.`description` AS `chargeDesc`,`c`.`name` AS `chargeName` from `recursoshumanos`.`charges` `c`

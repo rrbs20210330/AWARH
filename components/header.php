@@ -21,6 +21,7 @@
       <a class="navitem" href="charges.php">Cargos</a>
       <a class="navitem" href="activities.php">Actividades</a>
       <a class="navitem" href="users.php">Usuarios</a>
+      <a class="navitem" href="Candidates.php">Candidatos</a>
       <a class="navitem" href="employees.php">Empleados</a>
       <a class="navitem" href="training.php">Capacitaciones</a>
       <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>

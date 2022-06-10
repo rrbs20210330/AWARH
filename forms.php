@@ -6,10 +6,10 @@ $DataBase = new db();
 <center><h2>Lista de Formularios</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrousuario">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registroformulario">
   Nuevo Formulario
 </button>
-    <table class="table table-bordered"  id="userTable">
+    <table class="table table-bordered"  id="FormTable">
         <thead>
             <th>Activo</th>
             <th>Nombre</th>
@@ -19,13 +19,12 @@ $DataBase = new db();
         </thead>
         <tbody>
             <?php 
-                $l_users = $DataBase->read_data_table('users');
-                while ($row = mysqli_fetch_object($l_users)) {
+                $l_forms = $DataBase->read_data_table('forms');
+                while ($row = mysqli_fetch_object($l_forms)) {
                     $id = $row->id;
                     $active = $row->active;
-                    $user = $row->user;
-                    $password = $row->password;
-                    $lastjoin = $row->last_join;
+                    $name = $row->name;
+                    $description = $row->description;
             ?>
             <tr>
                 <td>
@@ -40,27 +39,28 @@ $DataBase = new db();
                     }?>
                 </td>
                 <td>
-                    <?php echo $user ?>
+                    <?php echo $active ?>
                 </td>
                 <td>
-                    <?php echo $password ?>
+                    <?php echo $name ?>
                 </td>
                 <td>
-                    <?php echo $lastjoin ?>
+                    <?php echo $description ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarformulario" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&table=forms&location=forms"><i class="bi-trash"></i></a>
-                    <a class="btn btn-primary btn-sm "href="employee.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-primary btn-sm "href="forms.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
-            <?php }?>
+            <?php 
+          }?>
         </tbody>
     </table>
 </div>
 
-<!-- FORMULARIO DE REGISTRO DE USUARIOS -->
-<div class="modal fade" id="registrousuario" tabindex="-1"  aria-hidden="true">
+<!-- FORMULARIO DE REGISTRO DE FORMULARIOS -->
+<div class="modal fade" id="registroformulario" tabindex="-1"  aria-hidden="true">
     <?php ?>
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -69,11 +69,11 @@ $DataBase = new db();
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form action="process/newUser.php" method="post" id="formul">
+          <form action="process/newForms.php" method="post" id="formul">
             <div class="row">
                 <div class="col-sm-4">
                 <label for="">Nombre </label>
-                <input type="text" class="form-control" id="name" name="name" required value="">
+                <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 <div class="col-sm-4">
                 <label for="">Descripcion</label>
@@ -89,7 +89,7 @@ $DataBase = new db();
             </div>
             
             
-            <input type="hidden" name="location" value="users">
+            <input type="hidden" name="location" value="forms">
             <input type="hidden" id="cantidadpreguntas">
             <br>    
           </div>
@@ -111,9 +111,9 @@ include("components/footer.html");
   var id = 0;
   function questions() {
     id = id + 1; 
-    let usersList = document.getElementById("preguntas");
+    let FormsList = document.getElementById("preguntas");
     var cad = '<label>Pregunta No '+ id+'</label><input type="text" class="form-control" id='+id+'>';
-    usersList.innerHTML += cad;
+    FormsList.innerHTML += cad;
     document.getElementById("cantidadpreguntas").value = id;
   }
   

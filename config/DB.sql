@@ -74,25 +74,15 @@ CREATE TABLE IF NOT EXISTS `employees` (
     `id_contract` INT NOT NULL,
     `id_img` INT NOT NULL,
     `id_address` INT NOT NULL,
+    `id_position` INT NOT NULL,
+    `id_charge` INT NOT NULL,
+    FOREIGN KEY (`id_position`) REFERENCES positions(`id`),
+    FOREIGN KEY (`id_charge`) REFERENCES charges(`id`),
     FOREIGN KEY (`id_contract`) REFERENCES files(`id`),
     FOREIGN KEY (`id_img`) REFERENCES files(`id`),
     FOREIGN KEY (`id_address`) REFERENCES addresses(`id`),
     PRIMARY KEY(`id`)
 );
-
-CREATE TABLE IF NOT EXISTS `positions_employees` (
-    `id_employee` INT(11),
-    `id_position` INT(11),
-    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
-    FOREIGN KEY (`id_position`) REFERENCES positions(`id`)
-);
-CREATE TABLE IF NOT EXISTS `charges_employees` (
-    `id_charge` INT NOT NULL,
-    `id_employee` INT NOT NULL,
-    FOREIGN KEY (`id_charge`) REFERENCES charges(`id`),
-    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`)
-);
-
 
 CREATE TABLE IF NOT EXISTS `forms` (
     `id` INT AUTO_INCREMENT,

@@ -53,7 +53,7 @@ $DataBase = new db();
               } ?>
           </td>
           <td>
-              <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" data-iduser="<?php echo $id?>"><i class="bi bi-pencil-square"></i></a>
+              <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditUser-<?php echo $id?>"><i class="bi bi-pencil-square"></i></a>
               <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&table=users&location=users"><i class="bi-trash"></i></a>
           </td>
       </tr>  
@@ -74,11 +74,11 @@ $DataBase = new db();
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-4">
-              <label for="">Usuario </label>
+              <label>Usuario </label>
               <input type="text" class="form-control" id="user" name="user" required value="">
             </div>
             <div class="col-sm-4">
-              <label for="">Contraseña</label>
+              <label>Contraseña</label>
               <input type="text" class="form-control" id="password" name="password" required>
             </div>           
           </div>
@@ -94,42 +94,45 @@ $DataBase = new db();
 </div>
 
 <!-- FORMULARIO DE EDICION DE USUARIOS -->
-<div class="modal fade" id="editarusuario" tabindex="-1"  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edicion de Usuarios Administradores</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="process/newUser.php" method="post" id="formul">
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-sm-4">
-              <label for="">Usuario </label>
-              <input type="text" class="form-control" id="edituser" name="edituser" required>
-            </div>
-            <div class="col-sm-4">
-              <label for="">Contraseña</label>
-              <input type="text" class="form-control" id="editpassword" name="editpassword" required>
-            </div>           
+<?php 
+  $l_users = $DataBase->read_data_table('users');
+  while ($row = mysqli_fetch_object($l_users)) {
+    $id = $row->id;
+    $active = $row->active;
+    $user = $row->user;
+    $password = $row->password;
+?>
+    <div class="modal fade" id="EditUser-<?php echo $id?>" tabindex="-1"  aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edicion de Usuario Administrador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <input type="hidden" name="location" value="users">
-          <br>    
+          <form action="process/updateUser.php" method="post" id="formul">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-4">
+                  <label >Usuario </label>
+                  <input type="text" class="form-control" id="user" name="user" required value="<?php echo $user?>">
+                </div>
+                <div class="col-sm-4">
+                  <label >Contraseña</label>
+                  <input type="text" class="form-control" id="password" name="password" required value="<?php echo $password?>">
+                </div>           
+              </div>
+              <input type="hidden" name="location" value="users">
+              <input type="hidden" name="id" value="<?php echo $id?>">
+              <input type="hidden" name="typeOp" value="3">
+              <br>    
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Editar</button>
+            </div>
+          </form>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Registrar</button>
-        </div>
-      </form>
+      </div>
     </div>
-  </div>
-</div>
-
-<?php
+<?php } 
 include("components/footer.html");
 ?>
-<script>
-    var btnEditar = document.getElementById('editarUser');
-    var inputuser = document.getElementById('edituser');
-    var inputpasswrd = document.getElementById('editpassword');
-    titulo.innerHTML = btnEditar.dataset.iduser; 
-</script>

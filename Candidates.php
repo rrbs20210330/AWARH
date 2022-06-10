@@ -4,11 +4,11 @@ include('config/db.php');
 $DataBase = new db();
 ?>
 
-<center><h2>Lista de Empleados</h2></center>
+<center><h2>Lista de Candidatos</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registroempleado">
-  Nuevo Empleado
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrocandidato">
+  Nuevo Candidato
 </button>
     <table class="table table-bordered"  id="userTable">
         <thead>
@@ -21,8 +21,8 @@ $DataBase = new db();
         </thead>
         <tbody>
             <?php 
-                $l_employees = $DataBase->read_all_employees();
-                while ($row = mysqli_fetch_object($l_employees)) {
+                $candidates = $DataBase->read_all_candidates();
+                while ($row = mysqli_fetch_object($l_candidates)) {
                     $id = $row->id;
                     $active = $row->active;
                     $fullname = $row->names." ".$row->last_names;
@@ -33,11 +33,11 @@ $DataBase = new db();
                 <td>
                     <?php if ($active == 0){
                       ?>
-                    <a class="btn btn-secondary btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&table=employees&location=employees"><i class="bi bi-circle"></i></a>
+                    <a class="btn btn-secondary btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&table=candidates&location=candidates"><i class="bi bi-circle"></i></a>
                     <?php
 
                     }else{?>
-                    <a class="btn btn-success btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&table=employees&location=employees"><i class="bi bi-circle-fill"></i></a>
+                    <a class="btn btn-success btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&table=candidates&location=candidates"><i class="bi bi-circle-fill"></i></a>
                     <?php
                     }?>
                 </td>
@@ -51,9 +51,9 @@ $DataBase = new db();
                     <?php echo $email ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php $id ?>" ><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-danger btn-sm "href="process/deleteEmployee.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
-                    <a class="btn btn-primary btn-sm "href="employee.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarcandidato" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-danger btn-sm "href="process/deleteCandidate.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
+                    <a class="btn btn-primary btn-sm "href="candidate.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
             <?php }?>
@@ -61,16 +61,17 @@ $DataBase = new db();
     </table>
 </div>
 
-<!-- FORMULARIO DE REGISTRO DE USUARIOS -->
-<div class="modal fade" id="registroempleado" tabindex="-1"  aria-hidden="true">
+<!-- FORMULARIO DE REGISTRO DE CANDIDATOS -->
+<div class="modal fade" id="registrocandidato" tabindex="-1"  aria-hidden="true">
+    <?php ?>
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nuevo de Empleado</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Nuevo Candidato</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form method="post" action="process/newEmployee.php" id="formul">
+          <form method="post" action="process/newCandidate.php" id="formul">
           <center><label for="">Informacion General</label></center>
             <div class="row">
                 
@@ -167,12 +168,8 @@ $DataBase = new db();
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm-4">
-                <label>Contrato</label>
-                <input type="file" class="form-control" id="contract" name="contract" required>
-                </div>
             </div>
-            <input type="hidden" name="location" value="employees">
+            <input type="hidden" name="location" value="candidates">
             <br>    
           </div>
           <div class="modal-footer">
@@ -182,7 +179,9 @@ $DataBase = new db();
           </form>
         </div>
       </div>
-    </div>      
+    </div>
+
+
 <?php
 include("components/footer.html");
 ?>

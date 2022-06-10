@@ -186,8 +186,8 @@
 
         }
 
-        public function update_t_users($id, $user, $password, $active){
-            $sql = "UPDATE `users` SET `user` = '$user', `password` = '$password', `active` = '$active' WHERE `id` = '$id'";
+        public function update_t_users($id, $user, $password){
+            $sql = "UPDATE `users` SET `user` = '$user', `password` = '$password' WHERE `id` = '$id'";
             
             $res = mysqli_query($this->con, $sql);
             
@@ -226,9 +226,9 @@
         
         #CRUD FORMS (FORMS, QUESTIONS AND ANSWERS)
 
-        public function insert_t_forms($name, $active){
-            $sql = "INSERT INTO `forms` (`name`, `active`)
-            VALUES ('$name', '$active')";
+        public function insert_t_forms($name, $description, $active){
+            $sql = "INSERT INTO `forms` (`name`,`description`, `active`)
+            VALUES ('$name','$description', '$active')";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -239,8 +239,8 @@
 
         }
 
-        public function update_t_forms($id, $name, $active){
-            $sql = "UPDATE `forms` SET `name` = '$name', `active` = '$active' WHERE `id` = '$id'";
+        public function update_t_forms($id, $name, $description, $active){
+            $sql = "UPDATE `forms` SET `name` = '$name',`description` = '$description', `active` = '$active' WHERE `id` = '$id'";
             
             $res = mysqli_query($this->con, $sql);
             

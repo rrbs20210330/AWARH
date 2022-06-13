@@ -25,7 +25,6 @@ include('config/db.php');
                     $id = $row->id;
                     $nombre = $row->name;
                     $description = $row->description;
-                    
             ?>
             <tr>
                 <td>
@@ -33,6 +32,9 @@ include('config/db.php');
                 </td>
                 <td>
                     <?php echo $description ?>
+                </td>
+                <td>
+
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" ><i class="bi bi-pencil-square"></i></a>

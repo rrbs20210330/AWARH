@@ -67,12 +67,12 @@
         $references = DataBase->sanitize($data['references']);
         $street = DataBase->sanitize($data['street']);
         $colony = DataBase->sanitize($data['colony']);
-        $charge = DataBase->sanitize($data['charge']);
-        $position = intval(DataBase->sanitize($data['position']));
+        $charge = intval($data['charge']);
+        $position = intval($data['position']);
         $contract = DataBase->sanitize($data['contract']);
         $rfc = DataBase->sanitize($data['rfc']);
         $nss = DataBase->sanitize($data['nss']);
-        $res = DataBase->proNewEmployee($names, $last_names, $birthday, $photo, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge,$position, $contract, $rfc,$nss);
+        $res = DataBase->proNewEmployee($names, $last_names, $birthday, $photo, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $contract, $rfc,$nss);
         if($res){
             header("location: ../employees.php");
         }else{

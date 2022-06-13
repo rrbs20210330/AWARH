@@ -19,7 +19,7 @@ include("components/header.php");
         <thead>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th># ACtividades</th>
+            <th># Actividades</th>
             <th></th>
         </thead>
         <tbody>

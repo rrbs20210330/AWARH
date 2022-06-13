@@ -15,7 +15,7 @@ include("components/header.php");
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
   Nueva cargo
 </button>
-    <table class="table table-bordered" id="userTable">
+    <table class="table table-striped table-bordered" id="userTable">
         <thead>
             <th>Nombre</th>
             <th>Descripción</th>

@@ -52,6 +52,6 @@ $colony = $employee->colony;
 
 
 <?php
-include("components/footer.html");
+include("components/footer.php");
 ?>
 

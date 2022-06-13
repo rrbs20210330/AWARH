@@ -155,6 +155,15 @@
                 return false;
             }
         }
+        public function update_t_charges($id,$name, $description){
+            $sql = "UPDATE charges SET `name`='$name', `description`='$description' WHERE id='$id'";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function proNewTraining($name, $description, $file, $employee, $date_realization){
             $sql = "CALL proNewTraining('$name', '$description', '0', $employee, '$date_realization');";
 
@@ -170,6 +179,15 @@
             $sql = "SELECT * FROM listTrainings";
             $res = mysqli_query($this->con, $sql);
             return $res;
+        }
+        public function update_t_trainings($id, $name, $description, $employee, $date_realization){
+            $sql = "UPDATE training SET `name`='$name',`description`='$description', id_employee='$employee', date_realization='$date_realization' WHERE id = $id";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
         }
         
         #CRUD (USERS)
@@ -223,89 +241,6 @@
                 return false;
             }
         }
-        
-        #CRUD FORMS (FORMS, QUESTIONS AND ANSWERS)
-
-        public function insert_t_forms($name, $description, $active){
-            $sql = "INSERT INTO `forms` (`name`,`description`, `active`)
-            VALUES ('$name','$description', '$active')";
-
-            $res = mysqli_query($this->con, $sql);
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-
-        }
-
-        public function update_t_forms($id, $name, $description, $active){
-            $sql = "UPDATE `forms` SET `name` = '$name',`description` = '$description', `active` = '$active' WHERE `id` = '$id'";
-            
-            $res = mysqli_query($this->con, $sql);
-            
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-        #QUESTIONS
-
-        public function insert_t_questions($question, $idform){
-            $sql = "INSERT INTO `questions` (`question`, `id_form`)
-            VALUES ('$question', '$idform')";
-
-            $res = mysqli_query($this->con, $sql);
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-
-        }
-
-        public function update_t_questions($id, $question){
-            $sql = "UPDATE `questions` SET `question` = '$question' WHERE `id` = '$id'";
-            
-            $res = mysqli_query($this->con, $sql);
-            
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-        #ANSWERS
-
-        public function insert_t_answer($answer, $idform){
-            $sql = "INSERT INTO `answers` (`answer`, `id_form`)
-            VALUES ('$answer', '$idform')";
-
-            $res = mysqli_query($this->con, $sql);
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-
-        }
-
-        public function update_t_answers($id, $answer){
-            $sql = "UPDATE `answers` SET `answer` = '$answer' WHERE `id` = '$id'";
-            
-            $res = mysqli_query($this->con, $sql);
-            
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-
         #CRUD ANNOUNCEMENTS
 
         public function insert_t_announcements($name, $description, $area){

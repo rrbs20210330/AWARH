@@ -151,6 +151,6 @@ include("components/header.php");
 
 
 <?php
-include("components/footer.html");
+include("components/footer.php");
 ?>
 

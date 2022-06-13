@@ -38,4 +38,4 @@
 </div>
 </div>
 </body>
-<?php include('components/footer.html') ?>
+<?php include('components/footer.php') ?>

@@ -74,39 +74,14 @@ CREATE TABLE IF NOT EXISTS `employees` (
     `id_contract` INT NOT NULL,
     `id_img` INT NOT NULL,
     `id_address` INT NOT NULL,
-    `id_position` INT NOT NULL,
-    `id_charge` INT NOT NULL,
+    `id_position` INT,
+    `id_charge` INT,
     FOREIGN KEY (`id_position`) REFERENCES positions(`id`),
     FOREIGN KEY (`id_charge`) REFERENCES charges(`id`),
     FOREIGN KEY (`id_contract`) REFERENCES files(`id`),
     FOREIGN KEY (`id_img`) REFERENCES files(`id`),
     FOREIGN KEY (`id_address`) REFERENCES addresses(`id`),
     PRIMARY KEY(`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `forms` (
-    `id` INT AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL,
-    `description` VARCHAR(200) NOT NULL,
-    `active` BOOLEAN NOT NULL,
-    PRIMARY KEY (`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `questions` (
-    `id` INT AUTO_INCREMENT,
-    `id_form` INT NOT NULL,
-    `question` VARCHAR(100) NOT NULL,
-    FOREIGN KEY (`id_form`) REFERENCES forms(`id`),
-    PRIMARY KEY (`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `answers` (
-    `id` INT AUTO_INCREMENT,
-    `id_question` INT NOT NULL,
-    `answer` VARCHAR(100) NOT NULL,
-    `id_special` VARCHAR(200) NOT NULL,
-    FOREIGN KEY (`id_question`) REFERENCES questions(`id`),
-    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `training` (
@@ -157,4 +132,16 @@ CREATE TABLE IF NOT EXISTS `announcements_positions`(
     `id_position` INT NOT NULL,
     FOREIGN KEY (`id_announcement`) REFERENCES announcements(`id`),
     FOREIGN KEY (`id_position`) REFERENCES positions(`id`)
+);
+CREATE TABLE IF NOT EXISTS `employees_positions`(
+    `id_employee` INT NOT NULL,
+    `id_position` INT NOT NULL,
+    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
+    FOREIGN KEY (`id_position`) REFERENCES positions(`id`)
+);
+CREATE TABLE IF NOT EXISTS `employees_charges`(
+    `id_employee` INT NOT NULL,
+    `id_charge` INT NOT NULL,
+    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
+    FOREIGN KEY (`id_charge`) REFERENCES charges(`id`)
 );

@@ -25,7 +25,6 @@
       <a class="navitem" href="employees.php">Empleados</a>
       <a class="navitem" href="training.php">Capacitaciones</a>
       <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
-      <a class="navitem" href="forms.php"><i class="bi bi-ui-checks"></i> Formularios</a>
     </div>
     <div id="main">
       <nav class="navbar navbar-expand-lg" style='background: #10529f '>
@@ -36,7 +35,7 @@
               <i class="bi bi-person-circle"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="close_sesion">
-              <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+              <li><a class="dropdown-item" href="/awarh">Cerrar Sesión</a></li>
             </ul>
           </div>
         </div>

@@ -52,7 +52,7 @@ $DataBase = new db();
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarcandidato" ><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-danger btn-sm "href="process/deleteCandidate.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
+                    <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
                     <a class="btn btn-primary btn-sm "href="candidate.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
@@ -183,6 +183,6 @@ $DataBase = new db();
 
 
 <?php
-include("components/footer.html");
+include("components/footer.php");
 ?>
 

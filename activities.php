@@ -36,7 +36,7 @@ include('config/db.php');
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" ><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-danger btn-sm "href="process/deleteActivity.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
+                    <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&typeOp=2"><i class="bi-trash"></i></a>
                 </td>
             </tr>
             <?php }?>
@@ -56,7 +56,7 @@ include('config/db.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form method="post" action="process/newActivity.php">
+      <form method="post" action="process/new.php">
         <div class="row">
             <div class="col-sm-4">
             <label for="">Nombre </label>
@@ -79,8 +79,8 @@ include('config/db.php');
                     <option value="<?php echo $id ?>"><?php echo $name ?></option>
                     <?php } ?>
                 </select>
-                </div>
-            
+            </div>
+            <input type="hidden" name="typeOp" value="4">
         </div>
         
         <br>
@@ -100,5 +100,5 @@ include('config/db.php');
 
 
 <?php
-include("components/footer.html");
+include("components/footer.php");
 ?>

@@ -29,13 +29,10 @@ $DataBase = new db();
       ?>
       <tr>
           <td>
-              <?php if ($active == 0){
-                ?>
-              <a class="btn btn-secondary btn-sm" id="editarUser" href="process/updateStatus.php?id=<?php echo $id?>&table=users&location=users"><i class="bi bi-circle"></i></a>
-              <?php
-
-              }else{?>
-              <a class="btn btn-success btn-sm" href="process/updateStatus.php?id=<?php echo $id?>&table=users&location=users"><i class="bi bi-circle-fill"></i></a>
+              <?php if ($active == 0){?>
+                <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=users&location=users"><i class="bi bi-circle"></i></a>
+              <?php }else{?>
+                <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=users&location=users"><i class="bi bi-circle-fill"></i></a>
               <?php
               }?>
           </td>
@@ -54,7 +51,7 @@ $DataBase = new db();
           </td>
           <td>
               <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditUser-<?php echo $id?>"><i class="bi bi-pencil-square"></i></a>
-              <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&table=users&location=users"><i class="bi-trash"></i></a>
+              <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&table=users&location=users&typeOp=1"><i class="bi-trash"></i></a>
           </td>
       </tr>  
       <?php }?>
@@ -70,7 +67,7 @@ $DataBase = new db();
         <h5 class="modal-title" id="exampleModalLabel">Registro de Usuarios Administradores</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="process/newUser.php" method="post" id="formul">
+      <form action="process/new.php" method="post" id="formul">
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-4">
@@ -82,7 +79,7 @@ $DataBase = new db();
               <input type="text" class="form-control" id="password" name="password" required>
             </div>           
           </div>
-          <input type="hidden" name="location" value="users">
+          <input type="hidden" name="typeOp" value="1">
           <br>    
         </div>
         <div class="modal-footer">
@@ -109,7 +106,7 @@ $DataBase = new db();
             <h5 class="modal-title" id="exampleModalLabel">Edicion de Usuario Administrador</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="process/updateUser.php" method="post" id="formul">
+          <form action="process/update.php" method="post" id="formul">
             <div class="modal-body">
               <div class="row">
                 <div class="col-sm-4">
@@ -121,9 +118,8 @@ $DataBase = new db();
                   <input type="text" class="form-control" id="password" name="password" required value="<?php echo $password?>">
                 </div>           
               </div>
-              <input type="hidden" name="location" value="users">
               <input type="hidden" name="id" value="<?php echo $id?>">
-              <input type="hidden" name="typeOp" value="3">
+              <input type="hidden" name="typeOp" value="1">
               <br>    
             </div>
             <div class="modal-footer">
@@ -134,5 +130,5 @@ $DataBase = new db();
       </div>
     </div>
 <?php } 
-include("components/footer.html");
+include("components/footer.php");
 ?>

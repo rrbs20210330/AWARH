@@ -55,7 +55,7 @@ include("components/header.php");
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" ><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-danger btn-sm "href="process/deletePosition.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
+                    <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
                 </td>
             </tr>
             <?php }?>
@@ -106,5 +106,5 @@ include("components/header.php");
 
 
 <?php
-include("components/footer.html");
+include("components/footer.php");
 ?>

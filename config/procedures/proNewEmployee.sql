@@ -28,4 +28,9 @@ nss VARCHAR(100))
 		SELECT MAX(id) INTO @idAddressEmployee FROM addresses;
 		INSERT INTO employees(names,last_names,birthday,phone_number, email, id_img, id_address, id_contract,active, rfc, nss, id_charge, id_position) 
 		VALUES (names, last_names, birthday, phone_number, email, @idFPhoto, @idAddressEmployee, @idFContract,true, rfc, nss,charge, position); 
+		SELECT MAX(id) INTO @idEmployee FROM employees;
+		INSERT INTO employees_charges(id_employee, id_charge)
+		VALUES (@idEmployee, charge);
+		INSERT INTO employees_positions(id_employee, id_position)
+		VALUES (@idEmployee, position);
 	END$

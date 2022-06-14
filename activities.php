@@ -34,10 +34,14 @@ include('config/db.php');
                     <?php echo $description ?>
                 </td>
                 <td>
-
+                    <?php  
+                    $object = $DataBase->read_single_record_relation_charge_activity('charges_activities', $id);
+                    $charge = $DataBase->read_single_record('charges',$object->id_charge);
+                    echo $charge->name;
+                    ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditActivity-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&typeOp=2"><i class="bi-trash"></i></a>
                 </td>
             </tr>
@@ -54,18 +58,18 @@ include('config/db.php');
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registro de Areas</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Registro de Actividades</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <form method="post" action="process/new.php">
         <div class="row">
             <div class="col-sm-4">
-            <label for="">Nombre </label>
+            <label >Nombre </label>
             <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="col-sm-4">
-            <label for="">Descripción </label>
+            <label >Descripción </label>
             <input type="text" class="form-control" id="description" name="description" required>
             </div>
             <div class="col-sm-4">
@@ -98,9 +102,64 @@ include('config/db.php');
   </div>
 </div>
 
+<?php 
+    $l_areas = $DataBase->read_data_table('activities');
+    while ($row = mysqli_fetch_object($l_areas)) {
+        $id = $row->id;
+        $nombre = $row->name;
+        $description = $row->description;
+        $object = $DataBase->read_single_record_relation_charge_activity('charges_activities', $id);
+?>
+    <div class="modal fade" id="EditActivity-<?php echo $id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Edicion de Actividades</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form method="post" action="process/update.php">
+            <div class="row">
+                <div class="col-sm-4">
+                <label >Nombre </label>
+                <input value="<?php echo $nombre?>"type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="col-sm-4">
+                <label >Descripción </label>
+                <input value="<?php echo $description ?>"type="text" class="form-control" id="description" name="description" required>
+                </div>
+                <div class="col-sm-4">
+                    <label>Cargo</label>
+                    
+                    <select class="form-select" aria-label="Default select example" id="charge" name="charge">
+                        <option selected>Selecciona una área</option>
+                        <?php     
+                            $l_charges_select = $DataBase->read_data_table('charges');
+                            while ($row = mysqli_fetch_object($l_charges_select)) {
+                                $idc = $row->id;
+                                $namec = $row->name;
+                                ?>
+                        <option value="<?php echo $idc ?>" <?php if($idc == $object->id_charge){?> selected <?php }?>><?php echo $namec ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <input type="hidden" name="typeOp" value="6">
+                <input type="hidden" name="id" value="<?php echo $id?>">
+            </div>
+            
+            <br>
+            
+        
+        </div>
+        <div class="modal-footer">
+            
+            <button type="submit" class="btn btn-success">Registrar</button>
+        </div>
+        </form>
+        </div>
+    </div>
+    </div>
 
-
-
-<?php
+<?php }
 include("components/footer.php");
 ?>

@@ -4,7 +4,7 @@ include('config/db.php');
 $DataBase = new db();
 $employee_info = $DataBase->read_info_employee($_GET['id']);
 $employee = mysqli_fetch_object($employee_info);
-$full_name = $employee->employee_full_name;
+$full_name = $employee->names." ".$employee->last_names;
 $email = $employee->email;
 $rfc = $employee->rfc;
 $nss = $employee->nss;
@@ -15,6 +15,8 @@ $no_interior = $employee->no_interior;
 $references = $employee->references;
 $street = $employee->street;
 $colony = $employee->colony;
+$position = $employee->id_position;
+$charge = $employee->id_charge;
 ?>
 
 

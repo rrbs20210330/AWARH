@@ -38,9 +38,23 @@
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
-
+        public function proEditActivity($id, $name, $description, $id_charge){
+            $sql = "UPDATE activities as a, charges_activities as ca SET a.name = '$name', a.description = '$description', ca.id_charge = $id_charge WHERE a.id = $id and ca.id_activities = $id";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function read_single_record($table, $id){
             $sql = "SELECT * FROM $table WHERE id = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_relation_charge_activity($table, $id){
+            $sql = "SELECT * FROM $table WHERE id_activities = '$id'";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -76,7 +90,11 @@
         }
 
         public function proDeleteEmployee($id){
-            $sql = "CALL proDeleteEmployee('$id');";
+            $sql1 = "SELECT id_address FROM employees WHERE id=$id";
+            $eres = mysqli_query($this->con, $sql1);
+            $eresobject = mysqli_fetch_object($eres);
+            $idaddress = $eresobject->id_address;
+            $sql = "CALL proDeleteEmployee('$id','$idaddress');";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -218,8 +236,7 @@
 
         #CRUD (POSITIONS)
         public function insert_t_positions($name, $description){
-            $sql = "INSERT INTO `positions` (`name`, `description`)
-            VALUES ('$name', '$description')";
+            $sql = "INSERT INTO `positions` (`name`, `description`) VALUES ('$name', '$description')";
 
             $res = mysqli_query($this->con, $sql);
             if($res){

@@ -1,9 +1,5 @@
 <?php include('components/header.php') ?>
-<header>
-  <link rel ="stylesheet" href="assets/css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-</header>
-<body>
+
   <div class="container">
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <div class="col">
@@ -53,19 +49,4 @@
   <canvas id="grafica" width="1" height="1"></canvas>
 </div>
 
-<script>
-  var grafica = document.getElementById("grafica");
-  var myPirChart = new Chart(grafica,{
-    type: 'pie',
-    data: {
-      labels: ['Empleados','Candidatos','Convocatorias'],
-      datasets: [{
-        label: "Reportes",
-        data:[20,30,10],
-        backgroundColor: ["#00ced1","#ee82ee","#ffa500"]
-      }]
-    },
-  });
-  </script>
-  </body>
-<?php include('components/footer.html') ?>
+<?php include('components/footer.php') ?>

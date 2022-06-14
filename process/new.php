@@ -21,6 +21,9 @@
             case 6: 
                 new_charge($_POST);
                 break;
+            case 7:
+                new_position($_POST);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -113,6 +116,16 @@
 
         if($res){
             header('location: ../charges.php');
+        }else{
+            header('location: ../error.php');
+        }
+    }
+    function new_position($data){
+        $name = DataBase->sanitize($data['name']);
+        $description = DataBase->sanitize($data['description']);
+        $res = DataBase->insert_t_positions($name, $description);
+        if($res){
+            header('location: ../positions.php');
         }else{
             header('location: ../error.php');
         }

@@ -54,7 +54,7 @@
             return $return;
         }
         public function read_single_record_relation_charge_activity($table, $id){
-            $sql = "SELECT * FROM $table WHERE id_activities = '$id'";
+            $sql = "SELECT * FROM $table WHERE id_activities = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;

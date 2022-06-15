@@ -15,7 +15,6 @@ include('config/db.php');
         <thead>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th>Cargo</th>
             <th></th>
         </thead>
         <tbody>
@@ -32,13 +31,6 @@ include('config/db.php');
                 </td>
                 <td>
                     <?php echo $description ?>
-                </td>
-                <td>
-                    <?php  
-                    $object = $DataBase->read_single_record_relation_charge_activity('charges_activities', $id);
-                    $charge = $DataBase->read_single_record('charges',$object->id_charge);
-                    echo $charge->name;
-                    ?>
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditActivity-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>

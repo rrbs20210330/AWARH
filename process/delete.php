@@ -1,6 +1,5 @@
 <?php
     include('../config/db.php');
-    const DataBase = new db();
     if(isset($_GET) && isset($_GET['typeOp']) && isset($_GET['id'])){
         switch (intval($_GET['typeOp'])) {
             case 1:#Borrado general de una sola tabla e id, dando como entrada de que archivo viene y que tabla y fila eliminara de la base de datos.
@@ -28,10 +27,11 @@
     }
 
     function delete_general_info($data){
+        $DataBase = new db();
         $id = intval($data['id']);
         $tabla = $data['table'];
         $location = $data['location'];
-        $res = DataBase->delete_data_table($tabla,$id);
+        $res = $DataBase->delete_data_table($tabla,$id);
         if($res){
             header("location: ../$location.php");
         }else{
@@ -40,8 +40,9 @@
     }
     
     function delete_activity($data){
+        $DataBase = new db();
         $id = intval($data['id']);
-        $res = DataBase->proDeleteActivity($id);
+        $res = $DataBase->proDeleteActivity($id);
         if($res ){
             header("location: ../activities.php");
         }else{
@@ -49,8 +50,9 @@
         }
     }
     function delete_charge($data){
+        $DataBase = new db();
         $id = intval($data['id']);
-        $res = DataBase->proDeleteCharge($id);
+        $res = $DataBase->proDeleteCharge($id);
         if($res ){
             header("location: ../charges.php");
         }else{
@@ -58,8 +60,9 @@
         }
     }
     function delete_employee($data){
+        $DataBase = new db();
         $id = intval($data['id']);
-        $res = DataBase->proDeleteEmployee($id);
+        $res = $DataBase->proDeleteEmployee($id);
         if($res ){
             header("location: ../employees.php");
         }else{
@@ -67,8 +70,9 @@
         }
     }
     function delete_position($data){
+        $DataBase = new db();
         $id = intval($data['id']);
-        $res = DataBase->proDeletePosition($id);
+        $res = $DataBase->proDeletePosition($id);
         if($res ){
             header("location: ../positions.php");
         }else{

@@ -91,8 +91,8 @@ $DataBase = new db();
             </div>
             <br>    
           </div>
+          <input type="hidden" name="typeOp" value="8">
           <div class="modal-footer">
-            <input type="hidden" name="typeOp" value="2">
             <button type="submit" class="btn btn-success">Registrar</button>
           </div>
           </form>

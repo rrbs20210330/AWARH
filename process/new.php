@@ -44,7 +44,7 @@
         $res = $DataBase->insert_t_users($user, $password, true);//siempre sera true por que es un nuevo usuario activo, la fecha de ultima entrada no se añade por obvias razones
 
         if($res){
-            header("location: ../users.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }
@@ -99,7 +99,7 @@
         
         $res = $DataBase->proNewActivity($name, $description, $charge);
         if($res){
-            header("location: ../activities.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }
@@ -126,7 +126,7 @@
         $res = $DataBase->insert_t_charges($name, $description);
 
         if($res){
-            header('location: ../charges.php');
+            header('location: ../config.php');
         }else{
             header('location: ../error.php');
         }
@@ -137,7 +137,7 @@
         $description = $DataBase->sanitize($data['description']);
         $res = $DataBase->insert_t_positions($name, $description);
         if($res){
-            header('location: ../positions.php');
+            header('location: ../config.php');
         }else{
             header('location: ../error.php');
         }

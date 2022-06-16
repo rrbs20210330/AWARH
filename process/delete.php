@@ -44,7 +44,7 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteActivity($id);
         if($res ){
-            header("location: ../activities.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }
@@ -54,7 +54,7 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteCharge($id);
         if($res ){
-            header("location: ../charges.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }
@@ -74,7 +74,7 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeletePosition($id);
         if($res ){
-            header("location: ../positions.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }

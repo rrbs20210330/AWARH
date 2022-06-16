@@ -1,10 +1,3 @@
-<?php
-include("components/header.php");
-include('config/db.php');
-    $DataBase = new db();
-?>
-
-
 
 <center><h2>Lista de Actividades</h2></center>
 <div class="container">
@@ -100,7 +93,8 @@ include('config/db.php');
         $id = $row->id;
         $nombre = $row->name;
         $description = $row->description;
-        $object = $DataBase->read_single_record_relation_charge_activity('charges_activities', $id);
+        $peticion = $DataBase->read_single_record_relation_charge_activity('charges_activities', $id);
+        $object = $peticion ? $peticion->id_charge : 0;
 ?>
     <div class="modal fade" id="EditActivity-<?php echo $id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -124,14 +118,14 @@ include('config/db.php');
                     <label>Cargo</label>
                     
                     <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                        <option selected>Selecciona una área</option>
+                        <option>Selecciona un Cargo</option>
                         <?php     
                             $l_charges_select = $DataBase->read_data_table('charges');
                             while ($row = mysqli_fetch_object($l_charges_select)) {
                                 $idc = $row->id;
                                 $namec = $row->name;
                                 ?>
-                        <option value="<?php echo $idc ?>" <?php if($idc == $object->id_charge){?> selected <?php }?>><?php echo $namec ?></option>
+                        <option value="<?php echo $idc ?>" <?php if($idc == $object){?> selected <?php }?>><?php echo $namec ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -153,5 +147,4 @@ include('config/db.php');
     </div>
 
 <?php }
-include("components/footer.php");
 ?>

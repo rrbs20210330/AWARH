@@ -105,7 +105,7 @@
 
         }
         public function proDeleteCharge($id){
-            $sql = "CALL proDeleteCharge('$id');";
+            $sql = "CALL proDeleteCharge($id);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -194,12 +194,12 @@
 
         }
         public function read_all_trainings(){
-            $sql = "SELECT * FROM listTrainings";
+            $sql = "SELECT * FROM viewlistTrainings";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
         public function update_t_trainings($id, $name, $description, $employee, $date_realization){
-            $sql = "UPDATE training SET `name`='$name',`description`='$description', id_employee='$employee', date_realization='$date_realization' WHERE id = $id";
+            $sql = "UPDATE training as t,employee_training as et SET t.`name`='$name',t.`description`='$description',et.id_employee = $employee, t.date_realization=$date_realization WHERE id = $id and et.id_training = $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;

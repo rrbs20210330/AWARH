@@ -1,8 +1,4 @@
-<?php
-include("components/header.php");
-include('config/db.php');
-    $DataBase = new db();
-?>
+
 
 <center><h2>Lista de Puestos</h2></center>
 
@@ -10,7 +6,7 @@ include('config/db.php');
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
   Nuevo puesto
 </button>
-    <table class="table table-striped table-bordered" id="userTable">
+    <table class="table table-striped table-bordered userTable" id="userTable">
         <thead>
             <th>Nombre</th>
             <th>Descripcion</th>
@@ -122,5 +118,4 @@ include('config/db.php');
 </div>
 
 <?php }
-include("components/footer.php");
 ?>

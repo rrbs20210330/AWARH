@@ -10,7 +10,7 @@ $DataBase = new db();
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrousuario">
   Nueva Capacitacion
 </button>
-    <table class="table table-striped table-bordered"  id="userTable">
+    <table class="table table-striped table-bordered userTable"  id="userTable">
         <thead>
             <th>Nombre</th>
             <th>Empleado</th>
@@ -157,7 +157,7 @@ $DataBase = new db();
                 <br>    
             </div>
             <div class="modal-footer">
-            <input type="hidden" name="id" value="<?php echo $id ?>">
+            <input type="hidden" name="id" value="<?php echo $id_t ?>">
                 <input type="hidden" name="typeOp" value="2">
                 <button type="submit" class="btn btn-success">Registrar</button>
             </div>

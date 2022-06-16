@@ -53,7 +53,7 @@
         $password = $data['password'];
         $res = $DataBase->update_t_users($id, $user,$password);
         if($res){
-            header("location: ../users.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }
@@ -79,7 +79,7 @@
         $description = $DataBase->sanitize($data['description']);
         $res = $DataBase->update_t_charges($id,$name, $description);
         if($res){
-            header("location: ../charges.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }
@@ -117,7 +117,7 @@
 
         $res = $DataBase->update_t_positions($id, $name, $description);
         if($res){
-            header("location: ../positions.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }
@@ -131,7 +131,7 @@
         
         $res = $DataBase->proEditActivity($id,$name, $description, $charge);
         if($res){
-            header("location: ../activities.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }

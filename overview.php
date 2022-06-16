@@ -1,5 +1,5 @@
 <?php include('components/header.php') ?>
-
+<br>
   <div class="container">
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <div class="col">
@@ -45,8 +45,8 @@
     </div>
   </div>
 </div>
-<div style="width:50%">
+<!-- <div style="width:50%">
   <canvas id="grafica" width="1" height="1"></canvas>
-</div>
+</div> -->
 
 <?php include('components/footer.php') ?>

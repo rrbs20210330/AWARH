@@ -1,5 +1,7 @@
 <?php
 include("components/header.php");
+include('config/db.php');
+$DataBase = new db();
 ?>
 
 
@@ -12,111 +14,26 @@ include("components/header.php");
 
 <!-- DIV 1 CHARGUES --> 
 <div id="div1" class="container-fluid">
-efe3
-
+<?php include('charges.php'); ?>
 </div>
 
 
-                             <!----------------- DIV 2 ACTIVITIES ------------------------> 
+<!----------------- DIV 2 ACTIVITIES ------------------------> 
 <div id="div2" class="container-fluid">
-
-efe
+<?php include('activities.php'); ?>
 </div>
-                        <!----------------- DIV 3 POSITIONS ------------------------> 
+<!----------------- DIV 3 POSITIONS ------------------------> 
 
 <div id="div3" class="container-fluid">
-efe2
+<?php include('positions.php'); ?>
 
 </div>
+
+
 <div id="div4" class="container-fluid">
-<label >TEST</label>
+
+<?php  include('users.php');?>
 </div>
-
-
-<script type="text/javascript">
-    function functionUno() {
-        var x = document.getElementById("div1");
-        var y = document.getElementById("div2");
-        var q = document.getElementById("div3");
-        var c = document.getElementById("div4");
-
-        if (x.style.display == "none" || y.style.display=="block" || q.style.display=="block" || c.style.display=="block") {
-            y.style.display = "none";
-            x.style.display = "block";
-            q.style.display = "none";
-            c.style.display = "none"
-        }
-        else{
-            x.style.display= "none";
-        }
-    }
-
-    function functionDos() {
-        var x = document.getElementById("div1");
-        var y = document.getElementById("div2");
-        var q = document.getElementById("div3");
-        var c = document.getElementById("div4");
-
-        if (x.style.display == "block" || y.style.display=="none" || q.style.display=="block" || c.style.display=="block") {
-            y.style.display = "block";
-            x.style.display = "none";
-            q.style.display = "none";
-            c.style.display = "none";
-        }
-        else{
-            y.style.display= "none";
-        }
-    }
-    
-    
-    function functionTres() {
-        var x = document.getElementById("div1");
-        var y = document.getElementById("div2");
-        var q = document.getElementById("div3");
-        var c = document.getElementById("div4");
-        
-        if (x.style.display == "block" || y.style.display=="block" || q.style.display=="none" || c.style.display=="block") {
-            y.style.display = "none";
-            q.style.display = "block";
-            x.style.display = "none";
-            c.style.display = "none"
-
-        }
-        else{
-            q.style.display= "none";
-        }
-    }
-
-    function functionCuatro() {
-        var x = document.getElementById("div1");
-        var y = document.getElementById("div2");
-        var q = document.getElementById("div3");
-        var c = document.getElementById("div4");
-
-        if (x.style.display == "block" || y.style.display=="block" || q.style.display=="block" || c.style.display=="none") {
-            y.style.display = "none";
-            x.style.display = "none";
-            q.style.display = "none";
-            c.style.display = "block";
-        }
-        else{
-            c.style.display= "none";
-        }
-    }
-    element = document.getElementById("div1");
-    element2 = document.getElementById("div2");
-    element3 = document.getElementById("div3");
-    element4 = document.getElementById("div4");
-
-
-    element.style.display = 'none';
-    element2.style.display = 'none';
-    element3.style.display = 'none';
-    element4.style.display = 'none';
-    
-</script>
-
-
 
 <?php
 include("components/footer.php");

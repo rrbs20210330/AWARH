@@ -17,10 +17,10 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
       <a class="navitem" href="config.php"><i class="bi bi-gear-fill"></i> Configuración</a>
-      <a class="navitem" href="positions.php">Puestos</a>
+      <!-- <a class="navitem" href="positions.php">Puestos</a>
       <a class="navitem" href="charges.php">Cargos</a>
       <a class="navitem" href="activities.php">Actividades</a>
-      <a class="navitem" href="users.php">Usuarios</a>
+      <a class="navitem" href="users.php">Usuarios</a> -->
       <a class="navitem" href="employees.php">Empleados</a>
       <a class="navitem" href="training.php">Capacitaciones</a>
       <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>

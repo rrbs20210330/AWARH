@@ -117,16 +117,20 @@ CREATE TABLE IF NOT EXISTS `candidate` (
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `announcements`(
-    `id` INT AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL,
-    `description` VARCHAR(100) NOT NULL,
-    `date_start` date not null,
-    `date_finish` date not null,
-    `id_file` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `announcements` (
+  `id` int(11) AUTO_INCREMENT NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_finish` date NOT NULL,
+  `position` varchar(100) NOT NULL,
+  `Procedimiento` varchar(100) NOT NULL,
+  `perfil_solicitado` varchar(100) NOT NULL,
+  `funciones` varchar(100) NOT NULL,
+  `id_file` INT NOT NULL,
     FOREIGN KEY (`id_file`) REFERENCES files(`id`),
     PRIMARY KEY (`id`)
-);
+)
 
 CREATE TABLE IF NOT EXISTS `announcements_positions`(
     `id_announcement` INT ,

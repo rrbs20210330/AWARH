@@ -12,4 +12,5 @@ private $dbname = "recursoshumanos";
 
 # Informacion
 
-## Schemas - Datos
+## Cosas que faltan por hacer
+editar empleado

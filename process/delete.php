@@ -20,6 +20,12 @@
             case 6:
                 delete_candidate($_GET);
                 break;
+            case 7: 
+                delete_training($_GET);
+                break;
+            case 8:
+                delete_announcements($_GET);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -88,6 +94,27 @@
         $res = $DataBase->proDeleteCandidate($id);
         if($res){
             header("location: ../candidates.php");
+        }else{
+            header('location: ../error.php');
+        }
+    }
+    function delete_training($data){
+        $DataBase = new db();
+        $id = intval($data['id']);
+        $res = $DataBase->proDeleteTraining($id);
+        if($res){
+            header("location: ../trainings.php");
+        }else{
+            header('location: ../error.php');
+        }
+        
+    }
+    function delete_announcements($data){
+        $DataBase = new db();
+        $id = intval($data['id']);
+        $res = $DataBase->proDeleteAnnouncement($id);
+        if($res){
+            header("location: ../announcements.php");
         }else{
             header('location: ../error.php');
         }

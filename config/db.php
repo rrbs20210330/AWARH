@@ -38,6 +38,12 @@
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
+        public function count_data_table($table){
+            $sql = "SELECT count(*) as count_data FROM `$table`";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
         public function proEditActivity($id, $name, $description, $id_charge){
             $sql = "UPDATE activities as a, charges_activities as ca SET a.name = '$name', a.description = '$description', ca.id_charge = $id_charge WHERE a.id = $id and ca.id_activities = $id";
             $res = mysqli_query($this->con, $sql);
@@ -55,6 +61,12 @@
         }
         public function read_single_record_relation_charge_activity($table, $id){
             $sql = "SELECT * FROM $table WHERE id_activities = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_relation_employee_training($table, $id){
+            $sql = "SELECT * FROM $table WHERE id_training = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -106,6 +118,17 @@
         }
         public function proDeleteCharge($id){
             $sql = "CALL proDeleteCharge($id);";
+
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        public function proDeleteTraining($id){
+            $sql = "CALL proDeleteTraining($id);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -183,7 +206,7 @@
             }
         }
         public function proNewTraining($name, $description, $file, $employee, $date_realization){
-            $sql = "CALL proNewTraining('$name', '$description', '0', $employee, '$date_realization');";
+            $sql = "CALL proNewTraining('$name', '$description', '0', $employee, $date_realization);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -199,7 +222,40 @@
             return $res;
         }
         public function update_t_trainings($id, $name, $description, $employee, $date_realization){
-            $sql = "UPDATE training as t,employee_training as et SET t.`name`='$name',t.`description`='$description',et.id_employee = $employee, t.date_realization=$date_realization WHERE id = $id and et.id_training = $id";
+            $sql = "UPDATE training SET `name`='$name',`description`='$description', `date_realization` = $date_realization WHERE `id` = $id";
+            $sql1 = "UPDATE employee_training SET `id_employee` = $employee WHERE `id_training` = $id";
+
+            $res = mysqli_query($this->con, $sql);
+            $res1 = mysqli_query($this->con, $sql1);
+            if($res && $res1){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function proDeleteCandidate($id){
+            $sql = "DELETE FROM candidate WHERE id = $id";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        public function proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$id_cv){
+            $sql = "INSERT INTO `candidate` (`name`,phone_number,email,appointment_date,request_position,perfil, id_cv) 
+            VALUES ('$name','$phone_number','$email',$appointment_date, $request_position,'$perfil', 1)";
+            $res = mysqli_query($this->con, $sql);
+            if ($res){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        public function update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil, $id_cv){
+            $sql = "UPDATE `candidate` SET `name` = '$name',`phone_number`='$phone_number',`email`='$email',`appointment_date` = $appointment_date, `request_position` = $request_position, `perfil` = '$perfil', `id_cv` = $id_cv WHERE `id`= $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -260,10 +316,27 @@
         }
         #CRUD ANNOUNCEMENTS
 
-        public function insert_t_announcements($name, $description, $area){
-            $sql = "INSERT INTO `announcements` (`name`, `description`, `id_area`)
-            VALUES ('$name', '$description', '$area')";
+        public function insert_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$active){
+            $sql = "INSERT INTO `announcements` (`name`, `description`, `date_start`, `date_finish`, `position`,`process`, `profile`, `functions`, `active`,`id_file`) VALUES ('$name','$description',$date_start,$date_finish,$position,'$process','$profile','$functions',$active,1)";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
+        public function update_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$active){
+            $sql = "UPDATE `announcements` SET `name` = '$name', `description` = '$description', `date_start` = $date_start, `date_finish` = $date_finish, `position` = $position,`process` = '$process', `profile` = '$profile', `functions` = '$functions',`active` = $active";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function proDeleteAnnouncement($id){
+            $sql = "DELETE FROM announcements WHERE `id` = $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -272,18 +345,6 @@
             }
 
         }
-
-        public function update_t_announcements($id, $name, $description, $area, $file){
-            $sql = "UPDATE `announcements` SET `name` = '$name', `description` = '$description', `id_area` = '$area', `id_file` = '$file' WHERE `id` = '$id'";
-            
-            $res = mysqli_query($this->con, $sql);
-            
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-        } 
         
         #NUM OF ACTIVITIES FROM CHARGE
 

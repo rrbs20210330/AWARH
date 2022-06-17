@@ -114,7 +114,9 @@ CREATE TABLE IF NOT EXISTS `candidate` (
     `appointment_date` DATETIME NOT NULL,
     `request_position` INT NOT NULL,
     `perfil` VARCHAR(100) NOT NULL,
-    FOREIGN KEY (`request_position`) REFERENCES charges(`id`),
+    `id_cv` INT NOT NULL,
+    FOREIGN KEY (`id_cv`) REFERENCES files(`id`),
+    FOREIGN KEY (`request_position`) REFERENCES positions(`id`),
     PRIMARY KEY (`id`)
 );
 
@@ -125,9 +127,10 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `date_start` date NOT NULL,
   `date_finish` date NOT NULL,
   `position` varchar(100) NOT NULL,
-  `Procedimiento` varchar(100) NOT NULL,
-  `perfil_solicitado` varchar(100) NOT NULL,
-  `funciones` varchar(100) NOT NULL,
+  `process` varchar(100) NOT NULL,
+  `profile` varchar(100) NOT NULL,
+  `functions` varchar(100) NOT NULL,
+  `active` BOOLEAN NOT NULL, 
   `id_file` INT NOT NULL,
     FOREIGN KEY (`id_file`) REFERENCES files(`id`),
     PRIMARY KEY (`id`)

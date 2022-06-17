@@ -3,10 +3,10 @@
 <center><h2>Lista de Puestos</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
   Nuevo puesto
 </button>
-    <table class="table table-striped table-bordered userTable" id="userTable">
+    <table class="table table-striped table-bordered userTable" >
         <thead>
             <th>Nombre</th>
             <th>Descripcion</th>
@@ -40,7 +40,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="RegistroPosicion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">

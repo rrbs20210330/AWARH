@@ -62,7 +62,7 @@
         $employee = intval($DataBase->sanitize($data['employee']));
         $res = $DataBase->proNewTraining($name, $description, '0', $employee, $date_realization);
         if($res){
-            header("location: ../training.php");
+            header("location: ../trainings.php");
         }else{
             header('location: ../error.php');
         }
@@ -110,11 +110,16 @@
     
     function new_announcement($data){
         $DataBase = new db();
-        $name = $DataBase->sanitize($data['name']);
-        $description = $DataBase->sanitize($data['description']);
-        $charge = intval($DataBase->sanitize($data['charge']));
-        
-        $res = $DataBase->proNewAnnouncement($name, $description, $charge);
+        $name = $DataBase->sanitize($_POST['name']);
+        $description = $DataBase->sanitize($_POST['description']);
+        $date_start = $DataBase->sanitize($_POST['date_start']);
+        $date_finish = $DataBase->sanitize($_POST['date_finish']);
+        $position = intval($_POST['position']);
+        $process = $DataBase->sanitize($_POST['process']);
+        $profile = $DataBase->sanitize($_POST['profile']);
+        $functions  = $DataBase->sanitize($_POST['functions']);
+
+        $res =$DataBase->insert_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,true);
         if($res){
             header("location: ../announcements.php");
         }else{
@@ -150,8 +155,8 @@
         $name = $DataBase->sanitize($data['name']);
         $phone_number = $DataBase->sanitize($data['phone_number']);
         $email = $DataBase->sanitize($data['email']);
-        $appointment_date = $DataBase->sanitize($data['appointment_date']);
-        $request_position = intval ($data['request_position']);
+        $appointment_date = $data['appointment_date'];
+        $request_position = intval($data['request_position']);
         $perfil = $DataBase->sanitize($data['perfil']);
         $id_cv = intval($data['id_cv']);
         $res = $DataBase->proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$id_cv);

@@ -10,17 +10,17 @@ $DataBase = new db();
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrocandidato">
   Nuevo Candidato
 </button>
-    <table class="table table-striped table-bordered"  id="userTable">
+    <table class="table table-striped table-bordered userTable">
         <thead>
             <tr>
-            <th>Nombre Completo</th>
-            <th>Telefono</th>
-            <th>Correo Electronico</th>
-</tr>
+                <th>Nombre Completo</th>
+                <th>Telefono</th>
+                <th>Correo Electronico</th>
+            </tr>
         </thead>
         <tbody>
             <?php 
-                $candidates = $DataBase->read_all_candidate();
+                $candidates = $DataBase->read_data_table('candidate');
                 while ($row = mysqli_fetch_object($candidates)) {
                     $id = $row->id;
                     $name =$row->name;
@@ -57,13 +57,13 @@ $DataBase = new db();
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form method="post" action="process/update.php" id="formul">
+          <form method="post" action="process/new.php" id="formul">
           <center><label for="">Informacion General</label></center>
             <div class="row">
                 
                 <div class="col-sm-4">
                 <label>Nombre Completo </label>
-                <input type="text" class="form-control" id="name" name="name" required value="">
+                <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 <div class="col-sm-4">
                 <label >Telefono</label>
@@ -82,7 +82,7 @@ $DataBase = new db();
                 <select class="form-select" aria-label="Default select example" id="request_position" name="request_position">
                         <option >Selecciona una Posición</option>
                         <?php     
-                            $l_charges_select = $DataBase->read_data_table('charges');
+                            $l_charges_select = $DataBase->read_data_table('positions');
                             while ($row = mysqli_fetch_object($l_charges_select)) {
                                 $idc = $row->id;
                                 $namec = $row->name;
@@ -100,7 +100,7 @@ $DataBase = new db();
                 <input type="file" class="form-control" id="id_cv" name="id_cv" required>
                 </div>
             </div>
-            <input type="hidden" name="typeOp" value="7">
+            <input type="hidden" name="typeOp" value="9">
             <br>    
           </div>
           <div class="modal-footer">
@@ -112,7 +112,7 @@ $DataBase = new db();
       </div>
     </div>    
 <?php 
-    $candidates = $DataBase->read_all_candidate();
+    $candidates = $DataBase->read_data_table('candidate');
     while ($candidate = mysqli_fetch_object($candidates)){
         $id = $candidate->id;
         $id_cv = $candidate->id_cv;
@@ -138,37 +138,37 @@ $DataBase = new db();
                 
                 <div class="col-sm-4">
                 <label>Nombre Completo </label>
-                <input type="text" class="form-control" id="name" name="name" required value="">
+                <input type="text" class="form-control" id="name" name="name" required value="<?php echo $name?>">
                 </div>
                 <div class="col-sm-4">
                 <label >Telefono</label>
-                <input type="number" class="form-control" id="phone_number" name="phone_number" required>
+                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="<?php echo $phone_number?>">
                 </div>    
                 <div class="col-sm-4">
                 <label >Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" required value="<?php echo $email?>">
                 </div>
                 <div class="col-sm-4">
                 <label >Fecha de Cita</label>
-                <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
+                <input type="date" class="form-control" id="appointment_date" name="appointment_date" required value="<?php echo $appointment_date?>">
                 </div>
                 <div class="col-sm-4">
                 <label >Posicion de la solicitud</label>
-                <select class="form-select" aria-label="Default select example" id="request_position" name="request_position">
-                        <option >Selecciona una área</option>
+                <select class="form-select" aria-label="Default select example" id="request_position" name="request_position" >
+                        <option >Selecciona una posición</option>
                         <?php     
-                            $l_charges_select = $DataBase->read_data_table('charges');
+                            $l_charges_select = $DataBase->read_data_table('positions');
                             while ($row = mysqli_fetch_object($l_charges_select)) {
                                 $idc = $row->id;
                                 $namec = $row->name;
                                 ?>
-                        <option value="<?php echo $idc ?>"><?php echo $namec ?></option>
+                        <option value="<?php echo $idc ?>" <?php if($idc === $request_position){ ?> selected <?php } ?>><?php echo $namec ?></option>
                         <?php } ?>
                     </select>
                 </div>
                 <div class="col-sm-4">
                 <label >Perfil</label>
-                <input type="text" class="form-control" id="perfil" name="perfil" required>
+                <input type="text" class="form-control" id="perfil" name="perfil" required value="<?php echo $perfil?>">
                 </div>
     </div>
                 <input type="hidden" name="typeOp" value="7">

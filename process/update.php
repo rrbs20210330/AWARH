@@ -26,6 +26,9 @@
             case 7:#
                 update_candidate($_POST);
                 break;
+            case 8:
+                update_announcement($_POST);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -67,10 +70,10 @@
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
         $employee = intval($data['employee']);
-        $date = $data['date_realization'];
+        $date = $data['date_realization'] == false ? 0 : $data['date_realization'];
         $res = $DataBase->update_t_trainings($id, $name, $description, $employee, $date);
         if($res){
-            header("location: ../training.php");
+            header("location: ../trainings.php");
         }else{
             header('location: ../error.php');
         }
@@ -145,7 +148,7 @@
         $name = $DataBase->sanitize($data['name']);
         $phone_number = $DataBase->sanitize($data['phone_number']);
         $email = $DataBase->sanitize($data['email']);
-        $appointment_date = $data['appointment_date'];
+        $appointment_date = $data['appointment_date'] == false ? 0 : $data['appointment_date'];
         $request_position = intval($data['request_position']);
         $perfil = $DataBase->sanitize($data['perfil']);
         $id_cv = 1;
@@ -153,7 +156,25 @@
         if($res){
             header("location: ../candidates.php");
         }else{
-            echo $res;
+            header('location: ../error.php');
+        }
+    }
+    function update_announcement($data){
+        $DataBase = new db();
+        $name = $DataBase->sanitize($_POST['name']);
+        $description = $DataBase->sanitize($_POST['description']);
+        $date_start = $_POST['date_start'] == false ? 0 : $data['date_start'];
+        $date_finish = $_POST['date_finish'] == false ? 0 : $data['date_finish'];
+        $position = intval($_POST['position']);
+        $process = $DataBase->sanitize($_POST['process']);
+        $profile = $DataBase->sanitize($_POST['profile']);
+        $functions  = $DataBase->sanitize($_POST['functions']);
+
+        $res =$DataBase->update_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,true);
+        if($res){
+            header("location: ../announcements.php");
+        }else{
+            header('location: ../error.php');
         }
     }
 ?>

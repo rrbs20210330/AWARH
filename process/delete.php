@@ -17,6 +17,9 @@
             case 5:#Borrado de una posicion, por ende su relacion con empleado
                 delete_position($_GET);
                 break;
+            case 6:
+                delete_candidate($_GET);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -75,6 +78,16 @@
         $res = $DataBase->proDeletePosition($id);
         if($res ){
             header("location: ../config.php");
+        }else{
+            header('location: ../error.php');
+        }
+    }
+    function delete_candidate($data){
+        $DataBase = new db();
+        $id = intval($data['id']);
+        $res = $DataBase->proDeleteCandidate($id);
+        if($res){
+            header("location: ../candidates.php");
         }else{
             header('location: ../error.php');
         }

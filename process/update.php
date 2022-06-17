@@ -23,6 +23,9 @@
             case 6:#
                 update_activity($_POST);
                 break;
+            case 7:#
+                update_candidate($_POST);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -134,6 +137,23 @@
             header("location: ../config.php");
         }else{
             header('location: ../error.php');
+        }
+    }
+    function update_candidate($data){
+        $DataBase = new db();
+        $id = intval($data['id']);
+        $name = $DataBase->sanitize($data['name']);
+        $phone_number = $DataBase->sanitize($data['phone_number']);
+        $email = $DataBase->sanitize($data['email']);
+        $appointment_date = $data['appointment_date'];
+        $request_position = intval($data['request_position']);
+        $perfil = $DataBase->sanitize($data['perfil']);
+        $id_cv = 1;
+        $res = $DataBase->update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil, $id_cv);
+        if($res){
+            header("location: ../candidates.php");
+        }else{
+            echo $res;
         }
     }
 ?>

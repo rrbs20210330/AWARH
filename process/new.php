@@ -29,6 +29,9 @@
             case 8:
                 new_training($_POST);
                 break;
+            case 9:#
+                new_candidate($_POST);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -140,6 +143,22 @@
             header('location: ../config.php');
         }else{
             header('location: ../error.php');
+        }
+    }
+    function new_candidate($data){
+        $DataBase = new db();
+        $name = $DataBase->sanitize($data['name']);
+        $phone_number = $DataBase->sanitize($data['phone_number']);
+        $email = $DataBase->sanitize($data['email']);
+        $appointment_date = $DataBase->sanitize($data['appointment_date']);
+        $request_position = intval ($data['request_position']);
+        $perfil = $DataBase->sanitize($data['perfil']);
+        $id_cv = intval($data['id_cv']);
+        $res = $DataBase->proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$id_cv);
+        if($res){
+            header('location: ../candidates.php');
+        }else{
+            print_r('efe');
         }
     }
 ?>

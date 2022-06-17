@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `candidate` (
     `email` VARCHAR(100) NOT NULL,
     `appointment_date` DATETIME NOT NULL,
     `request_position` INT NOT NULL,
+    `perfil` VARCHAR(100) NOT NULL,
     FOREIGN KEY (`request_position`) REFERENCES charges(`id`),
     PRIMARY KEY (`id`)
 );

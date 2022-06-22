@@ -128,7 +128,7 @@ $DataBase = new db();
 
 
 
-<!--Modal para el boton  editar convocatoria--->
+
 <?php 
   $l_annoucements = $DataBase->read_data_table('announcements');
   while ($row = mysqli_fetch_object($l_annoucements)) {
@@ -143,8 +143,8 @@ $DataBase = new db();
     $profile = $row->profile;
     $functions = $row->functions;
 ?>
-    
-  <div class="modal fade" tabindex="-1" id="eA-<?php echo $id ?>" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!--Modal para el boton  editar convocatoria--->
+  <div class="modal fade" tabindex="-1" id="eA-<?php echo $ida ?>" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
@@ -202,7 +202,7 @@ $DataBase = new db();
                 <label >Funciones</label>
                 <textarea type="text" class="form-control" id="functions" name="functions" ><?php echo $functions ?></textarea>
                 <input type="hidden" name="typeOp" value="8">
-                <input type="hidden" name="id" value="<?php echo $id ?>">
+                <input type="hidden" name="id" value="<?php echo $ida ?>">
               </div>
             </center>
           <div>
@@ -215,6 +215,13 @@ $DataBase = new db();
     </div>
     </form>
   </div>
+                  </div>
+                  </div>
+
+                  </div>
+
+                  </div>
+
 <?php } ?>
 
 <?php 

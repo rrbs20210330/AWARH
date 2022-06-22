@@ -326,8 +326,8 @@
             }
         }
 
-        public function update_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$active){
-            $sql = "UPDATE `announcements` SET `name` = '$name', `description` = '$description', `date_start` = $date_start, `date_finish` = $date_finish, `position` = $position,`process` = '$process', `profile` = '$profile', `functions` = '$functions',`active` = $active";
+        public function update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$active){
+            $sql = "UPDATE `announcements` SET `name` = '$name', `description` = '$description', `date_start` = $date_start, `date_finish` = $date_finish, `position` = $position,`process` = '$process', `profile` = '$profile', `functions` = '$functions',`active` = $active WHERE `id` = $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;

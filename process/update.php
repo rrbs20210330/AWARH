@@ -161,6 +161,7 @@
     }
     function update_announcement($data){
         $DataBase = new db();
+        $id = intval($_POST['id']);
         $name = $DataBase->sanitize($_POST['name']);
         $description = $DataBase->sanitize($_POST['description']);
         $date_start = $_POST['date_start'] == false ? 0 : $data['date_start'];
@@ -170,7 +171,7 @@
         $profile = $DataBase->sanitize($_POST['profile']);
         $functions  = $DataBase->sanitize($_POST['functions']);
 
-        $res =$DataBase->update_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,true);
+        $res =$DataBase->update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,true);
         if($res){
             header("location: ../announcements.php");
         }else{

@@ -12,7 +12,7 @@ $DataBase = new db();
 </button>
     <table class="table table-striped table-bordered userTable">
         <thead>
-            <th>Activo</th>
+            <th>Estado</th>
             <th>Nombre Completo</th>
             <th>Telefono</th>
             <th>Correo Electronico</th>

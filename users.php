@@ -7,7 +7,7 @@
   </button>
   <table class="table table-striped table-bordered userTable"  id="userTable">
     <thead>
-        <th>Activo</th>
+        <th>Estado</th>
         <th>Usuario</th>
         <th>Contraseña</th>
         <th>Ultima entrada</th>

@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `activities`(
 );
 
 CREATE TABLE IF NOT EXISTS `charges_activities`(
-    `id_charge` INT NOT NULL,
-    `id_activities` INT NOT NULL,
+    `id_charge` INT ,
+    `id_activities` INT,
     FOREIGN KEY (`id_activities`) REFERENCES activities(`id`),
     FOREIGN KEY (`id_charge`) REFERENCES charges(`id`)
 );
@@ -80,55 +80,21 @@ CREATE TABLE IF NOT EXISTS `employees` (
     PRIMARY KEY(`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `positions_employees` (
-    `id_employee` INT(11),
-    `id_position` INT(11),
-    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
-    FOREIGN KEY (`id_position`) REFERENCES positions(`id`)
-);
-CREATE TABLE IF NOT EXISTS `charges_employees` (
-    `id_charge` INT NOT NULL,
-    `id_employee` INT NOT NULL,
-    FOREIGN KEY (`id_charge`) REFERENCES charges(`id`),
-    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`)
-);
-
-
-CREATE TABLE IF NOT EXISTS `forms` (
-    `id` INT AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL,
-    `description` VARCHAR(200) NOT NULL,
-    `active` BOOLEAN NOT NULL,
-    PRIMARY KEY (`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `questions` (
-    `id` INT AUTO_INCREMENT,
-    `id_form` INT NOT NULL,
-    `question` VARCHAR(100) NOT NULL,
-    FOREIGN KEY (`id_form`) REFERENCES forms(`id`),
-    PRIMARY KEY (`id`)
-);
-
-CREATE TABLE IF NOT EXISTS `answers` (
-    `id` INT AUTO_INCREMENT,
-    `id_question` INT NOT NULL,
-    `answer` VARCHAR(100) NOT NULL,
-    `id_special` VARCHAR(200) NOT NULL,
-    FOREIGN KEY (`id_question`) REFERENCES questions(`id`),
-    PRIMARY KEY (`id`)
-);
-
 CREATE TABLE IF NOT EXISTS `training` (
     `id` INT AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
-    `id_employee` INT NOT NULL,
     `date_realization` date NOT NULL,
     `description` VARCHAR(100) NOT NULL,
     `id_file` INT NOT NULL,
-    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
     FOREIGN KEY (`id_file`) REFERENCES files(`id`),
     PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `employee_training`(
+    `id_employee` INT ,
+    `id_training` INT ,
+    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
+    FOREIGN KEY (`id_training`) REFERENCES training(`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `employee_files`(
@@ -147,24 +113,44 @@ CREATE TABLE IF NOT EXISTS `candidate` (
     `email` VARCHAR(100) NOT NULL,
     `appointment_date` DATETIME NOT NULL,
     `request_position` INT NOT NULL,
-    FOREIGN KEY (`request_position`) REFERENCES charges(`id`),
+    `perfil` VARCHAR(100) NOT NULL,
+    `id_cv` INT NOT NULL,
+    FOREIGN KEY (`id_cv`) REFERENCES files(`id`),
+    FOREIGN KEY (`request_position`) REFERENCES positions(`id`),
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS `announcements`(
-    `id` INT AUTO_INCREMENT,
-    `name` VARCHAR(100) NOT NULL,
-    `description` VARCHAR(100) NOT NULL,
-    `date_start` date not null,
-    `date_finish` date not null,
-    `id_file` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `announcements` (
+  `id` int(11) AUTO_INCREMENT NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_finish` date NOT NULL,
+  `position` varchar(100) NOT NULL,
+  `process` varchar(100) NOT NULL,
+  `profile` varchar(100) NOT NULL,
+  `functions` varchar(100) NOT NULL,
+  `active` BOOLEAN NOT NULL, 
+  `id_file` INT NOT NULL,
     FOREIGN KEY (`id_file`) REFERENCES files(`id`),
     PRIMARY KEY (`id`)
-);
+)
 
 CREATE TABLE IF NOT EXISTS `announcements_positions`(
-    `id_announcement` INT NOT NULL,
-    `id_position` INT NOT NULL,
+    `id_announcement` INT ,
+    `id_position` INT,
     FOREIGN KEY (`id_announcement`) REFERENCES announcements(`id`),
     FOREIGN KEY (`id_position`) REFERENCES positions(`id`)
+);
+CREATE TABLE IF NOT EXISTS `employees_positions`(
+    `id_employee` INT,
+    `id_position` INT,
+    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
+    FOREIGN KEY (`id_position`) REFERENCES positions(`id`)
+);
+CREATE TABLE IF NOT EXISTS `employees_charges`(
+    `id_employee` INT,
+    `id_charge` INT,
+    FOREIGN KEY (`id_employee`) REFERENCES employees(`id`),
+    FOREIGN KEY (`id_charge`) REFERENCES charges(`id`)
 );

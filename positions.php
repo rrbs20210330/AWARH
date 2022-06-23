@@ -1,37 +1,12 @@
-<?php
-include("components/header.php");
-?>
 
-<?php 
-    include('config/db.php');
-    $DataBase = new db();
-    if(isset($_POST) && !empty($_POST)){
-        $name = $DataBase->sanitize($_POST['name']);
-        $description = $DataBase->sanitize($_POST['description']);
-        $res = $DataBase->insert_t_positions($name, $description);
-
-        if($res){
-            $message = "Datos insertados con éxito";
-            $class = "alert alert-success";
-        }else{
-            $message = "No se pudieron insertar los datos..";
-            $class = "alert alert-danger";
-        }
-        
-        ?>
-        <center><div class="<?php echo $class ?>"><?php echo $message?></div></center>
-        <?php
-    }
-    
-?>
 
 <center><h2>Lista de Puestos</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
   Nuevo puesto
 </button>
-    <table class="table table-bordered" id="userTable">
+    <table class="table table-striped table-bordered userTable" >
         <thead>
             <th>Nombre</th>
             <th>Descripcion</th>
@@ -39,7 +14,6 @@ include("components/header.php");
         </thead>
         <tbody>
             <?php 
-                $DataBase = new db();
                 $l_positions = $DataBase->read_data_table('positions');
                 while ($row = mysqli_fetch_object($l_positions)) {
                     $id = $row->id;
@@ -54,8 +28,8 @@ include("components/header.php");
                     <?php echo $description ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editarusuario" ><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-danger btn-sm "href="process/deletePosition.php?id=<?php echo $id?>"><i class="bi-trash"></i></a>
+                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&typeOp=5"><i class="bi-trash"></i></a>
                 </td>
             </tr>
             <?php }?>
@@ -66,7 +40,7 @@ include("components/header.php");
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="RegistroPosicion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
@@ -75,7 +49,7 @@ include("components/header.php");
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form method="post">
+      <form action="process/new.php"method="post">
         <div class="row">
             <div class="col-sm-4">
             <label for="">Nombre </label>
@@ -85,7 +59,7 @@ include("components/header.php");
             <label for="">Descripcion </label>
             <input type="text" class="form-control" id="description" name="description" required>
             </div>
-            
+            <input type="hidden" name="typeOp" value="7">
             
         </div>
         
@@ -102,9 +76,46 @@ include("components/header.php");
   </div>
 </div>
 
+<?php 
+    $l_positions = $DataBase->read_data_table('positions');
+    while ($row = mysqli_fetch_object($l_positions)) {
+        $id = $row->id;
+        $nombre = $row->name;
+        $description = $row->description;
+?>
+<div class="modal fade" id="EditPosition-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edición de Posición</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form action="process/update.php" method="post">
+        <div class="row">
+            <div class="col-sm-4">
+            <label for="">Nombre </label>
+            <input value="<?php echo $nombre ?>" type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="col-sm-4">
+            <label for="">Descripcion </label>
+            <input value="<?php echo $description ?>" type="text" class="form-control" id="description" name="description">
+            </div>
+        </div>
+        <br>
+        <input type="hidden" name="id" value="<?php echo $id ?>">
+        <input type="hidden" name="typeOp" value="5">
+    
+      </div>
+      <div class="modal-footer">
+        
+        <button type="submit" class="btn btn-success">Editar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-
-
-<?php
-include("components/footer.php");
+<?php }
 ?>

@@ -134,10 +134,10 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   `id_file` INT NOT NULL,
     FOREIGN KEY (`id_file`) REFERENCES files(`id`),
     PRIMARY KEY (`id`)
-)
+);
 
 CREATE TABLE IF NOT EXISTS `announcements_positions`(
-    `id_announcement` INT ,
+    `id_announcement` INT,
     `id_position` INT,
     FOREIGN KEY (`id_announcement`) REFERENCES announcements(`id`),
     FOREIGN KEY (`id_position`) REFERENCES positions(`id`)

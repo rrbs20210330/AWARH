@@ -23,3 +23,15 @@ Se plantea crear un usuario por cada empleado para ello se modifico la tabla use
 Se hicieron varias modificaciones en la base de datos en base a las revisiones de giovanni, dando una mejor especificacion del dato y de donde viene en cuestion de la id. por ende, varios archivos y db.php cambiaron en cuestion de llamar a esas propiedades.
 
 Se añadio una ventana de confirmacion de eliminacion de datos para todos los modulos funcionales actuales
+
+
+#Manejo de Variables y Codigo
+- Todas las variables se espera que sean en ingles.
+- puede ser un acronimo de la misma palabra si llega a ser muy larga.
+- si es mas de una palabra se usaran giones bajos.
+- No se pondran mayusculas.
+- se espera por obvias razones que el nombre de la variable tenga sentido con el apartado de codigo.
+- Intentar comentariar partes complejas para entendimiento general.
+- este razonamiento sera aplicado tanto en la base de datos como en variables de la aplicacion web.
+- indenta tu codigo no seas flojo y acomodalo, una buena indentación puede ayudar a encontrar errores y mejorar el entendimiento general.
+- 

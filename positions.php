@@ -1,40 +1,39 @@
-
-
 <center><h2>Lista de Puestos</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
-  Nuevo puesto
-</button>
-    <table class="table table-striped table-bordered userTable" >
-        <thead>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th></th>
-        </thead>
-        <tbody>
-            <?php 
-                $l_positions = $DataBase->read_data_table('positions');
-                while ($row = mysqli_fetch_object($l_positions)) {
-                    $id = $row->id;
-                    $nombre = $row->name;
-                    $description = $row->description;
-            ?>
-            <tr>
-                <td>
-                    <?php echo $nombre ?>
-                </td>
-                <td>
-                    <?php echo $description ?>
-                </td>
-                <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&typeOp=5"><i class="bi-trash"></i></a>
-                </td>
-            </tr>
-            <?php }?>
-        </tbody>
-    </table>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
+    Nuevo puesto
+  </button>
+  <table class="table table-striped table-bordered userTable" >
+    <thead>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+      <th># Empleados</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <?php 
+        $l_positions = $DataBase->read_data_table('positions');
+        while ($row = mysqli_fetch_object($l_positions)) {
+          $id = $row->id_position;
+          $nombre = $row->t_name;
+          $description = $row->t_description;?>
+          <tr>
+            <td>
+              <?php echo $nombre ?>
+            </td>
+            <td>
+              <?php echo $description ?>
+            </td>
+            <td></td>
+            <td>
+              <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
+              <a class="btn btn-danger btn-sm "data-bs-toggle="modal" data-bs-target="#DeletePosition-<?php echo $id ?>"><i class="bi-trash"></i></a>
+            </td>
+          </tr>
+        <?php }?>
+    </tbody>
+  </table>
 </div>
 <!-- Button trigger modal -->
 
@@ -79,9 +78,9 @@
 <?php 
     $l_positions = $DataBase->read_data_table('positions');
     while ($row = mysqli_fetch_object($l_positions)) {
-        $id = $row->id;
-        $nombre = $row->name;
-        $description = $row->description;
+        $id = $row->id_position;
+        $nombre = $row->t_name;
+        $description = $row->t_description;
 ?>
 <div class="modal fade" id="EditPosition-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
@@ -117,5 +116,36 @@
   </div>
 </div>
 
-<?php }
+<?php } ?>
+
+
+
+<?php 
+  $l_positions = $DataBase->read_data_table('positions');
+  while ($row = mysqli_fetch_object($l_positions)) {
+    $id = $row->id_position;
 ?>
+  <!-- Modal Delete-->
+  <div class="modal fade" id="DeletePosition-<?php echo $id ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">¿Estás Seguro?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          El dato será eliminado y no podrá ser recuperado.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form action="process/delete.php" method="post">
+            <input type="hidden" name="id" id="id" value="<?php echo $id?>">
+            <input type="hidden" name="typeOp" id="typeOp" value="5">
+          
+            <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php } ?>

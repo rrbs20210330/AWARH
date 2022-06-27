@@ -2,7 +2,7 @@
 include('config/db.php');
 $DataBase = new db();
 $pe = $DataBase->count_data_table('employees');
-$pt = $DataBase->count_data_table('training');
+$pt = $DataBase->count_data_table('trainings');
 $pa = $DataBase->count_data_table('announcements');
 $employees = $pe->count_data;
 $trainings = $pt->count_data;

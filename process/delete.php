@@ -1,30 +1,30 @@
 <?php
     include('../config/db.php');
-    if(isset($_GET) && isset($_GET['typeOp']) && isset($_GET['id'])){
-        switch (intval($_GET['typeOp'])) {
+    if(isset($_POST) && isset($_POST['typeOp']) && isset($_POST['id'])){
+        switch (intval($_POST['typeOp'])) {
             case 1:#Borrado general de una sola tabla e id, dando como entrada de que archivo viene y que tabla y fila eliminara de la base de datos.
-                delete_general_info($_GET);
+                delete_general_info($_POST);
                 break;
             case 2:#Borrado de una actividad, por ende tambien su relacion con sus cargos
-                delete_activity($_GET);
+                delete_activity($_POST);
                 break;
             case 3:#Borrado de un cargo, por ende tambien su relacion con sus actividades y empleados
-                delete_charge($_GET);
+                delete_charge($_POST);
                 break;
             case 4:#Borrado de un empleado, por ende tambien su relacion con un puesto, cargo, y archivos
-                delete_employee($_GET);
+                delete_employee($_POST);
                 break;
             case 5:#Borrado de una posicion, por ende su relacion con empleado
-                delete_position($_GET);
+                delete_position($_POST);
                 break;
             case 6:
-                delete_candidate($_GET);
+                delete_candidate($_POST);
                 break;
             case 7: 
-                delete_training($_GET);
+                delete_training($_POST);
                 break;
             case 8:
-                delete_announcements($_GET);
+                delete_announcements($_POST);
                 break;
             default:
                 header('location: ../error.php');

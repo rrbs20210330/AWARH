@@ -23,21 +23,21 @@ $DataBase = new db();
             <?php 
                 $l_employees = $DataBase->read_all_employees();
                 while ($row = mysqli_fetch_object($l_employees)) {
-                    $id = $row->id;
-                    $active = $row->active;
-                    $fullname = $row->names." ".$row->last_names;
-                    $email = $row->email;
-                    $phone_number = $row->phone_number;
+                    $id = $row->id_employee;
+                    $active = $row->b_active;
+                    $fullname = $row->t_names." ".$row->t_last_names;
+                    $email = $row->t_email;
+                    $phone_number = $row->t_phone_number;
             ?>
             <tr>
                 <td>
                     <?php if ($active == 0){
                       ?>
-                    <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees"><i class="bi bi-circle"></i></a>
+                    <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-circle"></i></a>
                     <?php
 
                     }else{?>
-                    <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees"><i class="bi bi-circle-fill"></i></a>
+                    <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-circle-fill"></i></a>
                     <?php
                     }?>
                 </td>
@@ -52,7 +52,7 @@ $DataBase = new db();
                 </td>
                 <td>
                     <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
-                    <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&typeOp=4"><i class="bi-trash"></i></a>
+                    <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteEmployee-<?php echo $id ?>"><i class="bi-trash"></i></a>
                     <a class="btn btn-primary btn-sm "href="employee.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
@@ -70,7 +70,7 @@ $DataBase = new db();
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form method="post" action="process/new.php" id="formul">
+          <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
           <center><label for="">Informacion General</label></center>
             <div class="row">
                 
@@ -88,7 +88,7 @@ $DataBase = new db();
                 </div>       
                 <div class="col-sm-4">
                 <label >Fotografia</label>
-                <input type="file" class="form-control" id="photo" name="photo" required>
+                <input type="file" class="form-control" id="photo[]" name="photo[]" required>
                 </div>
                 <div class="col-sm-4">
                 <label >RFC</label>
@@ -146,8 +146,8 @@ $DataBase = new db();
                     <?php     
                         $l_charges_select = $DataBase->read_data_table('charges');
                         while ($row = mysqli_fetch_object($l_charges_select)) {
-                            $id = $row->id;
-                            $name = $row->name;
+                            $id = $row->id_charge;
+                            $name = $row->t_name;
                             ?>
                     <option value="<?php echo $id ?>"><?php echo $name ?></option>
                     <?php } ?>
@@ -160,8 +160,8 @@ $DataBase = new db();
                         <?php     
                             $l_positions_select = $DataBase->read_data_table('positions');
                             while ($row = mysqli_fetch_object($l_positions_select)) {
-                                $id = $row->id;
-                                $name = $row->name;
+                                $id = $row->id_position;
+                                $name = $row->t_name;
                                 ?>
                         <option value="<?php echo $id ?>"><?php echo $name ?></option>
                         <?php } ?>
@@ -169,7 +169,7 @@ $DataBase = new db();
                 </div>
                 <div class="col-sm-4">
                 <label>Contrato</label>
-                <input type="file" class="form-control" id="contract" name="contract" required>
+                <input type="file" class="form-control" id="contract[]" name="contract[]" required>
                 </div>
             </div>
             <input type="hidden" name="typeOp" value="3">
@@ -194,23 +194,23 @@ $DataBase = new db();
 <?php 
     $l_employees = $DataBase->read_all_employees();
     while ($row = mysqli_fetch_object($l_employees)) {
-        $idL = $row->id;
+        $idL = $row->id_employee;
         $employee_info = $DataBase->read_info_employee($idL);
         $employee = mysqli_fetch_object($employee_info);
-        $names = $employee->names;
-        $last_names = $employee->last_names;
-        $email = $employee->email;
-        $rfc = $employee->rfc;
-        $nss = $employee->nss;
-        $phone_number = $employee->phone_number;
-        $birthday = $employee->birthday;
-        $no_exterior = $employee->no_exterior;
-        $no_interior = $employee->no_interior;
-        $references = $employee->references;
-        $street = $employee->street;
-        $colony = $employee->colony;
-        $position = $employee->id_position;
-        $charge = $employee->id_charge; 
+        $names = $employee->t_names;
+        $last_names = $employee->t_last_names;
+        $email = $employee->t_email;
+        $rfc = $employee->t_rfc;
+        $nss = $employee->t_nss;
+        $phone_number = $employee->t_phone_number;
+        $birthday = $employee->d_birthday;
+        $no_exterior = $employee->t_no_exterior;
+        $no_interior = $employee->t_no_interior;
+        $references = $employee->t_references;
+        $street = $employee->t_street;
+        $colony = $employee->t_colony;
+        $position = $employee->fk_position;
+        $charge = $employee->fk_charge; 
 ?>
     <!-- FORMULARIO DE EDICION DE USUARIOS -->
     <div class="modal fade" id="EditEmployee-<?php echo $idL ?>" tabindex="-1"  aria-hidden="true">
@@ -335,7 +335,40 @@ $DataBase = new db();
             </div>
         </div>
     </div>    
-<?php }
+<?php } ?>
+
+
+<?php 
+  $l_employees = $DataBase->read_data_table('employees');
+  while ($row = mysqli_fetch_object($l_employees)) {
+    $id = $row->id_employee;
+?>
+  <!-- Modal Delete-->
+  <div class="modal fade" id="DeleteEmployee-<?php echo $id ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">¿Estás Seguro?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          El dato será eliminado y no podrá ser recuperado.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form action="process/delete.php" method="post">
+            <input type="hidden" name="id" id="id" value="<?php echo $id?>">
+            <input type="hidden" name="typeOp" id="typeOp" value="4">
+          
+            <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php } ?>
+
+<?php 
 include("components/footer.php");
 ?>
 

@@ -4,7 +4,7 @@
         private $dbhost = "localhost";
         private $dbuser = "root";
         private $dbpass = "";
-        private $dbname = "recursoshumanos";
+        private $dbname = "rh";
 
         function __construct(){
             $this->connect_db();
@@ -59,8 +59,32 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
+        public function read_single_record_announcement($id){
+            $sql = "SELECT * FROM announcements WHERE id_announcement = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_files($id){
+            $sql = "SELECT * FROM files WHERE id_file = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_candidates($id){
+            $sql = "SELECT * FROM candidates WHERE id_candidate = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_charges($table, $id){
+            $sql = "SELECT * FROM charges WHERE id_charge = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
         public function read_single_record_relation_charge_activity($table, $id){
-            $sql = "SELECT * FROM $table WHERE id_activities = $id";
+            $sql = "SELECT * FROM $table WHERE fk_activity = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -72,15 +96,15 @@
             return $return;
         }
 
-        public function update_active($table,$id){
-            $sql="SELECT active FROM $table WHERE id='$id'"; 
+        public function update_active_employees($id){
+            $sql="SELECT b_active FROM employees WHERE id_employee ='$id'"; 
             $res= mysqli_query($this->con, $sql);
             $return=mysqli_fetch_object($res);
-            if($return->active){
-                $sql ="UPDATE $table SET active=0 WHERE id='$id'";
+            if($return->b_active == 1){
+                $sql ="UPDATE employees SET b_active=0 WHERE id_employee ='$id'";
             }
             else{
-                $sql ="UPDATE $table SET active=1 WHERE id='$id'";
+                $sql ="UPDATE employees SET b_active=1 WHERE id_employee ='$id'";
             }
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -89,8 +113,25 @@
                 return false;
             }
         }
-        public function proNewEmployee($names, $last_names, $birthday, $photo, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $contract, $rfc, $nss){
-            $sql = "CALL proNewEmployee('$names','$last_names','$birthday','0','$phone_number','$email','$no_interior','$no_exterior','$references', '$street', '$colony','$charge', '$position','0', '$rfc', '$nss');";
+        public function update_active_announcements($id){
+            $sql="SELECT b_active FROM announcements WHERE id_announcement ='$id'"; 
+            $res= mysqli_query($this->con, $sql);
+            $return=mysqli_fetch_object($res);
+            if($return->b_active == 1){
+                $sql ="UPDATE announcements SET b_active=0 WHERE id_announcement ='$id'";
+            }
+            else{
+                $sql ="UPDATE announcements SET b_active=1 WHERE id_announcement ='$id'";
+            }
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function proNewEmployee($names, $last_names, $birthday, $photo_name,$photo_path, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $contract_name, $contract_path, $rfc, $nss){
+            $sql = "CALL procedure_new_employee('$names','$last_names','$birthday','$photo_name','$photo_path','$phone_number','$email','$no_interior','$no_exterior','$references', '$street', '$colony','$charge', '$position','$contract_name', '$contract_path', '$rfc', '$nss');";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -102,11 +143,7 @@
         }
 
         public function proDeleteEmployee($id){
-            $sql1 = "SELECT id_address FROM employees WHERE id=$id";
-            $eres = mysqli_query($this->con, $sql1);
-            $eresobject = mysqli_fetch_object($eres);
-            $idaddress = $eresobject->id_address;
-            $sql = "CALL proDeleteEmployee('$id','$idaddress');";
+            $sql = "CALL procedure_delete_employee($id);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -117,7 +154,7 @@
 
         }
         public function proDeleteCharge($id){
-            $sql = "CALL proDeleteCharge($id);";
+            $sql = "CALL procedure_delete_charge($id);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -139,7 +176,7 @@
 
         }
         public function proDeletePosition($id){
-            $sql = "CALL proDeletePosition('$id');";
+            $sql = "CALL procedure_delete_position('$id');";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -150,7 +187,18 @@
 
         }
         public function proDeleteActivity($id){
-            $sql = "CALL proDeleteActivity('$id');";
+            $sql = "CALL procedure_delete_activity('$id');";
+
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        public function proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $file_name,$file_path){
+            $sql = "CALL procedure_new_announcement('$name','$description','$date_start','$date_finish', $position,'$process','$profile', '$functions','$file_name','$file_path')";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -161,7 +209,7 @@
 
         }
         public function proNewActivity($name, $description, $charge){
-            $sql = "CALL proNewActivity('$name','$description', $charge);";
+            $sql = "CALL procedure_new_activity('$name','$description', $charge);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -183,12 +231,12 @@
             return $res;
         }
         public function read_info_employee($id){
-            $sql = "SELECT * FROM infoEmployee WHERE id = '$id'";
+            $sql = "SELECT * FROM infoEmployee WHERE id_employee = '$id'";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
         public function insert_t_charges($name, $description){
-            $sql = "INSERT INTO `charges` (`name`, `description`) VALUES ('$name','$description')";
+            $sql = "INSERT INTO `charges` (`t_name`, `t_description`) VALUES ('$name','$description')";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -197,7 +245,7 @@
             }
         }
         public function update_t_charges($id,$name, $description){
-            $sql = "UPDATE charges SET `name`='$name', `description`='$description' WHERE id='$id'";
+            $sql = "UPDATE charges SET `t_name`='$name', `t_description`='$description' WHERE id_charge = $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -234,7 +282,7 @@
             }
         }
         public function proDeleteCandidate($id){
-            $sql = "DELETE FROM candidate WHERE id = $id";
+            $sql = "CALL procedure_delete_candidate($id)";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -243,9 +291,8 @@
             }
 
         }
-        public function proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$id_cv){
-            $sql = "INSERT INTO `candidate` (`name`,phone_number,email,appointment_date,request_position,perfil, id_cv) 
-            VALUES ('$name','$phone_number','$email',$appointment_date, $request_position,'$perfil', 1)";
+        public function proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$cv_name, $cv_path){
+            $sql = "CALL procedure_new_candidate('$name','$phone_number','$email','$appointment_date', $request_position,'$perfil', '$cv_name','$cv_path')";
             $res = mysqli_query($this->con, $sql);
             if ($res){
                 return true;
@@ -292,7 +339,7 @@
 
         #CRUD (POSITIONS)
         public function insert_t_positions($name, $description){
-            $sql = "INSERT INTO `positions` (`name`, `description`) VALUES ('$name', '$description')";
+            $sql = "INSERT INTO `positions` (`t_name`, `t_description`) VALUES ('$name', '$description')";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -304,7 +351,7 @@
         }
 
         public function update_t_positions($id, $name, $description){
-            $sql = "UPDATE `positions` SET `name` = '$name', `description` = '$description' WHERE `id` = '$id'";
+            $sql = "UPDATE `positions` SET `t_name` = '$name', `t_description` = '$description' WHERE `id_position` = '$id'";
             
             $res = mysqli_query($this->con, $sql);
             
@@ -336,7 +383,7 @@
             }
         }
         public function proDeleteAnnouncement($id){
-            $sql = "DELETE FROM announcements WHERE `id` = $id";
+            $sql = "CALL procedure_delete_announcement($id)";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -348,8 +395,8 @@
         
         #NUM OF ACTIVITIES FROM CHARGE
 
-        public function num_activities_carge($id){
-            $sql= "SELECT `numActCh`($id) AS `numActCh`;" ;
+        public function num_activities_charge($id){
+            $sql= "SELECT `number_activities_charges`($id) AS `numActCh`;" ;
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             if($res){
@@ -358,6 +405,22 @@
                 return false;
             }
             
+        }
+        function file_name($string){
+            // Tranformamos todo a minusculas
+            $string = strtolower($string);
+            //Rememplazamos caracteres especiales latinos
+            $find = array('á', 'é', 'í', 'ó', 'ú', 'ñ');
+            $repl = array('a', 'e', 'i', 'o', 'u', 'n');
+            $string = str_replace($find, $repl, $string);
+            // Añadimos los guiones
+            $find = array(' ', '&', '\r\n', '\n', '+');
+            $string = str_replace($find, '-', $string);
+            // Eliminamos y Reemplazamos otros carácteres especiales
+            $find = array('/[^a-z0-9\-<>]/', '/[\-]+/', '/<[^>]*>/');
+            $repl = array('', '-', '');
+            $string = preg_replace($find, $repl, $string);
+            return $string;
         }
     }
 ?>

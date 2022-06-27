@@ -33,12 +33,14 @@
                 new_candidate($_POST);
                 break;
             default:
-                header('location: ../error.php');
+                // header('location: ../error.php');
+                echo "efe";
                 break;
         }
         
     }else{
-        header('location: ../error.php');
+        echo "efe";
+        // header('location: ../error.php');
     }
     function new_user($data){
         $DataBase = new db();
@@ -57,10 +59,31 @@
         $DataBase = new db();
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
-        $file = $DataBase->sanitize($data['file']);
         $date_realization = $DataBase->sanitize($data['date_realization']);
         $employee = intval($DataBase->sanitize($data['employee']));
-        $res = $DataBase->proNewTraining($name, $description, '0', $employee, $date_realization);
+        foreach($_FILES["file"]['tmp_name'] as $key => $tmp_name){
+            if($_FILES["file"]["name"][$key] !== "" || $_FILES["file"]["name"][$key] !== null) {
+                $filename = $DataBase->file_name($_FILES["file"]["name"][$key]); 
+                $source = $_FILES["file"]["tmp_name"][$key];
+                $file_type = $_FILES['file']['type'][$key];
+                list($type, $extension) = explode('/', $file_type);
+                
+                $directorio = '../docs/'; 
+                if(!file_exists($directorio)){
+                    mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+                }
+                
+                $target_path = $directorio . $filename . '.' . $extension;
+                $file_path = 'docs/'.$filename.'.'.$extension;
+                if(move_uploaded_file($source, $target_path)) {	
+                    $res = $DataBase->proNewTraining($name, $description, '0', $employee, $date_realization);
+                } else {
+                    echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
+                }
+                
+            }
+        }
+        
         if($res){
             header("location: ../trainings.php");
         }else{
@@ -73,7 +96,6 @@
         $names = $DataBase->sanitize($data['names']);
         $last_names = $DataBase->sanitize($data['last_names']);
         $birthday = $DataBase->sanitize($data['birthday']);
-        $photo = $DataBase->sanitize($data['photo']);
         $phone_number = $DataBase->sanitize($data['phone_number']);
         $email = $DataBase->sanitize($data['email']);
         $no_interior = $DataBase->sanitize($data['no_interior']);
@@ -83,14 +105,54 @@
         $colony = $DataBase->sanitize($data['colony']);
         $charge = intval($data['charge']);
         $position = intval($data['position']);
-        $contract = $DataBase->sanitize($data['contract']);
         $rfc = $DataBase->sanitize($data['rfc']);
         $nss = $DataBase->sanitize($data['nss']);
-        $res = $DataBase->proNewEmployee($names, $last_names, $birthday, $photo, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $contract, $rfc,$nss);
+        foreach($_FILES["photo"]['tmp_name'] as $key => $tmp_name){
+            if($_FILES["photo"]["name"][$key] !== "" || $_FILES["photo"]["name"][$key] !== null) {
+                $filename = $DataBase->file_name($_FILES["photo"]["name"][$key]); 
+                $source = $_FILES["photo"]["tmp_name"][$key];
+                $file_type = $_FILES['photo']['type'][$key];
+                list($type, $extension) = explode('/', $file_type);
+                
+                $directorio = '../docs/'; 
+                if(!file_exists($directorio)){
+                    mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+                }
+                
+                $target_path = $directorio . $filename . '.' . $extension;
+                $file_path = 'docs/'.$filename.'.'.$extension;
+                if(move_uploaded_file($source, $target_path)) {	} else {
+                    echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
+                }
+                
+            }
+        }
+
+        foreach($_FILES["contract"]['tmp_name'] as $key => $tmp_name){
+            if($_FILES["contract"]["name"][$key] !== "" || $_FILES["contract"]["name"][$key] !== null) {
+                $filename_c = $DataBase->file_name($_FILES["contract"]["name"][$key]); 
+                $source = $_FILES["contract"]["tmp_name"][$key];
+                $file_type = $_FILES['contract']['type'][$key];
+                list($type, $extension) = explode('/', $file_type);
+                
+                $directorio = '../docs/'; 
+                if(!file_exists($directorio)){
+                    mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+                }
+                
+                $target_path = $directorio . $filename_c . '.' . $extension;
+                $file_path_c = 'docs/'.$filename_c.'.'.$extension;
+                if(move_uploaded_file($source, $target_path)) {	} else {
+                    echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
+                }
+                
+            }
+        }
+        $res = $DataBase->proNewEmployee($names, $last_names, $birthday, $filename,$file_path, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $filename_c,$file_path_c, $rfc,$nss);
         if($res){
             header("location: ../employees.php");
         }else{
-            header('location: ../error.php');
+            echo "efe";
         }
     }
 
@@ -118,8 +180,27 @@
         $process = $DataBase->sanitize($_POST['process']);
         $profile = $DataBase->sanitize($_POST['profile']);
         $functions  = $DataBase->sanitize($_POST['functions']);
-
-        $res =$DataBase->insert_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,true);
+        foreach($_FILES["archivo"]['tmp_name'] as $key => $tmp_name){
+            if($_FILES["archivo"]["name"][$key] !== "" || $_FILES["archivo"]["name"][$key] !== null) {
+                $filename = $DataBase->file_name($_FILES["archivo"]["name"][$key]); 
+                $source = $_FILES["archivo"]["tmp_name"][$key];
+                $file_type = $_FILES['archivo']['type'][$key];
+                list($type, $extension) = explode('/', $file_type);
+                
+                $directorio = '../docs/'; 
+                if(!file_exists($directorio)){
+                    mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+                }
+                
+                $target_path = $directorio . $filename . '.' . $extension;
+                $file_path = 'docs/'.$filename.'.'.$extension;
+                if(move_uploaded_file($source, $target_path)) {	} else {
+                    echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
+                }
+                
+            }
+        }
+        $res =$DataBase->proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $filename,$file_path);
         if($res){
             header("location: ../announcements.php");
         }else{
@@ -158,8 +239,27 @@
         $appointment_date = $data['appointment_date'];
         $request_position = intval($data['request_position']);
         $perfil = $DataBase->sanitize($data['perfil']);
-        $id_cv = intval($data['id_cv']);
-        $res = $DataBase->proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$id_cv);
+        foreach($_FILES["archivo"]['tmp_name'] as $key => $tmp_name){
+            if($_FILES["archivo"]["name"][$key] !== "" || $_FILES["archivo"]["name"][$key] !== null) {
+                $filename = $DataBase->file_name($_FILES["archivo"]["name"][$key]); 
+                $source = $_FILES["archivo"]["tmp_name"][$key];
+                $file_type = $_FILES['archivo']['type'][$key];
+                list($type, $extension) = explode('/', $file_type);
+                
+                $directorio = '../docs/'; 
+                if(!file_exists($directorio)){
+                    mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+                }
+                
+                $target_path = $directorio . $filename . '.' . $extension;
+                $file_path = 'docs/'.$filename.'.'.$extension;
+                if(move_uploaded_file($source, $target_path)) {	} else {
+                    echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
+                }
+                
+            }
+        }
+        $res = $DataBase->proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$filename,$file_path);
         if($res){
             header('location: ../candidates.php');
         }else{

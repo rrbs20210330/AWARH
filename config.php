@@ -6,6 +6,9 @@ $DataBase = new db();
 
 
 <br/>
+<div class="container">
+
+
 <button class="btn btn-success" onclick="functionUno()">Chargues</button>
 <button class="btn btn-primary" onclick="functionDos()">Activities</button>
 <button class="btn btn-dark" onclick="functionTres()">Positions</button>
@@ -35,7 +38,7 @@ $DataBase = new db();
 <?php  include('users.php');?>
 </div>
 
-
+</div>
 
 <script type="text/javascript">
     function functionUno() {

@@ -57,7 +57,7 @@ $DataBase = new db();
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form action="process/new.php" method="post" id="formul">
+          <form action="process/new.php" method="post" id="formul" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-sm-4">
                 <label for="">Nombre </label>
@@ -69,17 +69,17 @@ $DataBase = new db();
                 </div>
                 <div class="col-sm-4">
                 <label for="">Archivos</label>
-                <input type="file" class="form-control" id="file" name="file" required>
+                <input type="file" class="form-control" id="file[]" name="file[]" multiple>
                 </div>
                 <div class="col-sm-4">
                 <label for="">Empleado</label>
                 <select class="form-select" aria-label="Default select example" id="employee" name="employee">
-                <option selected>Selecciona una área</option>
+                <option selected>Selecciona un empleado</option>
                 <?php     
                     $l_employees_select = $DataBase->read_data_table('employees');
                     while ($row = mysqli_fetch_object($l_employees_select)) {
-                        $id = $row->id;
-                        $name = $row->names." ".$row->last_names;
+                        $id = $row->id_employee;
+                        $name = $row->t_names." ".$row->t_last_names;
                         ?>
                 <option value="<?php echo $id ?>"><?php echo $name ?></option>
                 <?php } ?>

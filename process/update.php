@@ -1,7 +1,18 @@
 <?php 
     include('../config/db.php');
-    if(isset($_GET) && isset($_GET['id'])){
-        return update_status($_GET);
+    if(isset($_GET) && isset($_GET['id']) && isset($_GET['typeOp'])){
+        switch (intval($_GET['typeOp'])) {
+            case 1:
+                update_status_employee($_GET);
+                break;
+            case 2:
+                update_status_announcement($_GET);
+                break;
+            default:
+                header('location: ../error.php');
+                break;
+        }
+        
     }
     if(isset($_POST) && isset($_POST['typeOp']) && isset($_POST['id'])){
         switch (intval($_POST['typeOp'])) {
@@ -34,17 +45,28 @@
                 break;
         }
         
-    }else{
-        header('location: ../error.php');
     }
     
-    function update_status($data){
+    function update_status_employee($data){
         $DataBase = new db();
         $id =intval($data['id']);
         $table = $data['table'];
         $location = $data['location'];
         
-        $res = $DataBase->update_active($table, $id);
+        $res = $DataBase->update_active_employees($id);
+        if($res){
+            header("location: ../$location.php");
+        }else{
+            header('location: ../error.php');
+        }
+    }
+    function update_status_announcement($data){
+        $DataBase = new db();
+        $id =intval($data['id']);
+        $table = $data['table'];
+        $location = $data['location'];
+        
+        $res = $DataBase->update_active_announcements($id);
         if($res){
             header("location: ../$location.php");
         }else{

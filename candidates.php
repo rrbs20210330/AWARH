@@ -8,7 +8,7 @@ $DataBase = new db();
 <center><h2>Lista de Candidatos</h2></center>
 
 <div class="container">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrocandidato">
+    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrocandidato">
         Nuevo Candidato
     </button>
     <table class="table table-striped table-bordered userTable">
@@ -40,9 +40,9 @@ $DataBase = new db();
                     <?php echo $email ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditCandidate-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditCandidate-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteCandidate-<?php echo $id ?>" ><i class="bi-trash"></i></a>
-                    <a class="btn btn-primary btn-sm "href="candidate.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-dark btn-sm "href="candidate.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
             <?php }?>

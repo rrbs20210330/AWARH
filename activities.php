@@ -1,7 +1,7 @@
 
 <center><h2>Lista de Actividades</h2></center>
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistroActivity">
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroActivity">
   Nueva Actividad
 </button>
     <table class="table table-striped table-bordered userTable" >
@@ -38,7 +38,7 @@
                     <?php echo $charge ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditActivity-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditActivity-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteActivity-<?php echo $id ?>"><i class="bi-trash"></i></a>
                 </td>
             </tr>

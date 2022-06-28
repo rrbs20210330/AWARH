@@ -7,7 +7,7 @@ $DataBase = new db();
 <center><h2>Lista de Capacitaciones</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrousuario">
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrousuario">
   Nueva Capacitacion
 </button>
     <table class="table table-striped table-bordered userTable"  id="userTable">
@@ -37,7 +37,7 @@ $DataBase = new db();
                     <?php echo $date ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditTraining-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditTraining-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm "href="process/delete.php?id=<?php echo $id?>&typeOp=7"><i class="bi-trash"></i></a>
                     <a class="btn btn-primary btn-sm "href="training.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>

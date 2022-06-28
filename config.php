@@ -9,34 +9,32 @@ $DataBase = new db();
 <div class="container">
 
 
-<button class="btn btn-success" onclick="functionUno()">Chargues</button>
-<button class="btn btn-primary" onclick="functionDos()">Activities</button>
-<button class="btn btn-dark" onclick="functionTres()">Positions</button>
-<button class="btn btn-danger" onclick="functionCuatro()">Users</button>
+    <button class="btn btn-dark" onclick="functionUno()">Chargues</button>
+    <button class="btn btn-dark" onclick="functionDos()">Activities</button>
+    <button class="btn btn-dark" onclick="functionTres()">Positions</button>
+    <button class="btn btn-dark" onclick="functionCuatro()">Users</button>
 
 
-<!-- DIV 1 CHARGUES --> 
-<div id="div1" class="container-fluid">
-<?php include('charges.php'); ?>
-</div>
+    <!-- DIV 1 CHARGUES --> 
+    <div id="div1" class="container-fluid">
+    <?php include('charges.php'); ?>
+    </div>
 
 
-<!----------------- DIV 2 ACTIVITIES ------------------------> 
-<div id="div2" class="container-fluid">
-<?php include('activities.php'); ?>
-</div>
-<!----------------- DIV 3 POSITIONS ------------------------> 
+    <!----------------- DIV 2 ACTIVITIES ------------------------> 
+    <div id="div2" class="container-fluid">
+    <?php include('activities.php'); ?>
+    </div>
+    <!----------------- DIV 3 POSITIONS ------------------------> 
 
-<div id="div3" class="container-fluid">
-<?php include('positions.php'); ?>
+    <div id="div3" class="container-fluid">
+    <?php include('positions.php'); ?>
+    </div>
 
-</div>
 
-
-<div id="div4" class="container-fluid">
-
-<?php  include('users.php');?>
-</div>
+    <div id="div4" class="container-fluid">
+    <?php  include('users.php');?>
+    </div>
 
 </div>
 

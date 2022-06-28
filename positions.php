@@ -1,7 +1,7 @@
 <center><h2>Lista de Puestos</h2></center>
 
 <div class="container">
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
+  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
     Nuevo puesto
   </button>
   <table class="table table-striped table-bordered userTable" >
@@ -27,7 +27,7 @@
             </td>
             <td></td>
             <td>
-              <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
+              <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
               <a class="btn btn-danger btn-sm "data-bs-toggle="modal" data-bs-target="#DeletePosition-<?php echo $id ?>"><i class="bi-trash"></i></a>
             </td>
           </tr>

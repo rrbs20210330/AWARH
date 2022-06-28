@@ -51,7 +51,7 @@
         if($res){
             header("location: ../config.php");
         }else{
-            header('location: ../error.php');
+            echo "efe";
         }
     }
 

@@ -33,6 +33,17 @@
                 return false;
             } 
         }
+        public function delete_data_users($id){
+            $sql = "DELETE FROM users WHERE `id_user` = '$id'";
+            
+            $res = mysqli_query($this->con, $sql);
+            
+            if($res){
+                return true;
+            }else{
+                return false;
+            } 
+        }
         public function read_data_table($table){
             $sql = "SELECT * FROM `$table`";
             $res = mysqli_query($this->con, $sql);
@@ -95,7 +106,23 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
-
+        public function update_active_users($id){
+            $sql="SELECT b_active FROM users WHERE id_user ='$id'"; 
+            $res= mysqli_query($this->con, $sql);
+            $return=mysqli_fetch_object($res);
+            if($return->b_active == 1){
+                $sql ="UPDATE users SET b_active=0 WHERE id_user ='$id'";
+            }
+            else{
+                $sql ="UPDATE users SET b_active=1 WHERE id_user ='$id'";
+            }
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function update_active_employees($id){
             $sql="SELECT b_active FROM employees WHERE id_employee ='$id'"; 
             $res= mysqli_query($this->con, $sql);
@@ -313,8 +340,8 @@
         
         #CRUD (USERS)
         public function insert_t_users($user, $password, $active){
-            $sql = "INSERT INTO `users` (`user`, `password`, `active`)
-            VALUES ('$user', '$password', '$active')";
+            $sql = "INSERT INTO `users` (`t_user`, `t_password`, `b_active`, `i_type`)
+            VALUES ('$user', '$password', $active, 1)";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -326,7 +353,7 @@
         }
 
         public function update_t_users($id, $user, $password){
-            $sql = "UPDATE `users` SET `user` = '$user', `password` = '$password' WHERE `id` = '$id'";
+            $sql = "UPDATE `users` SET `t_user` = '$user', `t_password` = '$password' WHERE `id_user` = '$id'";
             
             $res = mysqli_query($this->con, $sql);
             

@@ -7,7 +7,7 @@ $DataBase = new db();
 <center><h2>Lista de Empleados</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registroempleado">
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registroempleado">
   Nuevo Empleado
 </button>
     <table class="table table-striped table-bordered userTable">
@@ -33,11 +33,11 @@ $DataBase = new db();
                 <td>
                     <?php if ($active == 0){
                       ?>
-                    <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-circle"></i></a>
+                    <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-eye-slash-fill"></i></a>
                     <?php
 
                     }else{?>
-                    <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-circle-fill"></i></a>
+                    <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-eye-fill"></i></a>
                     <?php
                     }?>
                 </td>
@@ -51,9 +51,9 @@ $DataBase = new db();
                     <?php echo $email ?>
                 </td>
                 <td>
-                    <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteEmployee-<?php echo $id ?>"><i class="bi-trash"></i></a>
-                    <a class="btn btn-primary btn-sm "href="employee.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-dark btn-sm "href="employee.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
             <?php }?>

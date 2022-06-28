@@ -38,11 +38,9 @@
     function delete_general_info($data){
         $DataBase = new db();
         $id = intval($data['id']);
-        $tabla = $data['table'];
-        $location = $data['location'];
-        $res = $DataBase->delete_data_table($tabla,$id);
+        $res = $DataBase->delete_data_users($id);
         if($res){
-            header("location: ../$location.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }

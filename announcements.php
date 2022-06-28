@@ -10,7 +10,7 @@ $DataBase = new db();
 
 <div class="container">
   <div class="col-sm-4">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">
+    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal1">
       Nueva convocatoria
     </button>
   </div>  
@@ -40,11 +40,11 @@ $DataBase = new db();
             <div class="card-footer">
               <center> 
               <?php if ($active == 0){ ?>
-                <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=announcements&location=announcements&typeOp=2"><i class="bi-circle"></i></a>
+                <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=announcements&location=announcements&typeOp=2"><i class="bi bi-eye-slash-fill"></i></a>
                 <?php }else{ ?>
-                <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=announcements&location=announcements&typeOp=2"><i class="bi-circle-fill"></i></a>
+                <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=announcements&location=announcements&typeOp=2"><i class="bi bi-eye-fill"></i></a>
                 <?php }?>
-                <a class="btn btn-info" data-bs-toggle="modal" data-bs-target="#eA-<?php echo $id ?>"><i class="bi bi-pencil-square"></i></a>
+                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eA-<?php echo $id ?>"><i class="bi bi-pencil-square"></i></a>
                 <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteAnnouncement-<?php echo $id ?>"><i class="bi-trash"></i></a>
               </center>
             </div>
@@ -186,8 +186,8 @@ $DataBase = new db();
                 <?php     
                   $l_charges_select = $DataBase->read_data_table('positions');
                   while ($row = mysqli_fetch_object($l_charges_select)) {
-                    $idp = $row->id;
-                    $namep = $row->name;
+                    $idp = $row->id_position;
+                    $namep = $row->t_name;
                 ?>
                 <option value="<?php echo $idp ?>" <?php if($idp == $ida){ ?> selected <?php }?>><?php echo $namep ?></option>
                 <?php } ?>

@@ -25,7 +25,7 @@ Se hicieron varias modificaciones en la base de datos en base a las revisiones d
 Se añadio una ventana de confirmacion de eliminacion de datos para todos los modulos funcionales actuales
 
 
-#Manejo de Variables y Codigo
+# Manejo de Variables y Codigo
 - Todas las variables se espera que sean en ingles.
 - puede ser un acronimo de la misma palabra si llega a ser muy larga.
 - si es mas de una palabra se usaran giones bajos.

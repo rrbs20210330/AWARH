@@ -15,7 +15,7 @@
   <body>
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
+      <a class="navitem active" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
       <a class="navitem" ><i class="bi bi-gear-fill"></i> Configuración</a>
       <ul>
         <li>

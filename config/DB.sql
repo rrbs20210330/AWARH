@@ -90,8 +90,6 @@ CREATE TABLE IF NOT EXISTS `trainings` (
     `d_date_start` DATE NOT NULL,
     `d_date_finish` DATE NOT NULL,
     `t_description` VARCHAR(100) NOT NULL,
-    `fk_file` INT NOT NULL,
-    FOREIGN KEY (`fk_file`) REFERENCES `files`(`id_file`),
     PRIMARY KEY (`id_training`)
 );
 
@@ -102,10 +100,10 @@ CREATE TABLE IF NOT EXISTS `employees_trainings`(
     FOREIGN KEY (`fk_training`) REFERENCES `trainings`(`id_training`)
 );
 
-CREATE TABLE IF NOT EXISTS `employees_files`(
-    `fk_employee` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `trainings_files`(
+    `fk_training` INT NOT NULL,
     `fk_file` INT NOT NULL,
-    FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
+    FOREIGN KEY (`fk_training`) REFERENCES `trainings`(`id_training`),
     FOREIGN KEY (`fk_file`) REFERENCES `files`(`id_file`)
 );
 

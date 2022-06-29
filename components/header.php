@@ -21,7 +21,7 @@
       <a class="navitem" href="config.php"> Cargos</a>
       <a class="navitem" href="config.php"> Actividades</a>
       <a class="navitem" href="config.php"> Puestos</a>
-      <a class="navitem" href="config.php"> Areas</a>
+      <a class="navitem" href="config.php"> Áreas</a>
       <a class="navitem" href="config.php"> Usuarios</a>
       <a class="navitem" href="candidates.php"><i class="bi bi-person-badge-fill"></i> Candidatos</a>
       <a class="navitem" href="employees.php"><i class="bi bi-person-fill"></i> Empleados</a>

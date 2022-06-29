@@ -22,13 +22,13 @@ $path_file = $announcements->read_single_record_files($file)->t_path;;
     <div class="card" >
       <center><div class="card-header"><h3>Informe de la Convocatoria</h3> </div></center>
       <div class="card-body">
-        <h5 class="card-title">Informacion General</h5>
+        <h5 class="card-title">Información General</h5>
         <p class="card-text">
         <b>Nombre de la convocatoria:</b> <?php echo $nombre?><br>
-        <b>Descripcion de la convocatoria:</b> <?php echo $descripcion ?><br>
-        <b> Fecha del inicio:</b> <?php echo $fechadeinicio?><br>
+        <b>Descripción de la convocatoria:</b> <?php echo $descripcion ?><br>
+        <b>Fecha del inicio:</b> <?php echo $fechadeinicio?><br>
         <b>Fecha del Final:</b> <?php echo $fechafinal?><br>
-        <b> Procedimeinto:</b> <?php echo $Perfilsolicitado?><br>
+        <b>Procedimeinto:</b> <?php echo $Perfilsolicitado?><br>
         <b>Perfil solicitado:</b> <?php echo $Procedimiento?><br>
         <b>Funciones:</b> <?php echo $funciones?><br>
         <b>Estado:</b> <?php echo $estado == 0 ? "Inactiva" : "Activa"?><br>

@@ -73,7 +73,7 @@ $DataBase = new db();
             <input type="text" class="form-control" id="name" name="name" required>
           </div>
           <div class="col-sm-4">
-            <label >Descripcion de convocatoria</label>
+            <label >Descripción de convocatoria</label>
             <input type="text" class="form-control" id="description" name="description" required>
           </div>
           <div class="col-sm-4">
@@ -164,7 +164,7 @@ $DataBase = new db();
               <input type="text" class="form-control" id="name" name="name" value="<?php echo $name?>">
             </div>
             <div class="col-sm-4">
-              <label >Descripcion de convocatoria</label>
+              <label >Descripción de convocatoria</label>
               <input type="text" class="form-control" id="description" name="description" value="<?php echo $description ?>">
             </div>
             <div class="col-sm-4">

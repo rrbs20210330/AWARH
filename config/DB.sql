@@ -3,26 +3,26 @@ CREATE DATABASE IF NOT EXISTS `rh` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4
 USE `rh`;
 
 CREATE TABLE IF NOT EXISTS `users` (
-    `id_user` INT(11) NOT NULL AUTO_INCREMENT,
-    `t_user` VARCHAR(20) NOT NULL,
-    `t_password` VARCHAR(100) NOT NULL,
-    `b_active` BOOLEAN NOT NULL,
-    `i_type` INT(11) NOT NULL,
-    `dt_last_join` DATETIME,
+    `id_user` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id de la tabla de user',
+    `t_user` VARCHAR(20) NOT NULL COMMENT 'Nombre del usuario',
+    `t_password` VARCHAR(100) NOT NULL COMMENT 'Contraseña del usuario',
+    `b_active` BOOLEAN NOT NULL COMMENT 'El estado del usuario esto desmuestra si esta activo o inactivo',
+    `i_type` INT(11) NOT NULL COMMENT 'El tipo de usuario ya sea Administrador, empleado o aspirante',
+    `dt_last_join` DATETIME COMMENT 'La última conexión que tuvo la persona al entrar al sistema',
     PRIMARY KEY (`id_user`)
 );
 
 CREATE TABLE IF NOT EXISTS `positions`(
-    `id_position` INT(11) AUTO_INCREMENT,
-    `t_name` VARCHAR(100) NOT NULL,
-    `t_description` VARCHAR(255) NOT NULL,
+    `id_position` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla de puestos',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre del puesto',
+    `t_description` VARCHAR(255) NOT NULL COMMENT 'La descripción del puesto',
     PRIMARY key (`id_position`)
 );
 
 CREATE TABLE IF NOT EXISTS `areas`(
-    `id_area` INT(11) AUTO_INCREMENT,
-    `t_name` VARCHAR(100) NOT NULL,
-    `t_description` VARCHAR(200) NOT NULL,
+    `id_area` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla de áreas',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'Es el nombre de la área',
+    `t_description` VARCHAR(200) NOT NULL COMMENT 'Es la descripción de áreas',
     PRIMARY KEY (`id_area`)
 );
 

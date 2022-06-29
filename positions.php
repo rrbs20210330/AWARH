@@ -9,7 +9,7 @@
   <table class="table table-striped table-bordered userTable" >
     <thead>
       <th>Nombre</th>
-      <th>Descripcion</th>
+      <th>Descripción</th>
       <th># Empleados</th>
       <th></th>
     </thead>
@@ -57,7 +57,7 @@
             <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="col-sm-4">
-            <label for="">Descripcion </label>
+            <label for="">Descripción </label>
             <input type="text" class="form-control" id="description" name="description" required>
             </div>
             <input type="hidden" name="typeOp" value="7">
@@ -100,7 +100,7 @@
             <input value="<?php echo $nombre ?>" type="text" class="form-control" id="name" name="name">
             </div>
             <div class="col-sm-4">
-            <label for="">Descripcion </label>
+            <label for="">Descripción </label>
             <input value="<?php echo $description ?>" type="text" class="form-control" id="description" name="description">
             </div>
         </div>

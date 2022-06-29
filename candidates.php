@@ -17,8 +17,8 @@ $DataBase = new db();
         <thead>
             <tr>
                 <th>Nombre Completo</th>
-                <th>Telefono</th>
-                <th>Correo Electronico</th>
+                <th>Teléfono</th>
+                <th>Correo Electrónico</th>
                 <th></th>
             </tr>
         </thead>
@@ -69,7 +69,7 @@ $DataBase = new db();
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="col-sm-4">
-                        <label >Telefono</label>
+                        <label >Teléfono</label>
                         <input type="number" class="form-control" id="phone_number" name="phone_number" required>
                     </div>    
                     <div class="col-sm-4">
@@ -81,7 +81,7 @@ $DataBase = new db();
                         <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
                     </div>
                     <div class="col-sm-4">
-                        <label >Posicion de la solicitud</label>
+                        <label >Posición de la solicitud</label>
                         <select class="form-select" aria-label="Default select example" id="request_position" name="request_position">
                             <option >Selecciona una Posición</option>
                             <?php     
@@ -136,14 +136,14 @@ $DataBase = new db();
                 </div>
                 <form method="post" action="process/update.php" id="formul">
                     <div class="modal-body">
-                        <center><label for="">Informacion General</label></center>
+                        <center><label for="">Información General</label></center>
                         <div class="row">
                             <div class="col-sm-4">
                                 <label>Nombre Completo </label>
                                 <input type="text" class="form-control" id="name" name="name" value="<?php echo $name?>">
                             </div>
                             <div class="col-sm-4">
-                                <label >Telefono</label>
+                                <label >Teléfono</label>
                                 <input type="number" class="form-control" id="phone_number" name="phone_number" value="<?php echo $phone_number?>">
                             </div>    
                             <div class="col-sm-4">
@@ -155,7 +155,7 @@ $DataBase = new db();
                                 <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo $appointment_date?>">
                             </div>
                             <div class="col-sm-4">
-                                <label >Posicion de la solicitud</label>
+                                <label >Posición de la solicitud</label>
                                 <select class="form-select" aria-label="Default select example" id="request_position" name="request_position" >
                                     <option >Selecciona una posición</option>
                                     <?php     

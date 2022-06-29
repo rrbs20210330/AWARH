@@ -13,7 +13,7 @@
         <th>Usuario</th>
         <th>Contraseña</th>
         <th>Tipo</th>
-        <th>Ultima entrada</th>
+        <th>Última entrada</th>
         <th></th>
     </thead>
     <tbody>

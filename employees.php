@@ -15,8 +15,8 @@ $DataBase = new db();
         <thead>
             <th>Estado</th>
             <th>Nombre Completo</th>
-            <th>Telefono</th>
-            <th>Correo Electronico</th>
+            <th>Teléfono</th>
+            <th>Correo Electrónico</th>
             <th></th>
             
         </thead>
@@ -88,7 +88,7 @@ $DataBase = new db();
                 <input type="date" class="form-control" id="birthday" name="birthday" required>
                 </div>       
                 <div class="col-sm-4">
-                <label >Fotografia</label>
+                <label >Fotografía</label>
                 <input type="file" class="form-control" id="photo[]" name="photo[]" required>
                 </div>
                 <div class="col-sm-4">
@@ -104,11 +104,11 @@ $DataBase = new db();
             <div class="row">
                 <center><label for="">Contacto</label></center>
                 <div class="col-sm-6">
-                <label>Telefono </label>
+                <label>Teléfono </label>
                 <input type="number" class="form-control" id="phone_number" name="phone_number" required value="">
                 </div>
                 <div class="col-sm-6">
-                <label >Correo Electronico</label>
+                <label >Correo Electrónico</label>
                 <input type="email" class="form-control" id="email" name="email" required>
                 </div>           
             </div>
@@ -120,11 +120,11 @@ $DataBase = new db();
                 <input type="text" class="form-control" id="street" name="street" required value="">
                 </div>
                 <div class="col-sm-4">
-                <label>Numero Exterior</label>
+                <label>Número Exterior</label>
                 <input type="number" class="form-control" id="no_exterior" name="no_exterior" required>
                 </div>
                 <div class="col-sm-4">
-                <label >Numero Interior</label>
+                <label >Número Interior</label>
                 <input type="number" class="form-control" id="no_interior" name="no_interior" required>
                 </div>
                 <div class="col-sm-4">
@@ -139,7 +139,7 @@ $DataBase = new db();
             </div>
             <br> 
             <div class="row">
-                <center><label for="">Informacion de trabajo</label></center>
+                <center><label for="">Información de trabajo</label></center>
                 <div class="col-sm-4">
                 <label>Cargo</label>
                 <select class="form-select" aria-label="Default select example" id="charge" name="charge">
@@ -218,12 +218,12 @@ $DataBase = new db();
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edició<nav></nav> de Empleado</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edición<nav></nav> de Empleado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
             <form method="post" action="process/update.php" id="formul">
-            <center><label for="">Informacion General</label></center>
+            <center><label for="">Información General</label></center>
                 <div class="row">
                     
                     <div class="col-sm-4">
@@ -239,7 +239,7 @@ $DataBase = new db();
                     <input value="<?php echo $birthday?>"type="date" class="form-control" id="birthday" name="birthday" >
                     </div>       
                     <div class="col-sm-4">
-                    <label >Fotografia</label>
+                    <label >Fotografía</label>
                     <input type="file" class="form-control" id="photo" name="photo" >
                     </div>
                     <div class="col-sm-4">
@@ -255,7 +255,7 @@ $DataBase = new db();
                 <div class="row">
                     <center><label for="">Contacto</label></center>
                     <div class="col-sm-6">
-                    <label>Telefono </label>
+                    <label>Teléfono </label>
                     <input value="<?php echo $phone_number?>" type="number" class="form-control" id="phone_number" name="phone_number" >
                     </div>
                     <div class="col-sm-6">
@@ -271,11 +271,11 @@ $DataBase = new db();
                     <input value="<?php echo $street?>"type="text" class="form-control" id="street" name="street" >
                     </div>
                     <div class="col-sm-4">
-                    <label>Numero Exterior</label>
+                    <label>Número Exterior</label>
                     <input value="<?php echo $no_exterior?>" type="number" class="form-control" id="no_exterior" name="no_exterior" >
                     </div>
                     <div class="col-sm-4">
-                    <label >Numero Interior</label>
+                    <label >Número Interior</label>
                     <input value="<?php echo $no_interior?>" type="number" class="form-control" id="no_interior" name="no_interior" >
                     </div>
                     <div class="col-sm-4">
@@ -290,7 +290,7 @@ $DataBase = new db();
                 </div>
                 <br> 
                 <div class="row">
-                    <center><label for="">Informacion de trabajo</label></center>
+                    <center><label for="">Información de trabajo</label></center>
                     <div class="col-sm-4">
                     <label>Cargo</label>
                     <select class="form-select" aria-label="Default select example" id="charge" name="charge">
@@ -402,25 +402,25 @@ $path_p = $DataBase->read_single_record_files($photo)->t_path;
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Informacion del Empleado</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Información del Empleado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <center><label for="">Informacion General</label></center>
+            <center><label for="">Información General</label></center>
                 <div class="row">
                     <p>
                         Nombre: <?php echo $full_name?><br>
                         Email: <?php echo $email ?><br>
                         RFC: <?php echo $rfc?><br>
                         NSS: <?php echo $nss?><br>
-                        Telefono: <?php echo $phone_number ?><br>
+                        Teléfono: <?php echo $phone_number ?><br>
                         Fecha de Nacimiento: <?php echo $birthday?><br>
                         No. Exterior: <?php echo $no_exterior?><br>
                         No. Interior: <?php echo $no_interior ?><br>
                         Referencias: <?php echo $references ?><br>
                         Calle: <?php echo $street?><br>
                         Colonia: <?php echo $colony?><br>
-                        Fotografia: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_p ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                        Fotografía: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_p ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
                         Contrato: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_c ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a>
                     </p>    
                 </div>  

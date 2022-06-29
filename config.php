@@ -9,10 +9,10 @@ $DataBase = new db();
 <div class="container">
 
 
-    <button class="btn btn-dark" onclick="functionUno()">Chargues</button>
-    <button class="btn btn-dark" onclick="functionDos()">Activities</button>
-    <button class="btn btn-dark" onclick="functionTres()">Positions</button>
-    <button class="btn btn-dark" onclick="functionCuatro()">Users</button>
+    <button class="btn btn-dark" onclick="functionUno()">Cargos</button>
+    <button class="btn btn-dark" onclick="functionDos()">Actividades</button>
+    <button class="btn btn-dark" onclick="functionTres()">Puestos</button>
+    <button class="btn btn-dark" onclick="functionCuatro()">Usuarios</button>
 
 
     <!-- DIV 1 CHARGUES --> 

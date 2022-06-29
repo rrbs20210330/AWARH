@@ -26,6 +26,9 @@
             case 8:
                 delete_announcements($_POST);
                 break;
+            case 9: 
+                delete_area($_POST);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -40,7 +43,7 @@
         $id = intval($data['id']);
         $res = $DataBase->delete_data_users($id);
         if($res){
-            header("location: ../config.php");
+            header("location: ../users.php");
         }else{
             header('location: ../error.php');
         }
@@ -51,7 +54,7 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteActivity($id);
         if($res ){
-            header("location: ../config.php");
+            header("location: ../activities.php");
         }else{
             header('location: ../error.php');
         }
@@ -61,7 +64,7 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteCharge($id);
         if($res ){
-            header("location: ../config.php");
+            header("location: ../charges.php");
         }else{
             header('location: ../error.php');
         }
@@ -81,7 +84,7 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeletePosition($id);
         if($res ){
-            header("location: ../config.php");
+            header("location: ../positions.php");
         }else{
             header('location: ../error.php');
         }
@@ -115,6 +118,16 @@
             header("location: ../announcements.php");
         }else{
             header('location: ../error.php');
+        }
+    }
+    function delete_area($data){
+        $DataBase = new db();
+        $id = intval($data['id']);
+        $res = $DataBase->proDeleteArea($id);
+        if($res){
+            header("location: ../areas.php");
+        }else{
+            header("location: ../error.php");
         }
     }
 ?>

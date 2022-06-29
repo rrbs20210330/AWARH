@@ -1,4 +1,8 @@
-
+<?php
+include("components/header.php");
+include('config/db.php');
+$DataBase = new db();
+?>
 <center><h2>Lista de Actividades</h2></center>
 <div class="container">
 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroActivity">
@@ -191,3 +195,7 @@
     </div>
   </div>
 <?php } ?>
+
+<?php
+include("components/footer.php");
+?>

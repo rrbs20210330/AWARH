@@ -8,9 +8,6 @@
             case 2:
                 update_status_announcement($_GET);
                 break;
-            case 3:
-                update_status_user($_GET);
-                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -60,19 +57,6 @@
         $location = $data['location'];
         
         $res = $DataBase->update_active_employees($id);
-        if($res){
-            header("location: ../$location.php");
-        }else{
-            header('location: ../error.php');
-        }
-    }
-    function update_status_user($data){
-        $DataBase = new db();
-        $id =intval($data['id']);
-        $table = $data['table'];
-        $location = $data['location'];
-        
-        $res = $DataBase->update_active_users($id);
         if($res){
             header("location: ../$location.php");
         }else{
@@ -227,7 +211,7 @@
         $res = $DataBase->update_t_area($id,$name,$description);
 
         if($res){
-            header("location: ../areas.php");
+            header("location: ../config.php");
         }else{
             header('location: ../error.php');
         }

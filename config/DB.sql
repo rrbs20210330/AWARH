@@ -229,6 +229,12 @@ CREATE PROCEDURE procedure_delete_announcement(`id` INT)
 	END$
 
 DELIMITER $
+CREATE PROCEDURE procedure_delete_area(`id` INT) 
+	BEGIN 
+		DELETE FROM `areas` WHERE `id_area` = `id`;
+	END$
+
+DELIMITER $
 CREATE PROCEDURE procedure_new_activity(`name` VARCHAR(100), `description` VARCHAR(200), `charge` INT(10)) 
 	BEGIN 
 		INSERT INTO `activities`(`t_name`, `t_description`) 

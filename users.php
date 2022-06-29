@@ -1,4 +1,8 @@
-
+<?php
+include("components/header.php");
+include('config/db.php');
+$DataBase = new db();
+?>
 <center><h2>Lista de usuarios</h2></center>
 
 <div class="container">
@@ -165,3 +169,7 @@
     </div>
   </div>
 <?php } ?>
+
+<?php
+include("components/footer.php");
+?>

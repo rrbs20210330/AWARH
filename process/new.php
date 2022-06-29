@@ -32,6 +32,9 @@
             case 9:#
                 new_candidate($_POST);
                 break;
+            case 10:#
+                new_area($_POST);
+                break;
             default:
                 // header('location: ../error.php');
                 echo "efe";
@@ -49,7 +52,7 @@
         $res = $DataBase->insert_t_users($user, $password, true);//siempre sera true por que es un nuevo usuario activo, la fecha de ultima entrada no se añade por obvias razones
 
         if($res){
-            header("location: ../config.php");
+            header("location: ../users.php");
         }else{
             echo "efe";
         }
@@ -164,7 +167,7 @@
         
         $res = $DataBase->proNewActivity($name, $description, $charge);
         if($res){
-            header("location: ../config.php");
+            header("location: ../activities.php");
         }else{
             header('location: ../error.php');
         }
@@ -215,7 +218,7 @@
         $res = $DataBase->insert_t_charges($name, $description);
 
         if($res){
-            header('location: ../config.php');
+            header('location: ../charges.php');
         }else{
             header('location: ../error.php');
         }
@@ -226,7 +229,7 @@
         $description = $DataBase->sanitize($data['description']);
         $res = $DataBase->insert_t_positions($name, $description);
         if($res){
-            header('location: ../config.php');
+            header('location: ../positions.php');
         }else{
             header('location: ../error.php');
         }
@@ -266,4 +269,15 @@
             print_r('efe');
         }
     }
+    function new_area($data){
+        $DataBase = new db();
+        $name = $DataBase->sanitize($_POST['name']);
+        $description = $DataBase->sanitize($_POST['description']);
+        $res = $DataBase->insert_t_area($name,$description);
+        if($res){
+            header('location: ../areas.php');
+        }else{
+            header('location: ../error.php');
+        }
+}
 ?>

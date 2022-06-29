@@ -1,0 +1,2 @@
+CREATE VIEW viewlistTrainings as
+SELECT t.id, t.name, date_realization, `description`, e.id as employee_id, CONCAT(e.names, " ", e.last_names) as employee_full_name  FROM training as t INNER JOIN employee_training as et on t.id = et.id_training INNER JOIN employees as e on et.id_employee = e.id;

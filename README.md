@@ -35,3 +35,11 @@ Se añadio una ventana de confirmacion de eliminacion de datos para todos los mo
 - este razonamiento sera aplicado tanto en la base de datos como en variables de la aplicacion web.
 - indenta tu codigo no seas flojo y acomodalo, una buena indentación puede ayudar a encontrar errores y mejorar el entendimiento general.
 - 
+
+
+
+#hacer
+tooltips
+validations
+vistas de usuarios
+que funcione capacitaciones

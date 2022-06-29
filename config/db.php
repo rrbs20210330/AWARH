@@ -106,6 +106,40 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
+        public function update_t_area($id,$name,$description){
+            $sql = "UPDATE areas SET `t_name`='$name', `t_description` = '$description' WHERE id_area = $id";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function proDeleteArea($id){
+            $sql = "CALL procedure_delete_area($id);";
+
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        public function insert_t_area($name, $description){
+            $sql = "INSERT INTO `areas` (`t_name`, `t_description`) VALUES ('$name','$description')";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function read_all_area(){
+            $sql = "SELECT * FROM areas";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
+        }
         public function update_active_users($id){
             $sql="SELECT b_active FROM users WHERE id_user ='$id'"; 
             $res= mysqli_query($this->con, $sql);

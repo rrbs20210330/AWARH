@@ -1,4 +1,8 @@
-
+<?php
+include("components/header.php");
+include('config/db.php');
+$DataBase = new db();
+?>
 <center><h2>Lista de cargos</h2></center>
 
 <div class="container">
@@ -187,3 +191,7 @@
 </div>
 
 <?php } ?>
+
+<?php
+include("components/footer.php");
+?>

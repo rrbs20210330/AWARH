@@ -3,8 +3,10 @@
 
 <div class="container">
   <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrousuario">
-    Nuevo usuario
+    Nuevo Usuario
   </button>
+  <br>
+    <br>
   <table class="table table-striped table-bordered userTable"  id="userTable">
     <thead>
         <th>Estado</th>

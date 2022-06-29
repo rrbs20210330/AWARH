@@ -4,6 +4,8 @@
 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroActivity">
   Nueva Actividad
 </button>
+<br>
+    <br>
     <table class="table table-striped table-bordered userTable" >
         <thead>
             <th>Nombre</th>

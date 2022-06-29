@@ -3,8 +3,10 @@
 
 <div class="container">
     <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-    Nuevo cargo
+    Nuevo Cargo
     </button>
+    <br>
+    <br>
     <table class="table table-striped table-bordered userTable" >
         <thead>
             <th>Nombre</th>
@@ -35,6 +37,7 @@
                 <td>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditCharge-<?php echo $id?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteCharge-<?php echo $id?>"><i class="bi-trash"></i></a>
+                    <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeActivitiesCharge-<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>
             <?php }?>
@@ -149,4 +152,38 @@
       </div>
     </div>
   </div>
+<?php } ?>
+
+
+
+
+<?php 
+    $l_charges = $DataBase->read_all_charges();
+    while ($row = mysqli_fetch_object($l_charges)) {
+        $id = $row->chargeID;
+        $nombre = $row->chargeName;
+
+?>
+<div class="modal fade" id="SeeActivitiesCharge-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actividades del cargo <strong><?php echo $nombre ?></strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <p>
+
+                    </p>
+                </div>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php } ?>

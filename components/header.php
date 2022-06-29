@@ -17,9 +17,14 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
       <a class="navitem" href="config.php"><i class="bi bi-gear-fill"></i> Configuración</a>
-      <a href="candidates.php" class="navitem">Candidatos</a>
+      <a class="navitem" href="config.php"><i class="bi bi-gear-fill"></i> Cargos</a>
+      <a class="navitem" href="config.php"  ><i class="bi bi-gear-fill"></i> Actividades</a>
+      <a class="navitem" href="config.php"><i class="bi bi-gear-fill"></i> Puestos</a>
+      <a class="navitem" href="config.php" ><i class="bi bi-gear-fill"></i> Areas</a>
+      <a class="navitem" href="config.php" ><i class="bi bi-gear-fill"></i> Usuarios</a>
+      <a class="navitem" href="candidates.php">Candidatos</a>
       <a class="navitem" href="employees.php">Empleados</a>
-      <a class="navitem" href="trainings.php">Capacitaciones</a>
+      <a class="navitem" href="trainings.php"> <i class="bi bi-file-earmark-text-fill"></i> Capacitaciones</a>
       <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
     </div>
     <div id="main">
@@ -36,3 +41,4 @@
           </div>
         </div>
       </nav>
+

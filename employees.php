@@ -10,6 +10,7 @@ $DataBase = new db();
 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registroempleado">
   Nuevo Empleado
 </button>
+<br><br>
     <table class="table table-striped table-bordered userTable">
         <thead>
             <th>Estado</th>
@@ -53,7 +54,7 @@ $DataBase = new db();
                 <td>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteEmployee-<?php echo $id ?>"><i class="bi-trash"></i></a>
-                    <a class="btn btn-dark btn-sm "href="employee.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeInfoEmployee-<?php echo $id ?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
             <?php }?>
@@ -366,6 +367,71 @@ $DataBase = new db();
       </div>
     </div>
   </div>
+<?php } ?>
+
+
+
+
+
+<?php 
+    $l_employees = $DataBase->read_all_employees();
+    while ($row = mysqli_fetch_object($l_employees)) {
+        $idL = $row->id_employee;
+        $employee_info = $DataBase->read_info_employee($idL);
+$employee = mysqli_fetch_object($employee_info);
+$full_name = $employee->t_names." ".$employee->t_last_names;
+$email = $employee->t_email;
+$rfc = $employee->t_rfc;
+$nss = $employee->t_nss;
+$phone_number = $employee->t_phone_number;
+$birthday = $employee->d_birthday;
+$no_exterior = $employee->t_no_exterior;
+$no_interior = $employee->t_no_interior;
+$references = $employee->t_references;
+$street = $employee->t_street;
+$colony = $employee->t_colony;
+$position = $employee->fk_position;
+$charge = $employee->fk_charge;
+$photo = $employee->fk_img;
+$contract = $employee->fk_contract;
+$path_c = $DataBase->read_single_record_files($contract)->t_path;
+$path_p = $DataBase->read_single_record_files($photo)->t_path;
+?>
+    <!-- FORMULARIO DE EDICION DE USUARIOS -->
+    <div class="modal fade" id="SeeInfoEmployee-<?php echo $idL ?>" tabindex="-1"  aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Informacion del Empleado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <center><label for="">Informacion General</label></center>
+                <div class="row">
+                    <p>
+                        Nombre: <?php echo $full_name?><br>
+                        Email: <?php echo $email ?><br>
+                        RFC: <?php echo $rfc?><br>
+                        NSS: <?php echo $nss?><br>
+                        Telefono: <?php echo $phone_number ?><br>
+                        Fecha de Nacimiento: <?php echo $birthday?><br>
+                        No. Exterior: <?php echo $no_exterior?><br>
+                        No. Interior: <?php echo $no_interior ?><br>
+                        Referencias: <?php echo $references ?><br>
+                        Calle: <?php echo $street?><br>
+                        Colonia: <?php echo $colony?><br>
+                        Fotografia: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_p ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                        Contrato: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_c ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a>
+                    </p>    
+                </div>  
+            </div>
+            <div class="modal-footer">
+                
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+            </div>
+            </div>
+        </div>
+    </div>    
 <?php } ?>
 
 <?php 

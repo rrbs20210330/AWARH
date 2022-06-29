@@ -11,7 +11,7 @@ $announcements = $pa->count_data;?>
   <div class="container">
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <div class="col">
-      <div class="card h-100">
+      <div class="card text-bg-dark h-100">
         <center>
           <i class="fa-5x bi bi-person-circle"></i>
         </center>
@@ -21,7 +21,7 @@ $announcements = $pa->count_data;?>
         </div>
         <a href="employees.php">
         <div class="card-footer">
-        <small class="text-muted">Ver mas</small>
+          <small>Ver mas</small>
         </div>
         </a>
       </div>
@@ -29,9 +29,9 @@ $announcements = $pa->count_data;?>
   </div>
   <div class="col">
   
-    <div class="card h-100">
+    <div class="card text-bg-dark h-100">
       <center>
-      <i class="fa-5x bi bi-person-bounding-box"></i>
+      <i class="fa-5x bi bi-file-earmark-text-fill"></i>
 </center>
       <div class="card-body">
         <h5 class="card-title">Capacitaciones</h5>
@@ -39,14 +39,14 @@ $announcements = $pa->count_data;?>
       </div>
       <a href="trainings.php">
       <div class="card-footer">
-        <small class="text-muted">Ver mas</small>
+        <small>Ver mas</small>
       </div>
       </a>
     </div>
     
   </div>
   <div class="col">
-    <div class="card h-100">
+    <div class="card  text-bg-dark h-100">
       <center>
     <i class="fa-5x bi bi-file-earmark-image"></i>
 </center>  
@@ -56,7 +56,7 @@ $announcements = $pa->count_data;?>
       </div>
       <a href="announcements.php">
       <div class="card-footer">
-      <small class="text-muted">Ver mas</small>
+        <small>Ver mas</small>
       </div>
       </a>
     </div>

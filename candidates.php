@@ -11,6 +11,8 @@ $DataBase = new db();
     <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrocandidato">
         Nuevo Candidato
     </button>
+    <br>
+    <br>
     <table class="table table-striped table-bordered userTable">
         <thead>
             <tr>
@@ -42,7 +44,7 @@ $DataBase = new db();
                 <td>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditCandidate-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteCandidate-<?php echo $id ?>" ><i class="bi-trash"></i></a>
-                    <a class="btn btn-dark btn-sm "href="candidate.php?id=<?php echo $id?>"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeInfoCandidate-<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>  
             <?php }?>
@@ -209,6 +211,46 @@ $DataBase = new db();
           
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php } ?>
+
+<?php 
+  $l_candidates = $DataBase->read_data_table('candidates');
+  while ($row = mysqli_fetch_object($l_candidates)) {
+    $id = $row->id_candidate;
+    $candidate = $DataBase->read_single_record_candidates($id);
+    $id_cv = $candidate->fk_cv;
+    $name = $candidate->t_name;
+    $phone_number = $candidate->t_phone_number;
+    $email = $candidate->t_email;
+    $appointment_date = $candidate->dt_appointment_date;
+    $request_position = $candidate->fk_request_position;
+    $perfil  = $candidate->t_profile;
+
+    $path_cv = $DataBase->read_single_record_files($id_cv)->t_path;
+?>
+  <!-- Modal See Info-->
+  <div class="modal fade" id="SeeInfoCandidate-<?php echo $id ?>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" >Informacion General</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Nombre Completo: <?php echo $name?><br>
+            Email: <?php echo $email ?><br>
+            Telefono: <?php echo $phone_number ?><br>
+            Posicion a ocupar: <?php echo $request_position?><br>
+            Fecha de Cita: <?php echo $appointment_date?><br>
+            Perfil: <?php echo $perfil?><br>
+            CV: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_cv ?>" target="_blank">Click Aqui</a> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>

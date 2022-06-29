@@ -10,6 +10,8 @@ $DataBase = new db();
 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrousuario">
   Nueva Capacitacion
 </button>
+<br>
+<br>
     <table class="table table-striped table-bordered userTable"  id="userTable">
         <thead>
             <th>Nombre</th>

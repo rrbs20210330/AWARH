@@ -2,8 +2,10 @@
 
 <div class="container">
   <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
-    Nuevo puesto
+    Nuevo Puesto
   </button>
+  <br>
+    <br>
   <table class="table table-striped table-bordered userTable" >
     <thead>
       <th>Nombre</th>

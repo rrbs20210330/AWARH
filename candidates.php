@@ -13,12 +13,13 @@ $DataBase = new db();
     </button>
     <br>
     <br>
-    <table class="table table-striped table-bordered userTable">
-        <thead>
+    <table class="table table-striped table-bordered userTable" style='background: #00252e '>
+        <thead style="color: white">
             <tr>
                 <th>Nombre Completo</th>
                 <th>Teléfono</th>
                 <th>Correo Electrónico</th>
+                <th>Fecha de Cita</th>
                 <th></th>
             </tr>
         </thead>
@@ -30,6 +31,7 @@ $DataBase = new db();
                     $name =$row->t_name;
                     $email = $row->t_email;
                     $phone_number = $row->t_phone_number;
+                    $appointment_date = $row->dt_appointment_date;
             ?>
             <tr>
                 <td>
@@ -40,6 +42,9 @@ $DataBase = new db();
                 </td>
                 <td>
                     <?php echo $email ?>
+                </td>
+                <td>
+                    <?php echo $appointment_date ?>
                 </td>
                 <td>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditCandidate-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
@@ -83,7 +88,7 @@ $DataBase = new db();
                     <div class="col-sm-4">
                         <label >Posición de la solicitud</label>
                         <select class="form-select" aria-label="Default select example" id="request_position" name="request_position">
-                            <option >Selecciona una Posición</option>
+                            <option disabled value="">Selecciona una Posición</option>
                             <?php     
                                 $l_charges_select = $DataBase->read_data_table('positions');
                                 while ($row = mysqli_fetch_object($l_charges_select)) {
@@ -155,14 +160,14 @@ $DataBase = new db();
                                 <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo $appointment_date?>">
                             </div>
                             <div class="col-sm-4">
-                                <label >Posición de la solicitud</label>
+                                <label >Puesto de la solicitud</label>
                                 <select class="form-select" aria-label="Default select example" id="request_position" name="request_position" >
-                                    <option >Selecciona una posición</option>
+                                    <option disabled value="">Selecciona una Puesto</option>
                                     <?php     
                                         $l_charges_select = $DataBase->read_data_table('positions');
                                         while ($row = mysqli_fetch_object($l_charges_select)) {
-                                            $idc = $row->id;
-                                            $namec = $row->name;
+                                            $idc = $row->id_position;
+                                            $namec = $row->t_name;
                                             ?>
                                     <option value="<?php echo $idc ?>" <?php if($idc === $request_position){ ?> selected <?php } ?>><?php echo $namec ?></option>
                                     <?php } ?>
@@ -171,6 +176,10 @@ $DataBase = new db();
                             <div class="col-sm-4">
                                 <label >Perfil</label>
                                 <input type="text" class="form-control" id="perfil" name="perfil" value="<?php echo $perfil?>">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>CV</label>
+                                <input type="file" disabled class="form-control" id="archivo[]" name="archivo[]" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                             </div>
                             <input type="hidden" name="typeOp" value="7">
                             <input type="hidden" name="id" value="<?php echo $id ?>">

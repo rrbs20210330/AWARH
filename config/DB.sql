@@ -27,131 +27,133 @@ CREATE TABLE IF NOT EXISTS `areas`(
 );
 
 CREATE TABLE IF NOT EXISTS `charges` (
-    `id_charge` INT(11) AUTO_INCREMENT,
-    `t_name` VARCHAR(100) NOT NULL,
-    `t_description` VARCHAR(100) NOT NULL,
+    `id_charge` INT(11) AUTO_INCREMENT COMMENT'Id de la tabla de cargos',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'Es el nombre de los cargos',
+    `t_description` VARCHAR(100) NOT NULL COMMENT 'La descripción de cargos',
     PRIMARY KEY(`id_charge`)
 );
 
 CREATE TABLE IF NOT EXISTS `activities`(
-    `id_activity` INT(11) AUTO_INCREMENT,
-    `t_name` VARCHAR(100) NOT NULL,
-    `t_description` VARCHAR(200) NOT NULL,
+    `id_activity` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla actividades',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre de actividades',
+    `t_description` VARCHAR(200) NOT NULL COMMENT 'La descripción de actividades',
     PRIMARY KEY (`id_activity`)
 );
 
 CREATE TABLE IF NOT EXISTS `charges_activities`(
-    `fk_charge` INT ,
-    `fk_activity` INT,
+    `fk_charge` INT COMMENT 'La Id de la tabla de cargos, es lo que relaciona las actividades con los cargos',
+    `fk_activity` INT COMMENT 'La Id de la tabla de actividades , es lo que relaciona los cargos con las actividades',
     FOREIGN KEY (`fk_activity`) REFERENCES `activities`(`id_activity`),
     FOREIGN KEY (`fk_charge`) REFERENCES `charges`(`id_charge`)
 );
 
 
 CREATE TABLE IF NOT EXISTS `files` (
-    `id_file` INT(11) AUTO_INCREMENT,
-    `t_name` VARCHAR(100) NOT NULL,
-    `t_path` VARCHAR(255) NOT NULL,
+    `id_file` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla de archivos',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'El nombre del archivo',
+    `t_path` VARCHAR(255) NOT NULL COMMENT 'La referencia del archivo',
     PRIMARY KEY (`id_file`)
 );
 
 CREATE TABLE IF NOT EXISTS `addresses` (
-    `id_address` INT(11) AUTO_INCREMENT,
-    `t_no_interior` VARCHAR(10) NOT NULL,
-    `t_no_exterior` VARCHAR(10) NOT NULL,
-    `t_references` VARCHAR(255) NOT NULL,
-    `t_street` VARCHAR(100) NOT NULL,
-    `t_colony` VARCHAR(100) NOT NULL,
+    `id_address` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla de direcciones',
+    `t_no_interior` VARCHAR(10) NOT NULL COMMENT 'El número interior',
+    `t_no_exterior` VARCHAR(10) NOT NULL COMMENT 'El número exterior',
+    `t_references` VARCHAR(255) NOT NULL COMMENT 'Las referencias que posee la dirección',
+    `t_street` VARCHAR(100) NOT NULL COMMENT 'La calle de la dirección',
+    `t_colony` VARCHAR(100) NOT NULL COMMENT 'La colonia',
     PRIMARY KEY (`id_address`)
 );
 
 CREATE TABLE IF NOT EXISTS `employees` (
-    `id_employee` INT(11) AUTO_INCREMENT ,
-    `t_names` VARCHAR(100) NOT NULL,
-    `t_last_names` VARCHAR(100) NOT NULL,
-    `t_email` VARCHAR(100) NOT NULL,
-    `t_rfc` VARCHAR(100) NOT NULL,
-    `t_nss` VARCHAR(100) NOT NULL,
-    `b_active` BOOLEAN NOT NULL,
-    `t_phone_number` VARCHAR(100) NOT NULL,
-    `d_birthday` date NOT NULL,
-    `fk_contract` INT NOT NULL,
-    `fk_img` INT NOT NULL,
-    `fk_address` INT NOT NULL,
+    `id_employee` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla empleados/employees',
+    `t_names` VARCHAR(100) NOT NULL COMMENT 'Los nombres del empleado',
+    `t_last_names` VARCHAR(100) NOT NULL COMMENT 'Los apellidos del empleado',
+    `t_email` VARCHAR(100) NOT NULL COMMENT 'El correo electrónico',
+    `t_rfc` VARCHAR(100) NOT NULL COMMENT 'El RFC del empleado',
+    `t_nss` VARCHAR(100) NOT NULL COMMENT 'El número social',
+    `b_active` BOOLEAN NOT NULL COMMENT 'El estado que puede tener el empleado esto desmuestra si esta activo o inactivo',
+    `t_phone_number` VARCHAR(100) NOT NULL COMMENT 'El numero de teléfono',
+    `d_birthday` date NOT NULL COMMENT 'El cumpleaños',
+    `fk_contract` INT NOT NULL COMMENT 'La relación que tiene con la tabla de archivos',
+    `fk_img` INT NOT NULL COMMENT 'La relación que tiene con la tabla de archivos ',
+    `fk_address` INT NOT NULL COMMENT 'La relación que tiene con la tabla de direcciones',
+    -- `fk_user` INT NOT NULL COMMENT 'La relación que tiene con la tabla de usuarios',
     FOREIGN KEY (`fk_contract`) REFERENCES `files`(`id_file`),
+    -- FOREIGN KEY (`fk_user`) REFERENCES `users`(`id_user`),
     FOREIGN KEY (`fk_img`) REFERENCES `files`(`id_file`),
     FOREIGN KEY (`fk_address`) REFERENCES `addresses`(`id_address`),
     PRIMARY KEY(`id_employee`)
 );
 
 CREATE TABLE IF NOT EXISTS `trainings` (
-    `id_training` INT AUTO_INCREMENT,
-    `t_name` VARCHAR(100) NOT NULL,
-    `d_date_start` DATE NOT NULL,
-    `d_date_finish` DATE NOT NULL,
-    `t_description` VARCHAR(100) NOT NULL,
+    `id_training` INT AUTO_INCREMENT COMMENT 'Id de la tabla de capacitaciones',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'El nombre de la capacitación',
+    `d_date_start` DATE NOT NULL COMMENT 'La fecha que comienza la capacitación',
+    `d_date_finish` DATE NOT NULL COMMENT 'La fecha que termina la capacitación',
+    `t_description` VARCHAR(100) NOT NULL COMMENT 'La descripción de la capacitación',
     PRIMARY KEY (`id_training`)
 );
 
 CREATE TABLE IF NOT EXISTS `employees_trainings`(
-    `fk_employee` INT ,
-    `fk_training` INT ,
+    `fk_employee` INT COMMENT 'La Id de la tabla de empleados, es lo que relaciona empleados con las capacitaciones',
+    `fk_training` INT COMMENT 'La Id de la tabla de capacitaciones, es lo que relaciona capacitaciones con los empleados',
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_training`) REFERENCES `trainings`(`id_training`)
 );
 
 CREATE TABLE IF NOT EXISTS `trainings_files`(
-    `fk_training` INT NOT NULL,
-    `fk_file` INT NOT NULL,
+    `fk_training` INT NOT NULL COMMENT 'La Id de la tabla de capacitaciones, es lo que relaciona capacitaciones con los archivos',
+    `fk_file` INT NOT NULL COMMENT 'La Id de la tabla de archivos, es lo que relaciona archivos con las capacitaciones esto nos permite subir archivos',
     FOREIGN KEY (`fk_training`) REFERENCES `trainings`(`id_training`),
     FOREIGN KEY (`fk_file`) REFERENCES `files`(`id_file`)
 );
 
 CREATE TABLE IF NOT EXISTS `candidates` (
-    `id_candidate` INT AUTO_INCREMENT,
-    `t_name` VARCHAR(100) NOT NULL,
-    `t_phone_number` VARCHAR(100) NOT NULL,
-    `t_email` VARCHAR(100) NOT NULL,
-    `dt_appointment_date` DATETIME NOT NULL,
-    `fk_request_position` INT NOT NULL,
-    `t_profile` VARCHAR(100) NOT NULL,
-    `fk_cv` INT NOT NULL,
-    `b_is_employee` BOOLEAN NOT NULL,
+    `id_candidate` INT AUTO_INCREMENT COMMENT 'Id de la tabla de candidatos',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre de los candidatos',
+    `t_phone_number` VARCHAR(100) NOT NULL COMMENT 'Numero de teléfono de los candidatos',
+    `t_email` VARCHAR(100) NOT NULL COMMENT 'Correo Electrónico del candidato',
+    `dt_appointment_date` DATETIME NOT NULL COMMENT 'La fecha para la cita del candidato',
+    `fk_request_position` INT NOT NULL COMMENT 'La Id de la tabla puestos que lo relaciona con candidatos',
+    `t_profile` VARCHAR(100) NOT NULL COMMENT 'El perfil que se necesita para ser el nuevo candidato',
+    `fk_cv` INT NOT NULL COMMENT 'La Id de la tabla de archivos para subir el Curriculum',
+    `b_is_employee` BOOLEAN NOT NULL COMMENT 'Es para saber si un candidato fue contratado y es un empleado',
     FOREIGN KEY (`fk_cv`) REFERENCES `files`(`id_file`),
     FOREIGN KEY (`fk_request_position`) REFERENCES `positions`(`id_position`),
     PRIMARY KEY (`id_candidate`)
 );
 
 CREATE TABLE IF NOT EXISTS `announcements` (
-    `id_announcement` int(11) AUTO_INCREMENT NOT NULL,
-    `t_name` VARCHAR(100) NOT NULL,
-    `t_description` VARCHAR(100) NOT NULL,
-    `d_date_start` DATE NOT NULL,
-    `d_date_finish` DATE NOT NULL,
-    `t_process` VARCHAR(100) NOT NULL,
-    `t_profile` VARCHAR(100) NOT NULL,
-    `t_functions` VARCHAR(100) NOT NULL,
-    `b_active` BOOLEAN NOT NULL, 
-    `fk_file` INT NOT NULL,
+    `id_announcement` int(11) AUTO_INCREMENT NOT NULL COMMENT 'Id de la tabla de convocatorias',
+    `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre de la convocatoria',
+    `t_description` VARCHAR(100) NOT NULL COMMENT 'Descripción de la convocatoria',
+    `d_date_start` DATE NOT NULL COMMENT 'Fecha de comienzo de la convocatoria',
+    `d_date_finish` DATE NOT NULL COMMENT 'Fecha de finalización de la convocatoria',
+    `t_process` VARCHAR(100) NOT NULL COMMENT 'Procedimiento de la convocatoria',
+    `t_profile` VARCHAR(100) NOT NULL COMMENT 'Perfil de la convocatoria',
+    `t_functions` VARCHAR(100) NOT NULL COMMENT 'Función de la convocatoria',
+    `b_active` BOOLEAN NOT NULL COMMENT 'Estatus de la convocatoria saber si esta ctiva o inactiva',  
+    `fk_file` INT NOT NULL COMMENT 'Id de la tabla de archivo para subir una imagen de la convocatoria',
     FOREIGN KEY (`fk_file`) REFERENCES `files`(`id_file`),
     PRIMARY KEY (`id_announcement`)
 );
 
 CREATE TABLE IF NOT EXISTS `announcements_positions`(
-    `fk_announcement` INT,
-    `fk_position` INT,
+    `fk_announcement` INT COMMENT 'Id de la tabla de convocatorias, es lo que relaciona convocatorias con puesto',
+    `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con convocatorias',
     FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`),
     FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`)
 );
 CREATE TABLE IF NOT EXISTS `employees_positions`(
-    `fk_employee` INT,
-    `fk_position` INT,
+    `fk_employee` INT COMMENT 'Id de la tabla de empleados, es lo que relaciona empleados con puesto',
+    `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con empleados',
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`)
 );
 CREATE TABLE IF NOT EXISTS `employees_charges`(
-    `fk_employee` INT,
-    `fk_charge` INT,
+    `fk_employee` INT COMMENT 'Id de la tabla de empleados, es lo que relaciona empleados con cargo',
+    `fk_charge` INT COMMENT 'Id de la tabla de cargo, es lo que relaciona cargo con empleado',
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_charge`) REFERENCES `charges`(`id_charge`)
 );
@@ -274,16 +276,24 @@ CREATE PROCEDURE procedure_new_employee(`names` VARCHAR(100),`last_names` VARCHA
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_new_training(`name` VARCHAR(100),`description` VARCHAR(200),`file_name` VARCHAR(100),`file_path` VARCHAR(100),`employee` INT(10),`date_start` date,`date_finish` date) 
+CREATE PROCEDURE procedure_new_training(`name` VARCHAR(100),`description` VARCHAR(200),`employee` INT(10),`date_start` date,`date_finish` date) 
+	BEGIN 
+		INSERT INTO `trainings`(`t_name`, `t_description`, `d_date_start`,`d_date_finish`)
+		VALUES (`name`, `description`, `date_start`,`date_finish`);
+		SELECT MAX(`id_training`) INTO @id_training FROM `trainings`;
+		INSERT INTO `employees_trainings`(`fk_employee`, `fk_training`)
+		VALUES (`employee`, @id_training);
+	END$
+
+DELIMITER $
+CREATE PROCEDURE procedure_new_file_training(`file_name` VARCHAR(100),`file_path` VARCHAR(200)) 
 	BEGIN 
 		INSERT INTO files(`t_name`, `t_path`) 
 		VALUES (`file_name`, `file_path`);
 		SELECT MAX(`id_file`) INTO @id_file_training FROM `files`;
-		INSERT INTO `trainings`(`t_name`, `t_description`, `d_date_start`,`d_date_finish`,`fk_file`)
-		VALUES (`name`, `description`, `date_start`,`date_finish`, @id_file_training);
 		SELECT MAX(`id_training`) INTO @id_training FROM `trainings`;
-		INSERT INTO `employees_trainings`(`fk_employee`, `fk_training`)
-		VALUES (`employee`, @id_training);
+		INSERT INTO `trainings_files`(`fk_file`, `fk_training`)
+		VALUES (@id_file_training, @id_training);
 	END$
 
 DELIMITER $

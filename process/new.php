@@ -62,8 +62,13 @@
         $DataBase = new db();
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
-        $date_realization = $DataBase->sanitize($data['date_realization']);
+        $date_start = $DataBase->sanitize($data['date_start']);
+        $date_finish = $DataBase->sanitize($data['date_finish']);
         $employee = intval($DataBase->sanitize($data['employee']));
+        $register_training = $DataBase->procedure_new_training($name,$description,$employee,$date_start,$date_finish);
+        if(!$register_training){
+            header('location: ../error.php');
+        }
         foreach($_FILES["file"]['tmp_name'] as $key => $tmp_name){
             if($_FILES["file"]["name"][$key] !== "" || $_FILES["file"]["name"][$key] !== null) {
                 $filename = $DataBase->file_name($_FILES["file"]["name"][$key]); 
@@ -79,7 +84,7 @@
                 $target_path = $directorio . $filename . '.' . $extension;
                 $file_path = 'docs/'.$filename.'.'.$extension;
                 if(move_uploaded_file($source, $target_path)) {	
-                    $res = $DataBase->proNewTraining($name, $description, '0', $employee, $date_realization);
+                    $res = $DataBase->procedure_new_file_training($filename, $file_path);
                 } else {
                     echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
                 }

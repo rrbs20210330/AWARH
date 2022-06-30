@@ -11,8 +11,8 @@ $DataBase = new db();
   </button>
   <br>
     <br>
-  <table class="table table-striped table-bordered userTable"  id="userTable">
-    <thead>
+  <table class="table table-striped table-bordered userTable"  style='background: #00252e '>
+    <thead style="color: white">
         <th>Estado</th>
         <th>Usuario</th>
         <th>Contraseña</th>
@@ -77,12 +77,12 @@ $DataBase = new db();
       <form action="process/new.php" method="post" id="formul">
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-4">
-              <label>Usuario </label>
+            <div class="col-sm-6">
+              <label for="user">Usuario </label>
               <input type="text" class="form-control" id="user" name="user" required value="">
             </div>
-            <div class="col-sm-4">
-              <label>Contraseña</label>
+            <div class="col-sm-6">
+              <label for="password">Contraseña</label>
               <input type="text" class="form-control" id="password" name="password" required>
             </div>          
           </div>

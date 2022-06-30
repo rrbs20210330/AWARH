@@ -11,8 +11,8 @@ $DataBase = new db();
   </button>
   <br>
     <br>
-  <table class="table table-striped table-bordered userTable" >
-    <thead>
+  <table class="table table-striped table-bordered userTable" style='background: #00252e '>
+    <thead style="color: white">
       <th>Nombre</th>
       <th>Descripción</th>
       <th># Empleados</th>

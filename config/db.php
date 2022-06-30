@@ -314,8 +314,19 @@
                 return false;
             }
         }
-        public function proNewTraining($name, $description, $file, $employee, $date_realization){
-            $sql = "CALL proNewTraining('$name', '$description', '0', $employee, $date_realization);";
+        public function procedure_new_training($name, $description, $employee, $date_start, $date_finish){
+            $sql = "CALL procedure_new_training('$name', '$description', $employee, '$date_start', '$date_finish');";
+
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
+        public function procedure_new_file_training($name, $path){
+            $sql = "CALL procedure_new_file_training('$name', '$path');";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -362,8 +373,8 @@
                 return false;
             }
         }
-        public function update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil, $id_cv){
-            $sql = "UPDATE `candidate` SET `name` = '$name',`phone_number`='$phone_number',`email`='$email',`appointment_date` = $appointment_date, `request_position` = $request_position, `perfil` = '$perfil', `id_cv` = $id_cv WHERE `id`= $id";
+        public function update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil){
+            $sql = "UPDATE `candidates` SET `t_name` = '$name',`t_phone_number`='$phone_number',`t_email`='$email',`dt_appointment_date` = $appointment_date, `fk_request_position` = $request_position, `t_profile` = '$perfil' WHERE `id_candidate`= $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -435,7 +446,7 @@
         }
 
         public function update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$active){
-            $sql = "UPDATE `announcements` SET `name` = '$name', `description` = '$description', `date_start` = '$date_start', `date_finish` = '$date_finish', `position` = $position,`process` = '$process', `profile` = '$profile', `functions` = '$functions',`active` = $active WHERE `id` = $id";
+            $sql = "UPDATE `announcements` SET `t_name` = '$name', `t_description` = '$description', `d_date_start` = '$date_start', `d_date_finish` = '$date_finish', `t_position` = $position,`t_process` = '$process', `t_profile` = '$profile', `t_functions` = '$functions',`b_active` = $active WHERE `id_announcement` = $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;

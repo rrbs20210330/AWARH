@@ -11,33 +11,36 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   </head>
-  
+
   <body>
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a class="navitem active" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
-      <a class="navitem" ><i class="bi bi-gear-fill"></i> Configuración</a>
-      <ul>
-        <li>
-          <a class="navitem" href="charges.php"> Cargos</a>
-        </li>
-        <li>
-          <a class="navitem" href="activities.php"> Actividades</a>
-        </li>
-        <li>
-          <a class="navitem" href="positions.php"> Puestos</a>
-        </li>
-        <li>
-          <a class="navitem" href="areas.php"> Áreas</a>
-        </li>
-        <li>
-          <a class="navitem" href="users.php"> Usuarios</a>
+      <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
+      
+      <ul id="myUL">
+        <li><span class="caret"><a class="navitem" ><i class="bi bi-gear-fill"></i> Configuración</a></span>
+          <ul class="nested">
+            <li><a class="navitem" href="charges.php"> Cargos</a></li>
+            <li>
+              <a class="navitem" href="activities.php"> Actividades</a>
+            </li>
+            <li>
+              <a class="navitem" href="positions.php"> Puestos</a>
+            </li>
+            <li>
+              <a class="navitem" href="areas.php"> Áreas</a>
+            </li>
+            <li>
+              <a class="navitem" href="users.php"> Usuarios</a>
+            </li>
+          </ul>
         </li>
       </ul>
       <a class="navitem" href="candidates.php"><i class="bi bi-person-badge-fill"></i> Candidatos</a>
       <a class="navitem" href="employees.php"><i class="bi bi-person-fill"></i> Empleados</a>
       <a class="navitem" href="trainings.php"> <i class="bi bi-file-earmark-text-fill"></i> Capacitaciones</a>
       <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
+      <a class="navitem" href="overview_aspirant.php">V_E</a>
     </div>
     <div id="main">
       <nav class="navbar navbar-expand-lg" style='background: #00252e '>
@@ -72,6 +75,16 @@ for (var i = 0; i < btns.length; i++) {
 
     // Add the active class to the current/clicked button
     this.className += " active";
+  });
+} 
+
+var toggler = document.getElementsByClassName("caret");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
   });
 } 
 </script>

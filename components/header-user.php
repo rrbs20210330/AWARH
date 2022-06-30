@@ -11,19 +11,19 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   </head>
-  
   <body>
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
-      <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
+      <a class="navitem" href="overview_aspirant.php"><i class="bi bi-sliders"></i> Menu</a>
+      <a class="navitem" href="announcements_aspirant.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
+      <a class="navitem" href="overview.php"></i>V_A</a>
     </div>
     <div id="main">
-      <nav class="navbar navbar-expand-lg" style='background: #10529f '>
+      <nav class="navbar navbar-expand-lg" style='background: #00252e '>
         <div class="container-fluid">
-          <span onclick="openNav()"><i class='fa fa-bars'></i></span>
+          <span onclick="openNav()"><i class="fa fa-bars" style="color: white"></i></span>
           <div class="d-flex">
-            <a class="nav-link dropdown-toggle" href="#" id="close_sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class=" btn btn-link" href="#" id="close_sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
               <i class="bi bi-person-circle"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="close_sesion">
@@ -32,3 +32,35 @@
           </div>
         </div>
       </nav>
+      <script>
+  // Get the container element
+var btnContainer = document.getElementById("mySidenav");
+
+// Get all buttons with class="btn" inside the container
+var btns = btnContainer.getElementsByClassName("navitem");
+
+// Loop through the buttons and add the active class to the current/clicked button
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    
+    // If there's no active class
+    if (current.length > 0) {
+      current[0].className = current[0].className.replace(" active", "");
+    }
+
+    // Add the active class to the current/clicked button
+    this.className += " active";
+  });
+} 
+
+var toggler = document.getElementsByClassName("caret");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+} 
+</script>

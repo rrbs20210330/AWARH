@@ -11,8 +11,8 @@ $DataBase = new db();
   Nuevo Empleado
 </button>
 <br><br>
-    <table class="table table-striped table-bordered userTable">
-        <thead>
+    <table class="table table-striped table-bordered userTable" style='background: #00252e '>
+        <thead style="color: white"> 
             <th>Estado</th>
             <th>Nombre Completo</th>
             <th>Teléfono</th>
@@ -143,7 +143,7 @@ $DataBase = new db();
                 <div class="col-sm-4">
                 <label>Cargo</label>
                 <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                    <option selected>Selecciona una área</option>
+                    <option selected disabled value="">Selecciona una área</option>
                     <?php     
                         $l_charges_select = $DataBase->read_data_table('charges');
                         while ($row = mysqli_fetch_object($l_charges_select)) {
@@ -157,7 +157,7 @@ $DataBase = new db();
                 <div class="col-sm-4">
                     <label for="">Puesto</label>
                     <select class="form-select" aria-label="Default select example" id="position" name="position">
-                        <option selected>Selecciona un puesto</option>
+                        <option selected disabled value="">Selecciona un puesto</option>
                         <?php     
                             $l_positions_select = $DataBase->read_data_table('positions');
                             while ($row = mysqli_fetch_object($l_positions_select)) {
@@ -240,7 +240,7 @@ $DataBase = new db();
                     </div>       
                     <div class="col-sm-4">
                     <label >Fotografía</label>
-                    <input type="file" class="form-control" id="photo" name="photo" >
+                    <input type="file" disabled class="form-control" id="photo" name="photo" >
                     </div>
                     <div class="col-sm-4">
                     <label >RFC</label>
@@ -294,12 +294,12 @@ $DataBase = new db();
                     <div class="col-sm-4">
                     <label>Cargo</label>
                     <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                        <option >Selecciona una área</option>
+                        <option disabled value="">Selecciona una área</option>
                         <?php     
                             $l_charges_select = $DataBase->read_data_table('charges');
                             while ($row = mysqli_fetch_object($l_charges_select)) {
-                                $idc = $row->id;
-                                $namec = $row->name;
+                                $idc = $row->id_charge;
+                                $namec = $row->t_name;
                                 ?>
                         <option value="<?php echo $idc ?>" <?php if($idc == $charge){?> selected <?php }?>><?php echo $namec ?></option>
                         <?php } ?>
@@ -308,20 +308,20 @@ $DataBase = new db();
                     <div class="col-sm-4">
                         <label for="">Puesto</label>
                         <select class="form-select" aria-label="Default select example" id="position" name="position">
-                            <option selected>Selecciona un puesto</option>
+                            <option selected disabled value="">Selecciona un puesto</option>
                             <?php     
                                 $l_positions_select = $DataBase->read_data_table('positions');
                                 while ($row = mysqli_fetch_object($l_positions_select)) {
-                                    $idp = $row->id;
-                                    $namep = $row->name;
+                                    $idp = $row->id_position;
+                                    $namep = $row->t_name;
                                     ?>
-                            <option value="<?php echo $idp ?>" <?php if($idc == $position){?> selected <?php }?>><?php echo $namep ?></option>
+                            <option value="<?php echo $idp ?>" <?php if($idp == $position){?> selected <?php }?>><?php echo $namep ?></option>
                             <?php } ?>
                         </select>
                     </div>
                     <div class="col-sm-4">
                     <label>Contrato</label>
-                    <input type="file" class="form-control" id="contract" name="contract" >
+                    <input type="file" disabled class="form-control" id="contract" name="contract" >
                     </div>
                 </div>
                 <input type="hidden" name="typeOp" value="4">

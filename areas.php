@@ -3,15 +3,15 @@ include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
 ?>
-<center><h2>Lista de áreas</h2></center>
+<center><h2>Áreas</h2></center>
 
 <div class="container">
   <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroArea">
     Nueva Área
   </button>
   <br><br>
-  <table class="table table-striped table-bordered userTable" >
-    <thead>
+  <table class="table table-striped table-bordered userTable" style='background: #00252e '>
+    <thead style="color: white">
       <th>Nombre</th>
       <th>Descripción</th>
       <th></th>

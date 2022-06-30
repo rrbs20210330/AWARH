@@ -10,8 +10,8 @@ $DataBase = new db();
 </button>
 <br>
     <br>
-    <table class="table table-striped table-bordered userTable" >
-        <thead>
+    <table class="table table-striped table-bordered userTable" style='background: #00252e '>
+        <thead style="color: white">
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Cargo</th>
@@ -66,10 +66,10 @@ $DataBase = new db();
       </div>
       <div class="modal-body">
       <form method="post" action="process/new.php">
-        <div class="row">
+        <div class="row needs-validation" novalidate>
             <div class="col-sm-4">
             <label >Nombre </label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="col-sm-4">
             <label >Descripción </label>
@@ -78,7 +78,7 @@ $DataBase = new db();
             <div class="col-sm-4">
                 <label>Cargo</label>
                 <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                    <option selected>Selecciona una área</option>
+                    <option selected disabled value="">Selecciona una área</option>
                     <?php     
                         $l_charges_select = $DataBase->read_data_table('charges');
                         while ($row = mysqli_fetch_object($l_charges_select)) {
@@ -135,7 +135,7 @@ $DataBase = new db();
                     <label>Cargo</label>
                     
                     <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                         <option <?php if(intval($object) === 0){ ?>selected <?php } ?>>Selecciona un Cargo</option> 
+                         <option <?php if(intval($object) === 0){ ?>selected <?php } ?> disabled value="">Selecciona un Cargo</option> 
                         <?php     
                             $l_charges_select = $DataBase->read_data_table('charges');
                             while ($row = mysqli_fetch_object($l_charges_select)) {

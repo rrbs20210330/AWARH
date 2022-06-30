@@ -21,8 +21,11 @@
     $(document).ready(function() {
         $('.userTable').DataTable();
     });
-
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+// Example starter JavaScript for disabling form submissions if there are invalid fields
   </script>
+  
   
 
   </body>

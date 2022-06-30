@@ -3,10 +3,10 @@ include("components/header.php");
 include('config/db.php');
 //la  creacion para ver toda la informacion junta como reporte
 $DataBase = new db();
-$training = $DataBase->read_single_record('training',$_GET['id']);
-$nombre = $training->name;
-$descripcion = $training->description;
-$date_realization = $training->date_realization;
+$training = $DataBase->read_single_record('trainings',$_GET['id']);
+$nombre = $training->t_name;
+$descripcion = $training->t_description;
+$date_realization = $training->date_start;
 
 ?>
 <br>

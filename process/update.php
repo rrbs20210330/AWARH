@@ -192,8 +192,7 @@
         $appointment_date = $data['appointment_date'] == false ? 0 : $data['appointment_date'];
         $request_position = intval($data['request_position']);
         $perfil = $DataBase->sanitize($data['perfil']);
-        $id_cv = 1;
-        $res = $DataBase->update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil, $id_cv);
+        $res = $DataBase->update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil);
         if($res){
             header("location: ../candidates.php");
         }else{

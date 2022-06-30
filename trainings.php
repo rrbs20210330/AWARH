@@ -12,21 +12,19 @@ $DataBase = new db();
 </button>
 <br>
 <br>
-    <table class="table table-striped table-bordered userTable"  id="userTable">
-        <thead>
+    <table class="table table-striped table-bordered userTable"style='background: #00252e '>
+        <thead style="color: white">
             <th>Nombre</th>
             <th>Empleado</th>
-            <th>Fecha de realización</th>
             <th></th>
         </thead>
         <tbody>
             <?php 
                 $l_trainings = $DataBase->read_all_trainings();
                 while ($row = mysqli_fetch_object($l_trainings)) {
-                    $id = $row->id;
-                    $name = $row->name;
+                    $id = $row->id_training;
+                    $name = $row->t_name;
                     $employee_name = $row->employee_full_name;
-                    $date = $row->date_realization;
             ?>
             <tr>
                 <td>
@@ -34,9 +32,6 @@ $DataBase = new db();
                 </td>
                 <td>
                     <?php echo $employee_name ?>
-                </td>
-                <td>
-                    <?php echo $date ?>
                 </td>
                 <td>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditTraining-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
@@ -70,13 +65,9 @@ $DataBase = new db();
                 <input type="text" class="form-control" id="description" name="description" required>
                 </div>
                 <div class="col-sm-4">
-                <label for="">Archivos</label>
-                <input type="file" class="form-control" id="file[]" name="file[]" multiple>
-                </div>
-                <div class="col-sm-4">
                 <label for="">Empleado</label>
                 <select class="form-select" aria-label="Default select example" id="employee" name="employee">
-                <option selected>Selecciona un empleado</option>
+                <option selected disabled value="">Selecciona un empleado</option>
                 <?php     
                     $l_employees_select = $DataBase->read_data_table('employees');
                     while ($row = mysqli_fetch_object($l_employees_select)) {
@@ -87,9 +78,17 @@ $DataBase = new db();
                 <?php } ?>
             </select>
                 </div>
-                <div class="col-sm-4">
-                <label for="">Fecha de realización</label>
-                <input type="date" class="form-control" id="date_realization" name="date_realization" required>
+                <div class="col-sm-6">
+                    <center><label >Fecha de inicio</label></center>
+                    <input type="date" class="form-control" id="date_start" name="date_start" required value="<?php echo $date_start?>">
+                </div>
+                <div class="col-sm-6">
+                    <center><label >Fecha Final</label></center>
+                    <input type="date" class="form-control" id="date_finish" name="date_finish" required value="<?php echo $date_finish?>">
+                </div>
+                <div class="col-sm-12">
+                <center><label for="">Archivos</label></center>
+                <input type="file" class="form-control" id="file[]" name="file[]" multiple>
                 </div>
             </div>
             <br>    
@@ -107,12 +106,12 @@ $DataBase = new db();
 <?php 
     $l_trainings = $DataBase->read_all_trainings();
     while ($row = mysqli_fetch_object($l_trainings)) {
-        $id_t = $row->id;
-        $name_t = $row->name;
-        $description_t = $row->description;
+        $id_t = $row->id_training;
+        $name_t = $row->t_name;
+        $description_t = $row->t_description;
         $employee_id_t = $row->employee_id;
         $employee_name_t = $row->employee_full_name;
-        $date_t = $row->date_realization;
+        $date_t = $row->d_date_start;
 ?>
     <!-- FORMULARIO DE EDICION DE CAPACITACIONES -->
     <div class="modal fade" id="EditTraining-<?php echo $id_t ?>" tabindex="-1"  aria-hidden="true">
@@ -141,7 +140,7 @@ $DataBase = new db();
                     <div class="col-sm-4">
                     <label for="">Empleado</label>
                     <select class="form-select" aria-label="Default select example" id="employee" name="employee" value="<?php echo $employee_id_t ?>">
-                    <option>Selecciona una área</option>
+                    <option disabled value="">Selecciona una área</option>
                     <?php     
                         $l_employees_select = $DataBase->read_data_table('employees');
                         while ($row = mysqli_fetch_object($l_employees_select)) {

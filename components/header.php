@@ -18,7 +18,7 @@
       <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
       
       <ul id="myUL">
-        <li><span class="caret"><a class="navitem" ><i class="bi bi-gear-fill"></i> Configuración</a></span>
+        <li><span class="caret"><a class="navitem" ><i class="bi bi-gear-fill"></i> Configuración <i class="bi bi-caret-down-fill"></i></a></span>
           <ul class="nested">
             <li><a class="navitem" href="charges.php"> Cargos</a></li>
             <li>

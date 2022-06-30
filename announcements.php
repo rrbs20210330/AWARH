@@ -29,7 +29,7 @@ $DataBase = new db();
         $path_file = $DataBase->read_single_record_files($file)->t_path;
     ?>
       <div class="col">
-        <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+        <div class="card text-bg-dark mb-3" style="max-width: 18rem ; ">
           <div class="card-header">
             <center>
               <a href="announcement.php?id=<?php echo $id ?>">

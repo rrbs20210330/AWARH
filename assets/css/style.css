@@ -66,6 +66,7 @@
   }
   
   .caret {
+    content: "\F231";
     cursor: pointer;
     -webkit-user-select: none; /* Safari 3.1+ */
     -moz-user-select: none; /* Firefox 2+ */
@@ -74,7 +75,7 @@
   }
   
   .caret::before {
-    color: black;
+    color: white;
     display: inline-block;
     margin-right: 6px;
   }

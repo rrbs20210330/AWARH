@@ -28,7 +28,7 @@ $path_file = $announcements->read_single_record_files($file)->t_path;;
         <b>Descripción de la convocatoria:</b> <?php echo $descripcion ?><br>
         <b>Fecha del inicio:</b> <?php echo $fechadeinicio?><br>
         <b>Fecha del Final:</b> <?php echo $fechafinal?><br>
-        <b>Procedimeinto:</b> <?php echo $Perfilsolicitado?><br>
+        <b>Procedimiento:</b> <?php echo $Perfilsolicitado?><br>
         <b>Perfil solicitado:</b> <?php echo $Procedimiento?><br>
         <b>Funciones:</b> <?php echo $funciones?><br>
         <b>Estado:</b> <?php echo $estado == 0 ? "Inactiva" : "Activa"?><br>

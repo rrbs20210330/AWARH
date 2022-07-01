@@ -118,7 +118,7 @@ $DataBase = new db();
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-success">Crear</button> 
+          <button type="submit" class="btn btn-success" onclick="confirmSave()">Crear</button> 
         </div>
       </form>
     </div>
@@ -208,7 +208,7 @@ $DataBase = new db();
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Crear</button> 
+            <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button> 
           </div>
         </form>
       </div>

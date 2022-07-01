@@ -55,7 +55,7 @@ body {
     <div class="row">
         <div class="xs-12 md-6 mx-auto">
             <div id="countUp">
-                <div class="number" data-count="404">7</div>
+                <div class="number" data-count="404">14</div>
                 <div class="text">Error</div>
                 <div class="text">Es hora de darse de baja.</div>
                 <div class="text">Gastronomía se ve muy interesante si lo ves desde otro punto de vista</div>

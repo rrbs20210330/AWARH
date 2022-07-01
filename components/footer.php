@@ -24,6 +24,15 @@
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
   const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 // Example starter JavaScript for disabling form submissions if there are invalid fields
+    function confirmSave(){
+      var res = confirm('¿Estás seguro?\nTus datos serán guardados')
+      if(res){
+        return true;
+      }else{
+        return false;
+      }
+    }
+  
   </script>
   
   

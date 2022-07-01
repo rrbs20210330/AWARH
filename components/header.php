@@ -11,14 +11,13 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   </head>
-
   <body>
     <div id="mySidenav" class="sidenav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
       
       <ul id="myUL">
-        <li><span class="caret"><a class="navitem" ><i class="bi bi-gear-fill"></i> Configuración <i class="bi bi-caret-down-fill"></i></a></span>
+        <li><a class="navitem caret"><i class="bi bi-gear-fill"></i> Configuración <i class=""></i></a>
           <ul class="nested">
             <li><a class="navitem" href="charges.php"> Cargos</a></li>
             <li>

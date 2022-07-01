@@ -67,7 +67,7 @@ $DataBase = new db();
           </div>
           <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
             <div class="modal-body">
-                <center><label for="">Informacion General</label></center>
+                <center><label for="">Información General</label></center>
                 <div class="row">
                     <div class="col-sm-4">
                         <label>Nombre Completo </label>
@@ -112,7 +112,7 @@ $DataBase = new db();
                 <br>    
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Registrar</button>
+                <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
             </div>
           </form>
         </div>
@@ -187,7 +187,7 @@ $DataBase = new db();
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Registrar</button>
+                        <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
                     </div>
                 </form>
             </div>
@@ -246,7 +246,7 @@ $DataBase = new db();
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" >Informacion General</h5>
+          <h5 class="modal-title" >Información General</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

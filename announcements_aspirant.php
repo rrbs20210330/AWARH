@@ -20,6 +20,7 @@ $DataBase = new db();
         $name = $row->t_name;
         $description = $row->t_description;
         $active = $row->b_active;
+        if($active){
     ?>
       <div class="col">
         <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
@@ -37,7 +38,7 @@ $DataBase = new db();
           </div>
         </div>     
       </div>
-    <?php } ?>                
+    <?php } }?>                
 </div>
 
 <?php 

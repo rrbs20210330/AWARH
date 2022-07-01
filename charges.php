@@ -62,11 +62,11 @@ $DataBase = new db();
             <form action="process/new.php" method="post">
                 <div class="modal-body"> 
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <label for="">Nombre </label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <label for="">Descripción </label>
                             <input type="text" class="form-control" id="description" name="description" required>
                         </div>                    
@@ -76,7 +76,7 @@ $DataBase = new db();
                     <input type="hidden" name="typeOp" value="6">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Registrar</button>
+                    <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
                 </div>
             </form>
         </div>
@@ -104,11 +104,11 @@ $DataBase = new db();
             <form action="process/update.php" method="post">
                 <div class="modal-body"> 
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <label for="">Nombre </label>
                             <input type="text" class="form-control" id="name" name="name" value="<?php echo $nombre ?>">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <label for="">Descripción </label>
                             <input type="text" class="form-control" id="description" name="description" value="<?php echo $description ?>">
                         </div>                    
@@ -118,7 +118,7 @@ $DataBase = new db();
                 <input type="hidden" name="typeOp" value="3">
                 <input type="hidden" name="id" value="<?php echo $id ?>">
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Registrar</button>
+                    <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
                 </div>
             </form>
         </div>

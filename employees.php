@@ -72,7 +72,7 @@ $DataBase = new db();
           </div>
           <div class="modal-body">
           <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
-          <center><label for="">Informacion General</label></center>
+          <center><label for="">Información General</label></center>
             <div class="row">
                 
                 <div class="col-sm-4">
@@ -178,7 +178,7 @@ $DataBase = new db();
           </div>
           <div class="modal-footer">
             
-            <button type="submit" class="btn btn-success">Registrar</button>
+            <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
           </div>
           </form>
         </div>
@@ -240,7 +240,7 @@ $DataBase = new db();
                     </div>       
                     <div class="col-sm-4">
                     <label >Fotografía</label>
-                    <input type="file" disabled class="form-control" id="photo" name="photo" >
+                    <input type="file" disabled class="form-control" id="photo" name="photo"data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                     </div>
                     <div class="col-sm-4">
                     <label >RFC</label>
@@ -321,7 +321,7 @@ $DataBase = new db();
                     </div>
                     <div class="col-sm-4">
                     <label>Contrato</label>
-                    <input type="file" disabled class="form-control" id="contract" name="contract" >
+                    <input type="file" disabled class="form-control" id="contract" name="contract" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                     </div>
                 </div>
                 <input type="hidden" name="typeOp" value="4">
@@ -329,8 +329,7 @@ $DataBase = new db();
                 <br>    
             </div>
             <div class="modal-footer">
-                
-                <button type="submit" class="btn btn-success">Registrar</button>
+                <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
             </div>
             </form>
             </div>

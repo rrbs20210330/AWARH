@@ -70,6 +70,12 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
+        public function read_single_record_training($id){
+            $sql = "SELECT * FROM trainings WHERE id_training = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
         public function read_single_record_announcement($id){
             $sql = "SELECT * FROM announcements WHERE id_announcement = '$id'";
             $res = mysqli_query($this->con, $sql);
@@ -202,7 +208,17 @@
             }
 
         }
+        public function proEditEmployee($id, $names, $last_names, $birthday, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $nss,$rfc){
+            $sql = "CALL procedure_edit_employee($id,'$names','$last_names','$birthday','$phone_number','$email','$no_interior','$no_exterior','$references', '$street', '$colony','$charge', '$position', '$nss','$rfc');";
 
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+
+        }
         public function proDeleteEmployee($id){
             $sql = "CALL procedure_delete_employee($id);";
 
@@ -226,7 +242,7 @@
 
         }
         public function proDeleteTraining($id){
-            $sql = "CALL proDeleteTraining($id);";
+            $sql = "CALL procedure_delete_training($id);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -341,13 +357,11 @@
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
-        public function update_t_trainings($id, $name, $description, $employee, $date_realization){
-            $sql = "UPDATE training SET `name`='$name',`description`='$description', `date_realization` = $date_realization WHERE `id` = $id";
-            $sql1 = "UPDATE employee_training SET `id_employee` = $employee WHERE `id_training` = $id";
-
+        public function update_t_trainings($id, $name, $description, $date_start, $date_finish){
+            $sql = "UPDATE trainings SET `t_name`='$name',`t_description`='$description', `d_date_start` = '$date_start', `d_date_finish` = '$date_finish' WHERE `id_training` = $id";
+            
             $res = mysqli_query($this->con, $sql);
-            $res1 = mysqli_query($this->con, $sql1);
-            if($res && $res1){
+            if($res){
                 return true;
             }else{
                 return false;

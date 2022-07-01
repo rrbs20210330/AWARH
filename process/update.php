@@ -1,3 +1,4 @@
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <?php 
     include('../config/db.php');
     if(isset($_GET) && isset($_GET['id']) && isset($_GET['typeOp'])){
@@ -110,9 +111,9 @@
         $id = intval($data['id']);
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
-        $employee = intval($data['employee']);
-        $date = $data['date_realization'] == false ? 0 : $data['date_realization'];
-        $res = $DataBase->update_t_trainings($id, $name, $description, $employee, $date);
+        $date_start = $data['date_start'] == false ? 0 : $data['date_start'];
+        $date_finish = $data['date_finish'] == false ? 0 : $data['date_finish'];
+        $res = $DataBase->update_t_trainings($id, $name, $description, $date_start, $date_finish);
         if($res){
             header("location: ../trainings.php");
         }else{
@@ -133,10 +134,10 @@
     }
     function update_employee($data){
         $DataBase = new db();
+        $id = intval($data['id']);
         $names = $DataBase->sanitize($data['names']);
         $last_names = $DataBase->sanitize($data['last_names']);
         $birthday = $DataBase->sanitize($data['birthday']);
-        $photo = $DataBase->sanitize($data['photo']);
         $phone_number = $DataBase->sanitize($data['phone_number']);
         $email = $DataBase->sanitize($data['email']);
         $no_interior = $DataBase->sanitize($data['no_interior']);
@@ -146,10 +147,9 @@
         $colony = $DataBase->sanitize($data['colony']);
         $charge = intval($data['charge']);
         $position = intval($data['position']);
-        $contract = $DataBase->sanitize($data['contract']);
-        $rfc = $DataBase->sanitize($data['rfc']);
         $nss = $DataBase->sanitize($data['nss']);
-        $res = $DataBase->proNewEmployee($names, $last_names, $birthday, $photo, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $contract, $rfc,$nss);
+        $rfc = $DataBase->sanitize($data['rfc']);
+        $res = $DataBase->proEditEmployee($id,$names, $last_names, $birthday, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position,$nss,$rfc);
         if($res){
             header("location: ../employees.php");
         }else{

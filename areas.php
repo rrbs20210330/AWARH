@@ -66,7 +66,7 @@ $DataBase = new db();
           <br>    
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Registrar</button>
+          <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
         </div>
       </form>
     </div>
@@ -107,7 +107,7 @@ $DataBase = new db();
       </div>
       <div class="modal-footer">
         
-        <button type="submit" class="btn btn-success">Editar</button>
+        <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
       </div>
       </form>
     </div>

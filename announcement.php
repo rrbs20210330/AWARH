@@ -1,7 +1,7 @@
 <?php
 include("components/header.php");
 include('config/db.php');
-//la  creacion para ver toda la informacion junta como reporte
+//la  creacion para ver toda la Información junta como reporte
 $announcements = new db();
 $announcement = $announcements->read_single_record_announcement($_GET['id']);
 $nombre = $announcement->t_name;
@@ -38,7 +38,31 @@ $path_file = $announcements->read_single_record_files($file)->t_path;;
     <iframe src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_file ?>" width="" height="100%"></iframe>
     </div>
   </div>
+  <br>
+  <table class="table table-striped table-bordered userTable"  style='background: #00252e '>
+    <thead style="color: white">
+        <th>Aspirante</th>
+        <th>Estado</th>
+        <th></th>
+    </thead>
+    <tbody>
+      <tr>
+          
+          <td>
+              Roberto
+          </td>
+          <td>
+              Pendiente
+          </td>
+          <td>
+              <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#EditUser-<?php echo $id?>">Aceptar</a>
+              <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteUser-<?php echo $id?>">Rechazar</a>
+          </td>
+      </tr>  
+    </tbody>
+  </table>
 </div>
+
 
 
 

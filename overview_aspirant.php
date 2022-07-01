@@ -33,7 +33,7 @@ $announcements = $pa->count_data;?>
         <strong>Referencias:</strong> una casa, muy bonita pero muy muy lejana, asi a la lejania bien lejana al lado de algun lugar donde aparecen arboles, si, muchos arboles. 
       </div>
     </div>
-    <div class="card-footer"><a class="btn btn-warning"><i class="bi bi-exclamation-triangle-fill"></i> Solicitar Actualización</a></div>
+    <div class="card-footer"><center><a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edicion"><i class="bi bi-exclamation-triangle-fill" ></i> Solicitar Actualización</a></center></div>
   </div>
 </div>
   
@@ -52,7 +52,7 @@ $announcements = $pa->count_data;?>
         </div>
         <div class="col">
           <strong>Usuario:</strong> GEC8501014I5 <br>
-          <strong>Contraseña:</strong> 72795608040 <br>
+          <strong>Contraseña:</strong> **********8040 <br>
         </div>
       </div>
     </div>
@@ -62,4 +62,76 @@ $announcements = $pa->count_data;?>
   <canvas id="grafica" width="1" height="1"></canvas>
 </div> -->
 
+
+<!-- FORMULARIO DE REGISTRO DE USUARIOS -->
+<div class="modal fade" id="edicion" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nuevo de Empleado</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
+          <center><label for="">Información General</label></center>
+            <div class="row">
+                <center>
+                <div class="col-sm-8">
+                <label >NSS</label>
+                <input type="text" class="form-control" id="nss" name="nss" required>
+                </div>
+                </center>
+            </div>
+            <br> 
+            <div class="row">
+                <center><label for="">Contacto</label></center>
+                <div class="col-sm-6">
+                <label>Teléfono </label>
+                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="">
+                </div>
+                <div class="col-sm-6">
+                <label >Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                </div>           
+            </div>
+            <br> 
+            <div class="row">
+                <center><label for="">Domicilio</label></center>
+                <div class="col-sm-4">
+                <label>Calle</label>
+                <input type="text" class="form-control" id="street" name="street" required value="">
+                </div>
+                <div class="col-sm-4">
+                <label>Número Exterior</label>
+                <input type="number" class="form-control" id="no_exterior" name="no_exterior" required>
+                </div>
+                <div class="col-sm-4">
+                <label >Número Interior</label>
+                <input type="number" class="form-control" id="no_interior" name="no_interior" required>
+                </div>
+                <div class="col-sm-6">
+                <label >Colonia</label>
+                <input type="text" class="form-control" id="colony" name="colony" required>
+                </div>
+                <div class="col-sm-6">
+                <label>Referencias</label>
+                <textarea class="form-control" name="references" id="references" cols="30" rows="1"></textarea>
+                
+                </div>
+            </div>
+            <input type="hidden" name="typeOp" value="3">
+            <br>    
+          </div>
+          <div class="modal-footer">
+            
+            <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>    
+    
+
 <?php include('components/footer.php') ?>
+
+

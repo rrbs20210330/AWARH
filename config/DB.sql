@@ -216,6 +216,7 @@ DELIMITER $
 CREATE PROCEDURE procedure_delete_training(`id` INT) 
 	BEGIN 
 		DELETE FROM `employees_trainings` WHERE `fk_training` = `id`;
+        DELETE FROM `trainings_files` WHERE `fk_training` = `id`;
 		DELETE FROM `trainings` WHERE `id_training` = `id`;
 	END$
 
@@ -273,6 +274,16 @@ CREATE PROCEDURE procedure_new_employee(`names` VARCHAR(100),`last_names` VARCHA
 		VALUES (@id_employee, `charge`);
 		INSERT INTO `employees_positions`(`fk_employee`, `fk_position`)
 		VALUES (@id_employee, `position`);
+	END$
+
+DELIMITER $
+CREATE PROCEDURE procedure_edit_employee(`id` INT,`names` VARCHAR(100),`last_names` VARCHAR(100),`birthday` DATE,`phone_number` VARCHAR(100),`email` VARCHAR(200),`no_interior` VARCHAR(10),`no_exterior` VARCHAR(10),`references` VARCHAR(255),`street` VARCHAR(100),`colony` VARCHAR(100),`charge` INT,`position` INT,`nss` VARCHAR(100),`rfc` VARCHAR(100)) 
+	BEGIN	
+        SELECT fk_address INTO @id_address_employee FROM employees WHERE `id_employee` = `id`;
+        UPDATE `employees` SET `t_names` = `names`,`t_last_names` = `last_names`,`d_birthday` = `birthday`,`t_phone_number` = `phone_number`, `t_email` = `email`, `t_nss` = `nss`, `t_rfc` = `rfc` WHERE id_employee = `id`;
+		UPDATE `addresses` SET `t_no_exterior` = `no_exterior`, `t_no_interior` = `no_interior`, `t_references` = `references`, `t_street` = `street`, `t_colony` = `colony` WHERE `id_address` = @id_address_employee;
+		UPDATE `employees_charges` SET `fk_charge` = `charge` WHERE `fk_employee` = `id`;
+		UPDATE `employees_positions` SET `fk_position` = `position` WHERE `fk_employee` = `id`;
 	END$
 
 DELIMITER $

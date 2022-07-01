@@ -10,19 +10,8 @@ private $dbname = "recursoshumanos";
 ````
 
 
-# Informacion
-Se agrego el funcionamiento de subida de archivos en varias secciones.
-por ende ya se puede subir y ver la informacion general de esas categorias.
-
-Apartado de capacitaciones no funciona todavia con ese mismo funcionamiento.
-
-Los botones de edicion de Candidatos, Empleados y Convocatorias no funcionan actualmente debido a la adicion de archivos.
-
-Se plantea crear un usuario por cada empleado para ello se modifico la tabla users
-
-Se hicieron varias modificaciones en la base de datos en base a las revisiones de giovanni, dando una mejor especificacion del dato y de donde viene en cuestion de la id. por ende, varios archivos y db.php cambiaron en cuestion de llamar a esas propiedades.
-
-Se añadio una ventana de confirmacion de eliminacion de datos para todos los modulos funcionales actuales
+# Información
+Se agrego confirmacion en toda creacion y edicion de informacion, se agrego identificacion de dropdown en navbar, breves correcciones ortograficas, acomodo de diseño, se hizo funcional el boton de edicion de empleados y todo el apartado de capacitaciones, aunque sigue algo incompleto en la muestra de informacion, se agregaron mas procedimientos para el funcionamiento de los mencionados anteriormente, en la vision de un empleado ahora le permitira solicitar un cambio de sus datos.
 
 
 #Manejo de Variables y Codigo
@@ -38,8 +27,26 @@ Se añadio una ventana de confirmacion de eliminacion de datos para todos los mo
 
 
 
-#hacer
-tooltips
-validations
-vistas de usuarios
-que funcione capacitaciones
+#Hacer
+- puestos-areas: un puesto puede estar o no a una area lo que definira el puesto del Empleado
+- Un empleado tendra un usuario que sera generado automaticamente
+- Un empleado podra solicitar actualizar ciertos datos
+- Una convocatoria podra o no tener un cargo y/o un puesto.
+- Condicionales para la muestra de convocatorias en base a el puesto y/o cargo del empleado
+- Muestra de conteo de los empleados que tienen un puesto y quienes
+- Muestra de conteo de los empleados que tienen un cargo y quienes
+- Muestra de todas las actividades de un cargo
+- Muestra de todos los puestos de una area
+- Muestra de informacion faltante en empleado
+- Se podra ver en la informacion del empleado, las capacitaciones relacionadas
+- Muestra de todos los archivos de una capacitacion
+- Un empleado podra aplicar a la convocatoria
+- Una convocatoria podra mostrar la cantidad de aspirantes a ella y quienes
+- El administrador podra rechazar o aceptar el aspirante a esa convocatoria
+- tooltips
+- validations
+
+
+
+
+

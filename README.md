@@ -45,8 +45,3 @@ Se agrego confirmacion en toda creacion y edicion de informacion, se agrego iden
 - El administrador podra rechazar o aceptar el aspirante a esa convocatoria
 - tooltips
 - validations
-
-
-
-
-

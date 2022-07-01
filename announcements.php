@@ -164,7 +164,7 @@ $DataBase = new db();
               </div>
               <div class="col-sm-28">
                 <center><label >Imagen <i class="bi bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo se permite una imagen."></i></label></center>
-                <input type="file" disabled class="form-control" id="archivo[]" name="archivo[]" required data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede modificar el archivo.">
+                <input type="file" disabled class="form-control" id="archivo[]" name="archivo[]" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede modificar el archivo.">
               </div> 
               <div class="col-sm-4">
                 <center><label >Fecha de inicio</label></center>

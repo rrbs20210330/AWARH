@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>AWARH</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/img/descarga.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
@@ -13,6 +14,7 @@
   </head>
   <body>
     <div id="mySidenav" class="sidenav">
+      <h2 style="color: white"><center>AWARH</center></h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
       

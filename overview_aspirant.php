@@ -73,16 +73,6 @@ $announcements = $pa->count_data;?>
           </div>
           <div class="modal-body">
           <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
-          <center><label for="">Información General</label></center>
-            <div class="row">
-                <center>
-                <div class="col-sm-8">
-                <label >NSS</label>
-                <input type="text" class="form-control" id="nss" name="nss" required>
-                </div>
-                </center>
-            </div>
-            <br> 
             <div class="row">
                 <center><label for="">Contacto</label></center>
                 <div class="col-sm-6">

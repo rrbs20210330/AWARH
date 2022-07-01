@@ -240,7 +240,7 @@ $DataBase = new db();
                     </div>       
                     <div class="col-sm-4">
                     <label >Fotografía</label>
-                    <input type="file" disabled class="form-control" id="photo" name="photo"data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
+                    <input type="file" disabled class="form-control" id="photo" name="photo" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                     </div>
                     <div class="col-sm-4">
                     <label >RFC</label>

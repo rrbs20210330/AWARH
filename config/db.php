@@ -321,8 +321,8 @@
             }
 
         }
-        public function proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $file_name,$file_path,$charge){
-            $sql = "CALL procedure_new_announcement('$name','$description','$date_start','$date_finish', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge)";
+        public function proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $file_name,$file_path,$charge,$area){
+            $sql = "CALL procedure_new_announcement('$name','$description','$date_start','$date_finish', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge,$area)";
 
             $res = mysqli_query($this->con, $sql);
             if($res){

@@ -257,7 +257,7 @@ if(intval($tipo) === 2)header('Location: error.php');
             Nombre Completo: <?php echo $name?><br>
             Email: <?php echo $email ?><br>
             Telefono: <?php echo $phone_number ?><br>
-            Posicion a ocupar: <?php echo $request_position_name?><br>
+            Puesto a ocupar: <?php echo $request_position_name?><br>
             Fecha de Cita: <?php echo $appointment_date?><br>
             Perfil: <?php echo $perfil?><br>
             CV: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_cv ?>" target="_blank">Click Aqui</a> 

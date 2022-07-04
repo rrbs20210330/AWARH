@@ -57,12 +57,10 @@
     function update_status_employee($data){
         $DataBase = new db();
         $id =intval($data['id']);
-        $table = $data['table'];
-        $location = $data['location'];
         
         $res = $DataBase->update_active_employees($id);
         if($res){
-            header("location: ../$location.php");
+            header("location: ../employees.php");
         }else{
             header('location: ../error.php');
         }
@@ -70,12 +68,10 @@
     function update_status_user($data){
         $DataBase = new db();
         $id =intval($data['id']);
-        $table = $data['table'];
-        $location = $data['location'];
         
         $res = $DataBase->update_active_users($id);
         if($res){
-            header("location: ../$location.php");
+            header("location: ../users.php");
         }else{
             header('location: ../error.php');
         }
@@ -83,12 +79,10 @@
     function update_status_announcement($data){
         $DataBase = new db();
         $id =intval($data['id']);
-        $table = $data['table'];
-        $location = $data['location'];
         
         $res = $DataBase->update_active_announcements($id);
         if($res){
-            header("location: ../$location.php");
+            header("location: ../announcements.php");
         }else{
             header('location: ../error.php');
         }

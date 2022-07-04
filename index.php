@@ -7,8 +7,9 @@ function is_session_started()
 }
 
 if (is_session_started() === true ) header('Location: overview.php');
-if(!empty($_SESSION['id_usuario']) && !empty($_SESSION['usuario']) && !empty($_SESSION['tipo_usuario']))header('Location: overview.php');
 session_start();
+if(!empty($_SESSION['id_usuario']) && !empty($_SESSION['usuario']) && !empty($_SESSION['tipo_usuario']))header('Location: overview.php');
+
 
 if ($_POST) { //va a guardar lo que lleve en método post
     $usuario = $_POST['user']; //$ es para indicar que es variable en php

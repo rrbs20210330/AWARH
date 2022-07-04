@@ -50,6 +50,8 @@ Se agrego confirmacion en toda creacion y edicion de informacion, se agrego iden
 | | Funcionalidad mostrar boton cuando un empleado solicite cambio de información en la lista de empleados |
 | | Funcionalidad de muestra de numero y informacion de todas las capacitaciones de un empleado en overview |
 | | Validacion de si el empleado puede o no meterse a una convocatoria en especifico dependiendo de su cargo, area y puesto |
+| | Añadir una id a cada fila de la tabla para hacer referencias de "#" |
+| | Cambiar modales por mas anchos |
 | | Si un empleado se deshabilita tambien debe de deshabilitar el usuario
 |COMPLETADO| Muestra de informacion faltante en empleado |
 |COMPLETADO| Muestra de todos los archivos de una capacitacion  |

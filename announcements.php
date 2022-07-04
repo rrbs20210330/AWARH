@@ -4,12 +4,16 @@ include('config/db.php');
 $DataBase = new db();
 ?>
 
-<center><h1>Convocatorias</h1></center>
-
+<?php if(intval($tipo) === 1){ ?>
+  <center><h1>Convocatorias</h1></center>
+<?php }else{ ?>
+  <center><h1>Tus Convocatorias</h1></center>
+<?php } ?>
   <br>
 
 <div class="container">
-  <div class="col-sm-4">
+  <?php if(intval($tipo) === 1){ ?>
+    <div class="col-sm-4">
     <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal1">
       Nueva Convocatoria
     </button>
@@ -50,13 +54,49 @@ $DataBase = new db();
           </div>
         </div>     
       </div>
-    <?php } ?>                
+    <?php } ?>  
+<?php }else{ ?>
+      <?php $l_annoucements = $DataBase->read_data_table('announcements');
+          if(mysqli_num_rows($l_annoucements) === 0) {?> <center><h3>Aún no hay ninguna convocatoria disponible para ti.</h3></center> <?php } ?>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php 
+          $id_user = $_SESSION['id_usuario'];
+          $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
+          $employee_info = $DataBase->read_info_employee(intval($id_employee));
+          while ($row = mysqli_fetch_object($l_annoucements)) {
+            $id = $row->id_announcement;
+            $name = $row->t_name;
+            $description = $row->t_description;
+            $active = $row->b_active;
+            $position = $DataBase->read_single_record_announcement_position($id)->fk_position;
+            $charge = $DataBase->read_single_record_announcement_charge($id)->fk_charge;
+            if($active){
+              if(intval($position) === intval($employee_info->fk_position) || intval($charge) === intval($employee_info->fk_charge)){?>
+                <div class="col">
+                  <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+                    <div class="card-header">
+                      <center>
+                        <a href="announcement.php?id=<?php echo $id ?>">
+                          <i class="fa-5x bi bi-file-earmark-text-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Click para ver."></i>
+                        </a>
+                      </center>
+                      <br>
+                      <h5 class="card-title"><strong><?php echo $name ?></strong></h5>
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text"><?php echo $description ?></p>
+                    </div>
+                  </div>     
+                </div>
+        <?php } } }?> 
+ <?php } ?>
 </div>
 
-<!--Modal para el boton  nueva convocatoria--->
+<?php if(intval($tipo) === 1){ ?>
+  <!--Modal para el boton  nueva convocatoria--->
 
 <div class="modal fade" tabindex="-1" id="modal1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Nueva convocatoria </h5>
@@ -77,11 +117,11 @@ $DataBase = new db();
               <center><label >Imagen <i class="bi bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo se permite una imagen."></i></label></center>
               <input type="file" class="form-control" id="archivo[]" name="archivo[]" required>
             </div> 
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <center><label >Fecha de inicio</label></center>
               <input type="date" class="form-control" id="date_start" name="date_start" required>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               <center><label >Fecha Final</label></center>
               <input type="date" class="form-control" id="date_finish" name="date_finish" required>
             </div>
@@ -97,23 +137,54 @@ $DataBase = new db();
                 ?>
                 <option value="<?php echo $id ?>"><?php echo $name ?></option>
                 <?php } ?>
+                <option value="0">Ninguno</option>
               </select>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
+              <center><label >Cargo</label></center>
+              <select class="form-select" aria-label="Default select example" id="charge" name="charge">
+                <option selected disabled value="">Selecciona un cargo</option>
+                <?php     
+                  $l_charges_select = $DataBase->read_data_table('charges');
+                  while ($row = mysqli_fetch_object($l_charges_select)) {
+                    $id = $row->id_charge;
+                    $name = $row->t_name;
+                ?>
+                <option value="<?php echo $id ?>"><?php echo $name ?></option>
+                <?php } ?>
+                <option value="0">Ninguno</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <center><label >Área</label></center>
+              <select class="form-select" aria-label="Default select example" id="area" name="area">
+                <option selected disabled value="">Selecciona una área</option>
+                <?php     
+                  $l_charges_select = $DataBase->read_data_table('areas');
+                  while ($row = mysqli_fetch_object($l_charges_select)) {
+                    $id = $row->id_area;
+                    $name = $row->t_name;
+                ?>
+                <option value="<?php echo $id ?>"><?php echo $name ?></option>
+                <?php } ?>
+                <option value="0">Ninguno</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
               <center><label >Procedimiento</label></center>
               <textarea type="text" class="form-control" id="process" name="process" required ></textarea>
             </div> 
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <center><label >Perfil solicitado</label></center>
               <textarea type="text" class="form-control" id="profile" name="profile" required ></textarea>
             </div>
-            <center>
-              <div class="col-sm-6">
-                <label >Funciones</label>
-                <textarea type="text" class="form-control" id="functions" name="functions" required ></textarea>
-                <input type="hidden" name="typeOp" value="5">
-              </div>
-            </center>
+
+            <div class="col-sm-4">
+              <label >Funciones</label>
+              <textarea type="text" class="form-control" id="functions" name="functions" required ></textarea>
+              <input type="hidden" name="typeOp" value="5">
+            </div>
+
           </div>
         </div>
         <div class="modal-footer">
@@ -144,7 +215,7 @@ $DataBase = new db();
 ?>
     <!--Modal para el boton  editar convocatoria--->
   <div class="modal fade" tabindex="-1" id="eA-<?php echo $ida ?>" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Editar convocatoria </h5>
@@ -166,11 +237,11 @@ $DataBase = new db();
                 <center><label >Imagen <i class="bi bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo se permite una imagen."></i></label></center>
                 <input type="file" disabled class="form-control" id="archivo[]" name="archivo[]" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede modificar el archivo.">
               </div> 
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                 <center><label >Fecha de inicio</label></center>
                 <input type="date" class="form-control" id="date_start" name="date_start" required value="<?php echo $date_start?>">
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                 <center><label >Fecha Final</label></center>
                 <input type="date" class="form-control" id="date_finish" name="date_finish" required value="<?php echo $date_finish?>">
               </div>
@@ -186,24 +257,53 @@ $DataBase = new db();
                   ?>
                   <option value="<?php echo $idp ?>" <?php if($idp == $ida){ ?> selected <?php }?>><?php echo $namep ?></option>
                   <?php } ?>
+                  
                 </select>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-4">
+                <center><label >Cargo</label></center>
+                <select class="form-select" aria-label="Default select example" id="charge" name="charge">
+                  <option selected disabled value="">Selecciona un cargo</option>
+                  <?php     
+                    $l_charges_select = $DataBase->read_data_table('charges');
+                    while ($row = mysqli_fetch_object($l_charges_select)) {
+                      $idp = $row->id_charge;
+                      $namep = $row->t_name;
+                  ?>
+                  <option value="<?php echo $idp ?>" <?php if($idp == $ida){ ?> selected <?php }?>><?php echo $namep ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+              <div class="col-sm-4">
+              <center><label >Área</label></center>
+              <select class="form-select" aria-label="Default select example" id="area" name="area">
+                <option selected disabled value="">Selecciona una área</option>
+                <?php     
+                  $l_charges_select = $DataBase->read_data_table('areas');
+                  while ($row = mysqli_fetch_object($l_charges_select)) {
+                    $id = $row->id_area;
+                    $name = $row->t_name;
+                ?>
+                <option value="<?php echo $id ?>"><?php echo $name ?></option>
+                <?php } ?>
+                <option value="0">Ninguno</option>
+              </select>
+            </div>
+              <div class="col-sm-4">
                 <center><label >Procedimiento</label></center>
                 <textarea type="text" class="form-control" id="process" name="process" required ><?php echo $process?></textarea>
               </div> 
-              <div class="col-sm-6">
+              <div class="col-sm-4">
                 <center><label >Perfil solicitado</label></center>
                 <textarea type="text" class="form-control" id="profile" name="profile" required ><?php echo $profile?></textarea>
               </div>
-              <center>
-              <div class="col-sm-6">
+
+              <div class="col-sm-4">
                 <label >Funciones</label>
                 <textarea type="text" class="form-control" id="functions" name="functions" required ><?php echo $functions?></textarea>
                 <input type="hidden" name="typeOp" value="8">
                 <input type="hidden" name="id" value="<?php echo $ida ?>">
               </div>
-              </center>
             <div>
           </div>
           <div class="modal-footer">
@@ -248,7 +348,10 @@ $DataBase = new db();
       </div>
     </div>
   </div>
-<?php }
+<?php } ?>
+
+<?php }?>
+<?php
 include("components/footer.php");
 ?>
 

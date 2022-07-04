@@ -2,6 +2,7 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 <center><h2>Lista de cargos</h2></center>
 
@@ -16,6 +17,7 @@ $DataBase = new db();
             <th>Nombre</th>
             <th>Descripción</th>
             <th># Actividades</th>
+            <th># Empleados</th>
             <th></th>
         </thead>
         <tbody>
@@ -37,6 +39,9 @@ $DataBase = new db();
                 </td>
                 <td>
                     <?php echo $num ?>
+                </td>
+                <td>
+                    <?php echo $DataBase->num_employees_charge($id)->numEmpc ?>
                 </td>
                 <td>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditCharge-<?php echo $id?>" ><i class="bi bi-pencil-square"></i></a>
@@ -177,9 +182,17 @@ $DataBase = new db();
             </div>
             <div class="modal-body"> 
                 <div class="row">
-                    <p>
-                    
-                    </p>
+                    <?php $l_activities = $DataBase->read_activities_charges($id);
+                    $cont = 0;
+                    if($l_activities->num_rows === 0){?>
+                        <p>Este cargo no tiene ninguna actividad.</p>
+                    <?php }else{
+                        while($row = mysqli_fetch_object($l_activities)){ ?>
+                            <p><?php 
+                            $cont +=1;
+                            echo '<strong>'.$cont.'.</strong> '.$row->t_name;?></p><br>
+                        <?php } 
+                    }?>
                 </div>
                 <br>
             </div>

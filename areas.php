@@ -2,6 +2,7 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 <center><h2>Áreas</h2></center>
 

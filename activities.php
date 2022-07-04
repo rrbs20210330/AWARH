@@ -2,6 +2,8 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
+
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 <center><h2>Lista de Actividades</h2></center>
 <div class="container">
@@ -30,7 +32,7 @@ $DataBase = new db();
                     if(intval($object) === 0){
                         $charge = "Ninguno";
                     }else{
-                        $charge = $DataBase->read_single_record_charges('charges', intval($object))->t_name;
+                        $charge = $DataBase->read_single_record_charges(intval($object))->t_name;
                     }
             ?>
             <tr>

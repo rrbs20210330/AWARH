@@ -49,6 +49,11 @@
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
+        public function read_data_table_files_trainings($id){
+            $sql = "SELECT * FROM trainings_files WHERE fk_training = $id";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
+        }
         public function count_data_table($table){
             $sql = "SELECT count(*) as count_data FROM `$table`";
             $res = mysqli_query($this->con, $sql);
@@ -56,7 +61,7 @@
             return $return;
         }
         public function proEditActivity($id, $name, $description, $id_charge){
-            $sql = "UPDATE activities as a, charges_activities as ca SET a.name = '$name', a.description = '$description', ca.id_charge = $id_charge WHERE a.id = $id and ca.id_activities = $id";
+            $sql = "UPDATE activities as a, charges_activities as ca SET a.t_name = '$name', a.t_description = '$description', ca.fk_charge = $id_charge WHERE a.id_activity = $id and ca.fk_activity = $id";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -66,6 +71,48 @@
         }
         public function read_single_record($table, $id){
             $sql = "SELECT * FROM $table WHERE id = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_employee_announcement($id){
+            $sql = "SELECT * FROM employees_announcements WHERE fk_employee = '$id'";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_user_employee($id){
+            $sql = "SELECT * FROM employees_users WHERE fk_user = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_employee_user($id){
+            $sql = "SELECT * FROM employees_users WHERE fk_employee = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_announcement_position($id){
+            $sql = "SELECT * FROM announcements_positions WHERE fk_announcement = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_announcement_charge($id){
+            $sql = "SELECT * FROM announcements_charges WHERE fk_announcement = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_candidates_position($id){
+            $sql = "SELECT * FROM candidates_positions WHERE fk_candidate = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_position($id){
+            $sql = "SELECT * FROM positions WHERE id_position = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -94,7 +141,7 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
-        public function read_single_record_charges($table, $id){
+        public function read_single_record_charges($id){
             $sql = "SELECT * FROM charges WHERE id_charge = '$id'";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
@@ -197,8 +244,8 @@
                 return false;
             }
         }
-        public function proNewEmployee($names, $last_names, $birthday, $photo_name,$photo_path, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $contract_name, $contract_path, $rfc, $nss){
-            $sql = "CALL procedure_new_employee('$names','$last_names','$birthday','$photo_name','$photo_path','$phone_number','$email','$no_interior','$no_exterior','$references', '$street', '$colony','$charge', '$position','$contract_name', '$contract_path', '$rfc', '$nss');";
+        public function proNewEmployee($names, $last_names, $birthday, $photo_name,$photo_path, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $contract_name, $contract_path, $rfc, $nss,$filename_cv,$file_path_cv){
+            $sql = "CALL procedure_new_employee('$names','$last_names','$birthday','$photo_name','$photo_path','$phone_number','$email','$no_interior','$no_exterior','$references', '$street', '$colony','$charge', '$position','$contract_name', '$contract_path', '$rfc', '$nss','$filename_cv','$file_path_cv');";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -274,8 +321,8 @@
             }
 
         }
-        public function proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $file_name,$file_path){
-            $sql = "CALL procedure_new_announcement('$name','$description','$date_start','$date_finish', $position,'$process','$profile', '$functions','$file_name','$file_path')";
+        public function proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $file_name,$file_path,$charge){
+            $sql = "CALL procedure_new_announcement('$name','$description','$date_start','$date_finish', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge)";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -298,17 +345,41 @@
         }
 
         public function read_all_employees(){
-            $sql = "SELECT * FROM listEmployees";
+            $sql = "SELECT * FROM view_list_employees";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
         public function read_all_charges(){
-            $sql = "SELECT * FROM listCharges";
+            $sql = "SELECT * FROM view_list_charges";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
         public function read_info_employee($id){
-            $sql = "SELECT * FROM infoEmployee WHERE id_employee = '$id'";
+            $sql = "SELECT * FROM view_info_employee WHERE id_employee = $id";
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            return $obj;
+        }
+        public function read_single_record_user($id){
+            $sql = "SELECT * FROM users WHERE id_user = $id";
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            return $obj;
+        }
+        public function read_single_record_area($id){
+            $sql = "SELECT * FROM areas WHERE id_area = $id";
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            return $obj;
+        }
+        public function read_single_record_area_position($id){
+            $sql = "SELECT fk_area FROM positions_areas WHERE fk_position = $id";
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            return $obj;
+        }
+        public function read_activities_charges($id){
+            $sql = "SELECT * FROM view_number_activities_charges WHERE fk_charge = $id";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
@@ -353,7 +424,7 @@
 
         }
         public function read_all_trainings(){
-            $sql = "SELECT * FROM viewlistTrainings";
+            $sql = "SELECT * FROM view_list_trainings";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
@@ -388,7 +459,7 @@
             }
         }
         public function update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil){
-            $sql = "UPDATE `candidates` SET `t_name` = '$name',`t_phone_number`='$phone_number',`t_email`='$email',`dt_appointment_date` = '$appointment_date', `fk_request_position` = $request_position, `t_profile` = '$perfil' WHERE `id_candidate`= $id";
+            $sql = "CALL procedure_update_candidate($id, '$name', '$phone_number', '$email', '$appointment_date', $request_position, '$perfil')";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -424,8 +495,8 @@
         }
 
         #CRUD (POSITIONS)
-        public function insert_t_positions($name, $description){
-            $sql = "INSERT INTO `positions` (`t_name`, `t_description`) VALUES ('$name', '$description')";
+        public function insert_t_positions($name, $description, $area){
+            $sql = "CALL procedure_new_position('$name', '$description', $area)";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -436,8 +507,8 @@
 
         }
 
-        public function update_t_positions($id, $name, $description){
-            $sql = "UPDATE `positions` SET `t_name` = '$name', `t_description` = '$description' WHERE `id_position` = '$id'";
+        public function update_t_positions($id, $name, $description, $area){
+            $sql = "CALL procedure_update_position($id, '$name', '$description', $area)";
             
             $res = mysqli_query($this->con, $sql);
             
@@ -449,18 +520,8 @@
         }
         #CRUD ANNOUNCEMENTS
 
-        public function insert_t_announcements($name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$active){
-            $sql = "INSERT INTO `announcements` (`name`, `description`, `date_start`, `date_finish`, `position`,`process`, `profile`, `functions`, `active`,`id_file`) VALUES ('$name','$description','$date_start','$date_finish',$position,'$process','$profile','$functions',$active,1)";
-            $res = mysqli_query($this->con, $sql);
-            if($res){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-        public function update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$active){
-            $sql = "UPDATE `announcements` SET `t_name` = '$name', `t_description` = '$description', `d_date_start` = '$date_start', `d_date_finish` = '$date_finish',`t_process` = '$process', `t_profile` = '$profile', `t_functions` = '$functions',`b_active` = $active WHERE `id_announcement` = $id";
+        public function update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$charge,$area){
+            $sql = "CALL procedure_update_announcement($id,'$name','$description','$date_start','$date_finish',$position,'$process','$profile','$functions',$charge,$area)";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -491,6 +552,26 @@
                 return false;
             }
             
+        }
+        public function num_employees_position($id){
+            $sql = "SELECT COUNT(ep.fk_employee) as numEmpp FROM employees_positions ep INNER JOIN employees e on ep.fk_employee = e.id_employee WHERE fk_position = $id";
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            if($res){
+                return $obj;
+            }else{
+                return false;
+            }
+        }
+        public function num_employees_charge($id){
+            $sql = "SELECT COUNT(ec.fk_employee) as numEmpc FROM employees_charges ec INNER JOIN employees e on ec.fk_employee = e.id_employee WHERE fk_charge = $id";
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            if($res){
+                return $obj;
+            }else{
+                return false;
+            }
         }
         function file_name($string){
             // Tranformamos todo a minusculas

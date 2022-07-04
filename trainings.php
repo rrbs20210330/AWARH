@@ -2,6 +2,7 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 
 <center><h2>Lista de Capacitaciones</h2></center>
@@ -212,7 +213,7 @@ $DataBase = new db();
 ?>
   <!-- Modal See Info-->
   <div class="modal fade" id="SeeInfoTraining-<?php echo $id ?>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" >Información General</h5>
@@ -224,6 +225,22 @@ $DataBase = new db();
             <b>Periodo de Realización</b><br>
             <b>Inicio:</b> <?php echo $date_start?><br>
             <b>Fin:</b> <?php echo $date_finish?><br>
+            <b>Archivos</b> <?php echo "6" ?> <button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Ver mas
+            </button>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <ul class="list-group">
+                    <?php $l_archives = $DataBase->read_data_table_files_trainings($id);
+                    while($row = mysqli_fetch_object($l_archives)){
+                      $idfile = $row->fk_file;
+                      $infofile = $DataBase->read_single_record_files($idfile);
+                      ?>
+                    <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$infofile->t_path ?>" target="_blank"><li class="list-group-item"><?php echo $infofile->t_name ?></li></a> 
+                    <?php } ?>
+                  </ul>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

@@ -25,7 +25,11 @@ CREATE TABLE IF NOT EXISTS `areas`(
     `t_description` VARCHAR(200) NOT NULL COMMENT 'Es la descripción de áreas',
     PRIMARY KEY (`id_area`)
 );
-
+CREATE TABLE IF NOT EXISTS `positions_areas`(
+    `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con area',
+    `fk_area` INT COMMENT 'Id de la tabla de areas, es lo que relaciona area con puestos',
+    FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`)
+);
 CREATE TABLE IF NOT EXISTS `charges` (
     `id_charge` INT(11) AUTO_INCREMENT COMMENT'Id de la tabla de cargos',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'Es el nombre de los cargos',
@@ -66,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `addresses` (
 );
 
 CREATE TABLE IF NOT EXISTS `employees` (
-    `id_employee` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla empleados/employees',
+    `id_employee` INT AUTO_INCREMENT COMMENT 'Id de la tabla empleados/employees',
     `t_names` VARCHAR(100) NOT NULL COMMENT 'Los nombres del empleado',
     `t_last_names` VARCHAR(100) NOT NULL COMMENT 'Los apellidos del empleado',
     `t_email` VARCHAR(100) NOT NULL COMMENT 'El correo electrónico',
@@ -78,12 +82,19 @@ CREATE TABLE IF NOT EXISTS `employees` (
     `fk_contract` INT NOT NULL COMMENT 'La relación que tiene con la tabla de archivos',
     `fk_img` INT NOT NULL COMMENT 'La relación que tiene con la tabla de archivos ',
     `fk_address` INT NOT NULL COMMENT 'La relación que tiene con la tabla de direcciones',
-    -- `fk_user` INT NOT NULL COMMENT 'La relación que tiene con la tabla de usuarios',
+    `fk_cv` INT NOT NULL COMMENT 'La relación que tiene con la tabla de archivos',
     FOREIGN KEY (`fk_contract`) REFERENCES `files`(`id_file`),
-    -- FOREIGN KEY (`fk_user`) REFERENCES `users`(`id_user`),
+    FOREIGN KEY (`fk_cv`) REFERENCES `files`(`id_file`),
     FOREIGN KEY (`fk_img`) REFERENCES `files`(`id_file`),
     FOREIGN KEY (`fk_address`) REFERENCES `addresses`(`id_address`),
     PRIMARY KEY(`id_employee`)
+);
+ALTER TABLE `employees` AUTO_INCREMENT=20210001;
+CREATE TABLE IF NOT EXISTS `employees_users`(
+    `fk_employee` INT COMMENT 'La Id de la tabla de empleados, es lo que relaciona empleados con los usuarios',
+    `fk_user` INT COMMENT 'La Id de la tabla de usuarios, es lo que relaciona usuarios con los empleados',
+    FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
+    FOREIGN KEY (`fk_user`) REFERENCES `users`(`id_user`)
 );
 
 CREATE TABLE IF NOT EXISTS `trainings` (
@@ -115,13 +126,18 @@ CREATE TABLE IF NOT EXISTS `candidates` (
     `t_phone_number` VARCHAR(100) NOT NULL COMMENT 'Numero de teléfono de los candidatos',
     `t_email` VARCHAR(100) NOT NULL COMMENT 'Correo Electrónico del candidato',
     `dt_appointment_date` DATETIME NOT NULL COMMENT 'La fecha para la cita del candidato',
-    `fk_request_position` INT NOT NULL COMMENT 'La Id de la tabla puestos que lo relaciona con candidatos',
     `t_profile` VARCHAR(100) NOT NULL COMMENT 'El perfil que se necesita para ser el nuevo candidato',
     `fk_cv` INT NOT NULL COMMENT 'La Id de la tabla de archivos para subir el Curriculum',
     `b_is_employee` BOOLEAN NOT NULL COMMENT 'Es para saber si un candidato fue contratado y es un empleado',
     FOREIGN KEY (`fk_cv`) REFERENCES `files`(`id_file`),
-    FOREIGN KEY (`fk_request_position`) REFERENCES `positions`(`id_position`),
     PRIMARY KEY (`id_candidate`)
+);
+
+CREATE TABLE IF NOT EXISTS `candidates_positions`(
+    `fk_position` INT NOT NULL COMMENT 'La Id de la tabla puestos que lo relaciona con candidatos',
+    `fk_candidate` INT NOT NULL COMMENT 'La Id de la tabla candidatos que lo relaciona con puestos',
+    FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`),
+    FOREIGN KEY (`fk_candidate`) REFERENCES `candidates`(`id_candidate`)
 );
 
 CREATE TABLE IF NOT EXISTS `announcements` (
@@ -142,22 +158,55 @@ CREATE TABLE IF NOT EXISTS `announcements` (
 CREATE TABLE IF NOT EXISTS `announcements_positions`(
     `fk_announcement` INT COMMENT 'Id de la tabla de convocatorias, es lo que relaciona convocatorias con puesto',
     `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con convocatorias',
-    FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`),
-    FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`)
+    FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
 );
+CREATE TABLE IF NOT EXISTS `announcements_areas`(
+    `fk_announcement` INT COMMENT 'Id de la tabla de convocatorias, es lo que relaciona convocatorias con area',
+    `fk_area` INT COMMENT 'Id de la tabla de area, es lo que relaciona area con convocatorias',
+    FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
+);
+CREATE TABLE IF NOT EXISTS `announcements_charges`(
+    `fk_announcement` INT COMMENT 'Id de la tabla de convocatorias, es lo que relaciona convocatorias con cargo',
+    `fk_charge` INT COMMENT 'Id de la tabla de cargo, es lo que relaciona cargo con convocatorias',
+    FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
+);
+
 CREATE TABLE IF NOT EXISTS `employees_positions`(
     `fk_employee` INT COMMENT 'Id de la tabla de empleados, es lo que relaciona empleados con puesto',
     `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con empleados',
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`)
 );
+
 CREATE TABLE IF NOT EXISTS `employees_charges`(
     `fk_employee` INT COMMENT 'Id de la tabla de empleados, es lo que relaciona empleados con cargo',
     `fk_charge` INT COMMENT 'Id de la tabla de cargo, es lo que relaciona cargo con empleado',
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_charge`) REFERENCES `charges`(`id_charge`)
 );
-
+CREATE TABLE IF NOT EXISTS `employees_announcements`(
+    `fk_announcement` INT,
+    `fk_employee` INT,
+    `d_registry_date` DATE,
+    `b_status` INT,
+    `t_notice` VARCHAR(200),
+    FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
+    FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
+);
+CREATE TABLE IF NOT EXISTS `request_info_employees`(
+    `id_request` INT AUTO_INCREMENT,
+    `fk_employee` INT,
+    `t_phone_number` VARCHAR(100),
+    `t_email` VARCHAR(100),
+    `t_street` VARCHAR(100),
+    `t_no_exterior` VARCHAR(100),
+    `t_no_interior` VARCHAR(100),
+    `t_colony` VARCHAR(100),
+    `t_references` VARCHAR(100),
+    FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
+    PRIMARY KEY (`id_request`)
+);
+INSERT INTO `users`(`t_user`, `t_password`, `b_active`, `i_type`) VALUES ('superadmin', 'tamarindo123', 1, 1);
 
 -- FUNCTIONS
 DELIMITER $
@@ -189,6 +238,7 @@ DELIMITER $
 CREATE PROCEDURE procedure_delete_candidate(`id` INT) 
 	BEGIN 
         SELECT `fk_cv` INTO @cv_file FROM `candidates` WHERE `id_candidate` = `id`;
+        DELETE FROM `candidates_positions` WHERE `fk_candidate` = `id`;
         DELETE FROM `candidates` WHERE `id_candidate` = `id`;
         DELETE FROM `files`  WHERE `id_file` = @cv_file;
 	END$
@@ -196,6 +246,9 @@ CREATE PROCEDURE procedure_delete_candidate(`id` INT)
 DELIMITER $
 CREATE PROCEDURE procedure_delete_employee(`id` INT) 
 	BEGIN 
+        SELECT `fk_user` INTO @user FROM `employees_users` WHERE `fk_employee` = `id`;
+        DELETE FROM `employees_users` WHERE `fk_employee` = `id`;
+        DELETE FROM `users` WHERE `id_user` = @user;
 		DELETE FROM `employees_charges`  WHERE `fk_employee` = `id`;
 		DELETE FROM `employees_positions`  WHERE `fk_employee` = `id`;
 		DELETE FROM `employees_trainings` WHERE `fk_employee` = `id`;
@@ -207,6 +260,7 @@ CREATE PROCEDURE procedure_delete_employee(`id` INT)
 DELIMITER $
 CREATE PROCEDURE procedure_delete_position(`id` INT) 
 	BEGIN 
+        DELETE FROM `positions_areas` WHERE `fk_position` = `id`;
 		DELETE FROM `announcements_positions` WHERE `fk_position` = `id`;
 		DELETE FROM `employees_positions` WHERE `fk_position` = `id`;
 		DELETE FROM `positions` WHERE `id_position` = `id`;
@@ -225,6 +279,8 @@ CREATE PROCEDURE procedure_delete_announcement(`id` INT)
 	BEGIN 
         SELECT `fk_file` INTO @id_file FROM `announcements` WHERE `id_announcement` = `id`;
         DELETE FROM `announcements_positions` WHERE `fk_announcement` = `id`;
+        DELETE FROM `announcements_charges` WHERE `fk_announcement` = `id`;
+        DELETE FROM `announcements_areas` WHERE `fk_announcement` = `id`;
 		DELETE FROM `announcements` WHERE `id_announcement` = `id`;
 		DELETE FROM `files` WHERE `id_file` = @id_file;
 	END$
@@ -232,6 +288,7 @@ CREATE PROCEDURE procedure_delete_announcement(`id` INT)
 DELIMITER $
 CREATE PROCEDURE procedure_delete_area(`id` INT) 
 	BEGIN 
+        DELETE FROM `announcements_areas` WHERE `fk_area` = `id`;
 		DELETE FROM `areas` WHERE `id_area` = `id`;
 	END$
 
@@ -246,6 +303,23 @@ CREATE PROCEDURE procedure_new_activity(`name` VARCHAR(100), `description` VARCH
 	END$
 
 DELIMITER $
+CREATE PROCEDURE procedure_new_position(`name` VARCHAR(100), `description` VARCHAR(200), `area` INT) 
+	BEGIN 
+		INSERT INTO `positions`(`t_name`, `t_description`) 
+		VALUES (`name`, `description`);
+        SELECT MAX(`id_position`) INTO @id_position FROM `positions`;
+        INSERT INTO `positions_areas`(`fk_position`, `fk_area`)
+        VALUES (@id_position, `area`);
+	END$
+
+DELIMITER $
+CREATE PROCEDURE procedure_update_position(`id` INT,`name` VARCHAR(100), `description` VARCHAR(200), `area` INT) 
+	BEGIN 
+		UPDATE `positions` SET `t_name` = `name`, `t_description` = `description` WHERE `id_position` = `id`;
+        UPDATE `positions_areas` SET `fk_area` = `area` WHERE `id_position` = `id`;
+	END$
+
+DELIMITER $
 CREATE PROCEDURE procedure_new_charge(`name` VARCHAR(100), `description` VARCHAR(200), `position` INT(10)) 
 	BEGIN 
 		INSERT INTO `charges`(`t_name`, `t_description`) 
@@ -256,24 +330,34 @@ CREATE PROCEDURE procedure_new_charge(`name` VARCHAR(100), `description` VARCHAR
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_new_employee(`names` VARCHAR(100),`last_names` VARCHAR(100),`birthday` DATE,`photo_name` VARCHAR(200),`photo_path` VARCHAR(200),`phone_number` VARCHAR(100),`email` VARCHAR(200),`no_interior` VARCHAR(10),`no_exterior` VARCHAR(10),`references` VARCHAR(255),`street` VARCHAR(100),`colony` VARCHAR(100),`charge` INT,`position` INT,`contract_name` VARCHAR(200),`contract_path` VARCHAR(200),`rfc` VARCHAR(100),`nss` VARCHAR(100)) 
+CREATE PROCEDURE procedure_new_employee(`names` VARCHAR(100),`last_names` VARCHAR(100),`birthday` DATE,`photo_name` VARCHAR(200),`photo_path` VARCHAR(200),`phone_number` VARCHAR(100),`email` VARCHAR(200),`no_interior` VARCHAR(10),`no_exterior` VARCHAR(10),`references` VARCHAR(255),`street` VARCHAR(100),`colony` VARCHAR(100),`charge` INT,`position` INT,`contract_name` VARCHAR(200),`contract_path` VARCHAR(200),`rfc` VARCHAR(100),`nss` VARCHAR(100),`cv_name` VARCHAR(100),`cv_path` VARCHAR(200)) 
 	BEGIN 
 		INSERT INTO `files`(`t_name`, `t_path`) 
 		VALUES (`photo_name`, `photo_path`);
 		SELECT MAX(`id_file`) INTO @id_file_photo FROM `files`;	
+        INSERT INTO `files`(`t_name`, `t_path`) 
+		VALUES (`cv_name`, `cv_path`);
+		SELECT MAX(`id_file`) INTO @id_file_cv FROM `files`;	
 		INSERT INTO `files`(`t_name`, `t_path`) 
 		VALUES (`contract_name`, `contract_path`);
 		SELECT MAX(`id_file`) INTO @id_file_contract FROM `files`;		
 		INSERT INTO `addresses`(`t_no_exterior`, `t_no_interior`, `t_references`, `t_street`, `t_colony`)
 		VALUES (`no_exterior`, `no_interior`, `references`, `street`, `colony`);
 		SELECT MAX(`id_address`) INTO @id_address_employee FROM `addresses`;
-		INSERT INTO `employees`(`t_names`,`t_last_names`,`d_birthday`,`t_phone_number`, `t_email`, `fk_img`, `fk_address`, `fk_contract`,`b_active`, `t_rfc`, `t_nss`) 
-		VALUES (`names`, `last_names`, `birthday`, `phone_number`, `email`, @id_file_photo, @id_address_employee, @id_file_contract,true, `rfc`, `nss`); 
+		INSERT INTO `employees`(`t_names`,`t_last_names`,`d_birthday`,`t_phone_number`, `t_email`, `fk_img`, `fk_address`, `fk_contract`,`b_active`, `t_rfc`, `t_nss`, `fk_cv`) 
+		VALUES (`names`, `last_names`, `birthday`, `phone_number`, `email`, @id_file_photo, @id_address_employee, @id_file_contract,true, `rfc`, `nss`, @id_file_cv); 
 		SELECT MAX(`id_employee`) INTO @id_employee FROM `employees`;
 		INSERT INTO `employees_charges`(`fk_employee`, `fk_charge`)
 		VALUES (@id_employee, `charge`);
 		INSERT INTO `employees_positions`(`fk_employee`, `fk_position`)
 		VALUES (@id_employee, `position`);
+        SET @PASSWRD = CONCAT('psswrd',@id_employee);
+        SET @USER = CONCAT('e',@id_employee);
+        INSERT INTO `users`(`t_user`, `t_password`,`b_active`, `i_type`)
+        VALUES (@USER, @PASSWRD, true, 2);
+        SELECT MAX(`id_user`) INTO @usuario FROM `users`;
+        INSERT INTO `employees_users`(`fk_employee`, `fk_user`)
+        VALUES (@id_employee, @usuario);
 	END$
 
 DELIMITER $
@@ -313,30 +397,55 @@ CREATE PROCEDURE procedure_new_candidate(`name` VARCHAR(100),`phone_number` VARC
 		INSERT INTO files(`t_name`, `t_path`) 
 		VALUES (`cv_name`, `cv_path`);
 		SELECT MAX(`id_file`) INTO @id_cvfile_candidate FROM `files`;
-		INSERT INTO `candidates`(`t_name`, `t_phone_number`, `t_email`,`dt_appointment_date`,`fk_request_position`, `t_profile`,`fk_cv`, `b_is_employee`)
-		VALUES (`name`, `phone_number`, `email`,`appointment_date`, `request_position`, `perfil`, @id_cvfile_candidate, false);
+		INSERT INTO `candidates`(`t_name`, `t_phone_number`, `t_email`,`dt_appointment_date`, `t_profile`,`fk_cv`, `b_is_employee`)
+		VALUES (`name`, `phone_number`, `email`,`appointment_date`, `perfil`, @id_cvfile_candidate, false);
+        SELECT MAX(`id_candidate`) INTO @id_candidate FROM `candidates`;
+        INSERT INTO `candidates_positions` (`fk_position`, `fk_candidate`)
+        VALUES (`request_position`, @id_candidate);
+	END$
+
+CREATE PROCEDURE procedure_update_candidate(`id` int,`name` VARCHAR(100),`phone_number` VARCHAR(100),`email` VARCHAR(100), `appointment_date` DATETIME,`request_position` INT,`perfil` VARCHAR(200)) 
+	BEGIN 
+		UPDATE `candidates` SET `t_name` = `name`, `t_phone_number` = `phone_number`, `t_email` = `email`,`dt_appointment_date` = `appointment_date`, `t_profile` = `perfil` WHERE `id_candidate` = `id`;
+        UPDATE `candidates_positions` SET `fk_position` = `request_position` WHERE `fk_candidate` = `id`;
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`date_start` DATE,`date_finish` DATE, `position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200)) 
+CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`date_start` DATE,`date_finish` DATE, `position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200), `charge` INT, `area` INT) 
 	BEGIN 
 		INSERT INTO `files`(`t_name`, `t_path`) VALUES (`file_name`, `file_path`);
 		SELECT MAX(`id_file`) INTO @id_file_announcement FROM `files`;
 		INSERT INTO `announcements`(`t_name`, `t_description`, `d_date_start`,`d_date_finish`,`t_process`, `t_profile`,`t_functions`, `b_active`,`fk_file`)VALUES (`name`, `description`, `date_start`,`date_finish`,`process`, `profile`,`functions`,true, @id_file_announcement);
         SELECT MAX(`id_announcement`) INTO @id_announcement FROM `announcements`;
         INSERT INTO `announcements_positions`(`fk_position`, `fk_announcement`) VALUES (`position`, @id_announcement);
+        INSERT INTO `announcements_charges`(`fk_charge`, `fk_announcement`) VALUES (`charge`, @id_announcement);
+        INSERT INTO `announcements_areas`(`fk_area`, `fk_announcement`) VALUES (`area`, @id_announcement);
+        
+	END$
+
+DELIMITER $
+CREATE PROCEDURE procedure_update_announcement(`id` INT,`name` VARCHAR(100),`description` VARCHAR(100),`date_start` DATE,`date_finish` DATE, `position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200), `charge` INT, `area` INT) 
+	BEGIN 
+		UPDATE `announcements` SET `t_name` = `name`, `t_description` = `description`, `d_date_start` = `date_start`,`d_date_finish` = `date_finish`,`t_process` = `process`, `t_profile` = `profile`,`t_functions` = `functions` WHERE `id_announcement` = `id`;
+        UPDATE `announcements_positions` SET `fk_position` = `position` WHERE `fk_announcement` = `id`;
+        UPDATE `announcements_charges` SET`fk_charge` = `charge` WHERE `fk_announcement` = `id`;
+        UPDATE `announcements_areas` SET `fk_area` = `area` WHERE `fk_announcement` = `id`;
+        
 	END$
 
 -- VIEWS
 
-CREATE VIEW infoEmployee as 
+CREATE VIEW view_info_employee as 
 SELECT e.*, a.*, ec.fk_charge, ep.fk_position FROM employees as e INNER JOIN addresses AS a on e.fk_address = a.id_address LEFT JOIN employees_charges as ec on e.id_employee = ec.fk_employee LEFT JOIN employees_positions as ep on e.id_employee = ec.fk_employee;
 
-CREATE VIEW listCharges as 
+CREATE VIEW view_list_charges as 
 select id_charge AS chargeID,t_description AS chargeDesc,t_name AS chargeName from charges c;
 
-CREATE VIEW listEmployees as 
+CREATE VIEW view_list_employees as 
 SELECT id_employee, b_active, t_names, t_last_names, t_phone_number, t_email FROM employees;
 
-CREATE VIEW viewlistTrainings as
+CREATE VIEW view_list_trainings as
 SELECT t.id_training, t.t_name, t.d_date_start, t.d_date_finish, t_description, e.id_employee as employee_id, CONCAT(e.t_names, " ", e.t_last_names) as employee_full_name  FROM trainings as t INNER JOIN employees_trainings as et on t.id_training = et.fk_training INNER JOIN employees as e on et.fk_employee = e.id_employee;
+
+CREATE VIEW view_number_activities_charges as
+select c.fk_charge, c.fk_activity, a.t_name from charges_activities c INNER JOIN activities a on id_activity = c.fk_activity;

@@ -2,8 +2,9 @@
 include("components/header.php");
 include('config/db.php');
 //la  creacion para ver toda la Información junta como reporte
-$announcements = new db();
-$announcement = $announcements->read_single_record_announcement($_GET['id']);
+
+$DataBase = new db();
+$announcement = $DataBase->read_single_record_announcement($_GET['id']);
 $nombre = $announcement->t_name;
 $descripcion = $announcement->t_description;
 $fechadeinicio = $announcement->d_date_start;
@@ -13,7 +14,7 @@ $Perfilsolicitado = $announcement->t_profile;
 $funciones = $announcement->t_functions;
 $estado = $announcement->b_active;
 $file = $announcement->fk_file;
-$path_file = $announcements->read_single_record_files($file)->t_path;;
+$path_file = $DataBase->read_single_record_files($file)->t_path;;
 ?>
 <br>
 
@@ -39,28 +40,39 @@ $path_file = $announcements->read_single_record_files($file)->t_path;;
     </div>
   </div>
   <br>
-  <table class="table table-striped table-bordered userTable"  style='background: #00252e '>
-    <thead style="color: white">
-        <th>Aspirante</th>
-        <th>Estado</th>
-        <th></th>
-    </thead>
-    <tbody>
-      <tr>
-          
-          <td>
-              Roberto
-          </td>
-          <td>
-              Pendiente
-          </td>
-          <td>
-              <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#EditUser-<?php echo $id?>">Aceptar</a>
-              <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteUser-<?php echo $id?>">Rechazar</a>
-          </td>
-      </tr>  
-    </tbody>
-  </table>
+  <?php if(intval($tipo) === 1){?>
+    <table class="table table-striped table-bordered userTable"  style='background: #00252e '>
+      <thead style="color: white">
+          <th>Aspirante</th>
+          <th>Estado</th>
+          <th></th>
+      </thead>
+      <tbody>
+        <tr>
+            
+            <td>
+                Roberto
+            </td>
+            <td>
+                Pendiente
+            </td>
+            <td>
+                <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#EditUser-<?php echo $id?>">Aceptar</a>
+                <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteUser-<?php echo $id?>">Rechazar</a>
+            </td>
+        </tr>  
+      </tbody>
+    </table>
+  <?php }else{
+    $id_user = $_SESSION['id_usuario'];
+    $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
+    $employee_info = $DataBase->read_info_employee(intval($id_employee));
+    $is_applied = $DataBase->read_single_record_employee_announcement($id_employee) ? $DataBase->read_single_record_employee_announcement($id_employee)->num_rows : 0;?>
+    <?php if(intval($is_applied) === 0){?>
+      <a class="btn btn-dark btn-sm"> Aplicar</a>
+    <?php }else{ ?>
+    <a class="btn btn-dark btn-sm">Ya has aplicado</a>
+  <?php } }?>
 </div>
 
 

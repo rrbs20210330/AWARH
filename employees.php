@@ -2,6 +2,7 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 
 <center><h2>Lista de Empleados</h2></center>
@@ -55,6 +56,7 @@ $DataBase = new db();
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteEmployee-<?php echo $id ?>"><i class="bi-trash"></i></a>
                     <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeInfoEmployee-<?php echo $id ?>"><i class="bi bi-eye"></i></a>
+                    
                 </td>
             </tr>  
             <?php }?>
@@ -105,7 +107,7 @@ $DataBase = new db();
                 <center><label for="">Contacto</label></center>
                 <div class="col-sm-6">
                 <label>Teléfono </label>
-                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="">
+                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                 </div>
                 <div class="col-sm-6">
                 <label >Correo Electrónico</label>
@@ -140,7 +142,7 @@ $DataBase = new db();
             <br> 
             <div class="row">
                 <center><label for="">Información de trabajo</label></center>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                 <label>Cargo</label>
                 <select class="form-select" aria-label="Default select example" id="charge" name="charge">
                     <option selected disabled value="">Selecciona una área</option>
@@ -154,7 +156,7 @@ $DataBase = new db();
                     <?php } ?>
                 </select>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <label for="">Puesto</label>
                     <select class="form-select" aria-label="Default select example" id="position" name="position">
                         <option selected disabled value="">Selecciona un puesto</option>
@@ -168,9 +170,13 @@ $DataBase = new db();
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                 <label>Contrato</label>
                 <input type="file" class="form-control" id="contract[]" name="contract[]" required>
+                </div>
+                <div class="col-sm-6">
+                <label>CV</label>
+                <input type="file" class="form-control" id="cv[]" name="cv[]" required>
                 </div>
             </div>
             <input type="hidden" name="typeOp" value="3">
@@ -196,8 +202,7 @@ $DataBase = new db();
     $l_employees = $DataBase->read_all_employees();
     while ($row = mysqli_fetch_object($l_employees)) {
         $idL = $row->id_employee;
-        $employee_info = $DataBase->read_info_employee($idL);
-        $employee = mysqli_fetch_object($employee_info);
+        $employee = $DataBase->read_info_employee($idL);
         $names = $employee->t_names;
         $last_names = $employee->t_last_names;
         $email = $employee->t_email;
@@ -256,7 +261,7 @@ $DataBase = new db();
                     <center><label for="">Contacto</label></center>
                     <div class="col-sm-6">
                     <label>Teléfono </label>
-                    <input value="<?php echo $phone_number?>" type="number" class="form-control" id="phone_number" name="phone_number" >
+                    <input value="<?php echo $phone_number?>" type="number" class="form-control" id="phone_number" name="phone_number" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>
                     <div class="col-sm-6">
                     <label >Correo Electronico</label>
@@ -291,7 +296,7 @@ $DataBase = new db();
                 <br> 
                 <div class="row">
                     <center><label for="">Información de trabajo</label></center>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                     <label>Cargo</label>
                     <select class="form-select" aria-label="Default select example" id="charge" name="charge">
                         <option disabled value="">Selecciona una área</option>
@@ -305,7 +310,7 @@ $DataBase = new db();
                         <?php } ?>
                     </select>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <label for="">Puesto</label>
                         <select class="form-select" aria-label="Default select example" id="position" name="position">
                             <option selected disabled value="">Selecciona un puesto</option>
@@ -319,9 +324,13 @@ $DataBase = new db();
                             <?php } ?>
                         </select>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                     <label>Contrato</label>
                     <input type="file" disabled class="form-control" id="contract" name="contract" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
+                    </div>
+                    <div class="col-sm-6">
+                    <label>CV</label>
+                    <input type="file" disabled class="form-control" id="cv" name="cv" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                     </div>
                 </div>
                 <input type="hidden" name="typeOp" value="4">
@@ -376,53 +385,54 @@ $DataBase = new db();
     $l_employees = $DataBase->read_all_employees();
     while ($row = mysqli_fetch_object($l_employees)) {
         $idL = $row->id_employee;
-        $employee_info = $DataBase->read_info_employee($idL);
-$employee = mysqli_fetch_object($employee_info);
-$full_name = $employee->t_names." ".$employee->t_last_names;
-$email = $employee->t_email;
-$rfc = $employee->t_rfc;
-$nss = $employee->t_nss;
-$phone_number = $employee->t_phone_number;
-$birthday = $employee->d_birthday;
-$no_exterior = $employee->t_no_exterior;
-$no_interior = $employee->t_no_interior;
-$references = $employee->t_references;
-$street = $employee->t_street;
-$colony = $employee->t_colony;
-$position = $employee->fk_position;
-$charge = $employee->fk_charge;
-$photo = $employee->fk_img;
-$contract = $employee->fk_contract;
-$path_c = $DataBase->read_single_record_files($contract)->t_path;
-$path_p = $DataBase->read_single_record_files($photo)->t_path;
-?>
+        $employee_info = $DataBase->read_info_employee(intval($idL));
+        $id_area = $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area;
+        $area_info = $DataBase->read_single_record_area($id_area);
+        $path_p = $DataBase->read_single_record_files($employee_info->fk_img)->t_path;
+        $id_user = $DataBase->read_single_record_employee_user($idL)->fk_user;
+        $user_info = $DataBase->read_single_record_user($id_user);
+?>      
     <!-- FORMULARIO DE EDICION DE USUARIOS -->
     <div class="modal fade" id="SeeInfoEmployee-<?php echo $idL ?>" tabindex="-1"  aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Información del Empleado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <center><label for="">Información General</label></center>
-                <div class="row">
-                    <p>
-                        Nombre: <?php echo $full_name?><br>
-                        Email: <?php echo $email ?><br>
-                        RFC: <?php echo $rfc?><br>
-                        NSS: <?php echo $nss?><br>
-                        Teléfono: <?php echo $phone_number ?><br>
-                        Fecha de Nacimiento: <?php echo $birthday?><br>
-                        No. Exterior: <?php echo $no_exterior?><br>
-                        No. Interior: <?php echo $no_interior ?><br>
-                        Referencias: <?php echo $references ?><br>
-                        Calle: <?php echo $street?><br>
-                        Colonia: <?php echo $colony?><br>
-                        Fotografía: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_p ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
-                        Contrato: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_c ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a>
-                    </p>    
-                </div>  
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <center><label for="">Información General</label></center>
+                        <p>
+                            <strong>Nombre:</strong> <?php echo $employee_info->t_names." ".$employee_info->t_last_names?><br>
+                            <strong>Email:</strong> <?php echo $employee_info->t_email; ?><br>
+                            <strong>RFC:</strong> <?php echo $employee_info->t_rfc?><br>
+                            <strong>NSS:</strong> <?php echo $employee_info->t_nss?><br>
+                            <strong>Teléfono:</strong> <?php echo $employee_info->t_phone_number ?><br>
+                            <strong>Fecha de Nacimiento:</strong> <?php echo $employee_info->d_birthday?><br>
+                            <strong>No. Exterior:</strong> <?php echo $employee_info->t_no_exterior?><br>
+                            <strong>No. Interior:</strong> <?php echo $employee_info->t_no_interior ?><br>
+                            <strong>Referencias:</strong> <?php echo $employee_info->t_references ?><br>
+                            <strong>Calle:</strong> <?php echo $employee_info->t_street?><br>
+                            <strong>Colonia:</strong> <?php echo $employee_info->t_colony?><br>
+                            <strong>Fotografía:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_p ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                        </p>    
+                    </div>
+                    <div class="col">
+                        <center><label for="">Información Institucional</label></center>
+                        <p>
+                            <strong>Puesto:</strong> <?php echo $DataBase->read_single_record_position($employee_info->fk_position)->t_name; ?>  <br>
+                            <strong>Cargo:</strong> <?php echo $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name; ?>  <br>
+                            <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                            <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                            <strong>Área:</strong> <?php echo $area_info->t_name ?> <br>
+                            <strong>Capacitaciones:</strong> 198 <br>
+                            <strong>Usuario:</strong> <?php echo $user_info->t_user; ?> <br>
+                            <strong>Contraseña:</strong> <?php echo $user_info->t_password; ?> <br>
+                        </p>  
+                    </div> 
+                </div>                 
             </div>
             <div class="modal-footer">
                 
@@ -432,7 +442,12 @@ $path_p = $DataBase->read_single_record_files($photo)->t_path;
         </div>
     </div>    
 <?php } ?>
-
+<script>
+  function verificaNumeros(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    return !(charCode > 31 && (charCode < 48 || charCode > 57));
+}
+  </script>
 <?php 
 include("components/footer.php");
 ?>

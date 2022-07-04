@@ -1,55 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Inicio de Sitio</title>
-	<!-- CSS only -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<?php
+$mysqli = new mysqli("localhost", "root", "", "rh");
 
+function is_session_started()
+{
+  return session_status() === 2 ? TRUE : FALSE;
+}
+
+if (is_session_started() === true ) header('Location: overview.php');
+if(!empty($_SESSION['id_usuario']) && !empty($_SESSION['usuario']) && !empty($_SESSION['tipo_usuario']))header('Location: overview.php');
+session_start();
+
+if ($_POST) { //va a guardar lo que lleve en método post
+    $usuario = $_POST['user']; //$ es para indicar que es variable en php
+    $password = $_POST['password'];
+    $sql = "SELECT * FROM users  WHERE t_user = '$usuario'";
+    $resultado = $mysqli->query($sql);
+    $num = $resultado->num_rows;
+
+    if ($num > 0) {
+        $row = $resultado->fetch_assoc();
+        $password_bd = $row['t_password']; //cifrando en la bdd
+        
+        $pass_C = ($password);
+        if ($password_bd == $pass_C) { //comparar en este if, agregando un &&
+            $activo = $row['b_active'];
+            if($activo){
+                $_SESSION['id_usuario']=$row['id_user']; //
+                $_SESSION['usuario']=$row['t_user'];
+                $_SESSION['tipo_usuario']=$row['i_type'];
+                // session_write_close();
+                header("Location: overview.php"); //si puedes iniciar sesión te manda a esto
+            }else{
+                echo "El usuario ha sido desactivado";
+            }
+            
+ 
+        }
+        else{
+            echo"Contraseña incorrecta";
+        }
+    }//en caso de que no se encuentre el usuario
+        else{
+            echo"NO EXISTE USUARIO";
+        }
+
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWARH</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container-fluid ps-md-0">
+  <div class="row g-0">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="login-heading mb-4">Bienvenido!</h3>
 
-
-<div id="layotAuthentication" >
-    <div id="layourAuthentication_content">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="card mb-4 shadow-lg rounded-lg mt-5" style="max-width: 540px; ">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <br>
-                                    <br>
-                                    <img src="https://pbs.twimg.com/profile_images/947178325079769090/SK0Di8cF_400x400.jpg" class="img-fluid " alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <center><h5 class="card-title">Inicio de Sesión</h5></center>
-                                        <br>
-                                        <form method="POST">
-                                            <div class="form-group"><input class="form-control py-2" id="inputEmailAddress" name="usuario" type="text" value="Usuario"/></div><br>
-                                            <div class="form-group"><input class="form-control py-2" id="inputPassword" name="password" type="password" value="Contraseña"/></div>
-                                            <div class="form-group d-flex align-items-center justify-content-center mt-4 mb-0">
-                                                <!-- <button type="submit" class="btn btn-success">Entrar</button> -->
-                                                <a class="btn btn-success" href="overview.php" role="button">Entrar</a>
-                                        
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <!-- Sign In Form -->
+              <form method="post">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" name="user" >
+                  <label for="floatingInput">Usuario</label>
                 </div>
-            </div>  
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" name="password" >
+                  <label for="floatingPassword">Contraseña</label>
+                </div>
+
+                <div class="d-grid">
+                  <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Iniciar Sesión</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-
-
-
-<?php include("components/footer.php") ?>
-
-
-
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+</html>

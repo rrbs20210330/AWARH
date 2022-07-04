@@ -2,6 +2,7 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 <center><h2>Lista de usuarios</h2></center>
 
@@ -58,7 +59,7 @@ $DataBase = new db();
           </td>
           <td>
               <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditUser-<?php echo $id?>"><i class="bi bi-pencil-square"></i></a>
-              <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteUser-<?php echo $id?>"><i class="bi-trash"></i></a>
+              <button class="btn btn-danger btn-sm " <?php if(intval($type) === 2){ ?> disabled <?php }else if($id === $id_usuario){ ?> disabled <?php } else{ ?> data-bs-toggle="modal" data-bs-target="#DeleteUser-<?php echo $id?>" <?php } ?>><i class="bi-trash"></i></button>
           </td>
       </tr>  
       <?php }?>

@@ -2,6 +2,7 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 <center><h2>Lista de Puestos</h2></center>
 
@@ -32,7 +33,9 @@ $DataBase = new db();
             <td>
               <?php echo $description ?>
             </td>
-            <td></td>
+            <td>
+              <?php echo $DataBase->num_employees_position($id)->numEmpp ?>
+            </td>
             <td>
               <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
               <a class="btn btn-danger btn-sm "data-bs-toggle="modal" data-bs-target="#DeletePosition-<?php echo $id ?>"><i class="bi-trash"></i></a>
@@ -64,6 +67,20 @@ $DataBase = new db();
             <div class="col-sm-4">
             <label for="">Descripción </label>
             <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+            <div class="col-sm-4">  
+              <label>Área</label>
+              <select class="form-select" aria-label="Default select example" id="area" name="area">
+                  <option selected disabled value="">Selecciona una área</option>
+                  <?php     
+                      $l_charges_select = $DataBase->read_data_table('areas');
+                      while ($row = mysqli_fetch_object($l_charges_select)) {
+                          $idc = $row->id_area;
+                          $namec = $row->t_name;
+                          ?>
+                  <option value="<?php echo $idc ?>"><?php echo $namec ?></option>
+                  <?php } ?>
+              </select>
             </div>
             <input type="hidden" name="typeOp" value="7">
             
@@ -108,6 +125,21 @@ $DataBase = new db();
             <label for="">Descripción </label>
             <input value="<?php echo $description ?>" type="text" class="form-control" id="description" name="description">
             </div>
+            <div class="col-sm-4">
+              <label>Área</label>
+              
+              <select class="form-select" aria-label="Default select example" id="area" name="area">
+                    <option disabled value="">Selecciona una Área</option> 
+                  <?php     
+                      $l_charges_select = $DataBase->read_data_table('areas');
+                      while ($row = mysqli_fetch_object($l_charges_select)) {
+                          $idc = $row->id_areas;
+                          $namec = $row->t_name;
+                          ?>
+                  <option value="<?php echo $idc ?>"><?php echo $namec ?></option>
+                  <?php } ?>
+              </select>
+          </div>
         </div>
         <br>
         <input type="hidden" name="id" value="<?php echo $id ?>">

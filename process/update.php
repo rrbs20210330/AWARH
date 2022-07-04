@@ -161,8 +161,8 @@
         $id = intval($data['id']);
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
-
-        $res = $DataBase->update_t_positions($id, $name, $description);
+        $area = intval($data['area']);
+        $res = $DataBase->update_t_positions($id, $name, $description, $area);
         if($res){
             header("location: ../positions.php");
         }else{
@@ -189,7 +189,7 @@
         $name = $DataBase->sanitize($data['name']);
         $phone_number = $DataBase->sanitize($data['phone_number']);
         $email = $DataBase->sanitize($data['email']);
-        $appointment_date = $data['appointment_date'] == false ? 0 : $data['appointment_date'];
+        $appointment_date = $data['appointment_date'] === false ? 0 : $DataBase->sanitize($data['appointment_date']);
         $request_position = intval($data['request_position']);
         $perfil = $DataBase->sanitize($data['perfil']);
         $res = $DataBase->update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil);
@@ -207,11 +207,13 @@
         $date_start = $_POST['date_start'] == false ? 0 : $data['date_start'];
         $date_finish = $_POST['date_finish'] == false ? 0 : $data['date_finish'];
         $position = intval($_POST['position']);
+        $charge = intval($_POST['charge']);
+        $area = intval($_POST['area']);
         $process = $DataBase->sanitize($_POST['process']);
         $profile = $DataBase->sanitize($_POST['profile']);
         $functions  = $DataBase->sanitize($_POST['functions']);
 
-        $res =$DataBase->update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,true);
+        $res =$DataBase->update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$charge,$area);
         if($res){
             header("location: ../announcements.php");
         }else{

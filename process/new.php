@@ -135,6 +135,26 @@
                 
             }
         }
+        foreach($_FILES["cv"]['tmp_name'] as $key => $tmp_name){
+            if($_FILES["cv"]["name"][$key] !== "" || $_FILES["cv"]["name"][$key] !== null) {
+                $filename_cv = $DataBase->file_name($_FILES["cv"]["name"][$key]); 
+                $source = $_FILES["cv"]["tmp_name"][$key];
+                $file_type = $_FILES['cv']['type'][$key];
+                list($type, $extension) = explode('/', $file_type);
+                
+                $directorio = '../docs/'; 
+                if(!file_exists($directorio)){
+                    mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+                }
+                
+                $target_path = $directorio . $filename_cv . '.' . $extension;
+                $file_path_cv = 'docs/'.$filename_cv.'.'.$extension;
+                if(move_uploaded_file($source, $target_path)) {	} else {
+                    echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
+                }
+                
+            }
+        }
 
         foreach($_FILES["contract"]['tmp_name'] as $key => $tmp_name){
             if($_FILES["contract"]["name"][$key] !== "" || $_FILES["contract"]["name"][$key] !== null) {
@@ -156,7 +176,7 @@
                 
             }
         }
-        $res = $DataBase->proNewEmployee($names, $last_names, $birthday, $filename,$file_path, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $filename_c,$file_path_c, $rfc,$nss);
+        $res = $DataBase->proNewEmployee($names, $last_names, $birthday, $filename,$file_path, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $filename_c,$file_path_c, $rfc,$nss,$filename_cv,$file_path_cv);
         if($res){
             header("location: ../employees.php");
         }else{
@@ -185,6 +205,8 @@
         $date_start = $DataBase->sanitize($_POST['date_start']);
         $date_finish = $DataBase->sanitize($_POST['date_finish']);
         $position = intval($_POST['position']);
+        $charge = intval($_POST['charge']);
+        $area = intval($_POST['area']);
         $process = $DataBase->sanitize($_POST['process']);
         $profile = $DataBase->sanitize($_POST['profile']);
         $functions  = $DataBase->sanitize($_POST['functions']);
@@ -208,7 +230,7 @@
                 
             }
         }
-        $res =$DataBase->proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $filename,$file_path);
+        $res =$DataBase->proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $filename,$file_path,$charge,$area);
         if($res){
             header("location: ../announcements.php");
         }else{
@@ -232,7 +254,8 @@
         $DataBase = new db();
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
-        $res = $DataBase->insert_t_positions($name, $description);
+        $area = intval($data['area']);
+        $res = $DataBase->insert_t_positions($name, $description, $area);
         if($res){
             header('location: ../positions.php');
         }else{

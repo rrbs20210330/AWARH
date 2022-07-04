@@ -3,6 +3,7 @@ include('config/db.php');
 include("components/header.php");
 
 $DataBase = new db();
+if(intval($tipo) === 2)header('Location: error.php');
 ?>
 
 <center><h2>Lista de Candidatos</h2></center>
@@ -75,7 +76,7 @@ $DataBase = new db();
                     </div>
                     <div class="col-sm-4">
                         <label >Teléfono</label>
-                        <input type="number" class="form-control" id="phone_number" name="phone_number" required>
+                        <input type="number" class="form-control" id="phone_number" name="phone_number" required minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>    
                     <div class="col-sm-4">
                         <label >Fecha de Cita</label>
@@ -129,7 +130,7 @@ $DataBase = new db();
         $phone_number = $candidate->t_phone_number;
         $email = $candidate->t_email;
         $appointment_date = $candidate->dt_appointment_date;
-        $request_position = $candidate->fk_request_position;
+        $request_position = $DataBase->read_single_record_candidates_position($id)->fk_position;
         $perfil  = $candidate->t_profile;
 ?>
     <!-- FORMULARIO DE EDICION DE CANDIDATO -->
@@ -150,7 +151,7 @@ $DataBase = new db();
                             </div>
                             <div class="col-sm-4">
                                 <label >Teléfono</label>
-                                <input type="number" class="form-control" id="phone_number" name="phone_number" value="<?php echo $phone_number?>">
+                                <input type="number" class="form-control" id="phone_number" name="phone_number" value="<?php echo $phone_number?>" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                             </div> 
                             <div class="col-sm-4">
                                 <label >Fecha de Cita</label>
@@ -238,7 +239,8 @@ $DataBase = new db();
     $phone_number = $candidate->t_phone_number;
     $email = $candidate->t_email;
     $appointment_date = $candidate->dt_appointment_date;
-    $request_position = $candidate->fk_request_position;
+    $request_position_id = $DataBase->read_single_record_candidates_position($id)->fk_position;
+    $request_position_name = $DataBase->read_single_record_position($request_position_id)->t_name;
     $perfil  = $candidate->t_profile;
 
     $path_cv = $DataBase->read_single_record_files($id_cv)->t_path;
@@ -255,7 +257,7 @@ $DataBase = new db();
             Nombre Completo: <?php echo $name?><br>
             Email: <?php echo $email ?><br>
             Telefono: <?php echo $phone_number ?><br>
-            Posicion a ocupar: <?php echo $request_position?><br>
+            Posicion a ocupar: <?php echo $request_position_name?><br>
             Fecha de Cita: <?php echo $appointment_date?><br>
             Perfil: <?php echo $perfil?><br>
             CV: <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_cv ?>" target="_blank">Click Aqui</a> 
@@ -267,6 +269,12 @@ $DataBase = new db();
     </div>
   </div>
 <?php } ?>
+<script>
+  function verificaNumeros(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    return !(charCode > 31 && (charCode < 48 || charCode > 57));
+}
+  </script>
 <?php
 include("components/footer.php");
 ?>

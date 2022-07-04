@@ -1,3 +1,19 @@
+<?php 
+
+function is_session_started()
+{
+  return (session_status() === 0) ? false : true; 
+}
+
+if (is_session_started() === false) header('Location: index.php');
+session_start();
+if(empty($_SESSION['id_usuario']) && empty($_SESSION['usuario']) && empty($_SESSION['tipo_usuario']))header('Location: index.php');
+
+$id_usuario = $_SESSION['id_usuario'];
+$usuario = $_SESSION['usuario'];
+$tipo = $_SESSION['tipo_usuario'];
+
+?>
 <!DOCTYPE html>
 <!-- Created By CodingNepal -->
 <html lang="en" dir="ltr">
@@ -17,7 +33,7 @@
       <h2 style="color: white"><center>AWARH</center></h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
-      
+      <?php if(intval($tipo) === 1) { ?>
       <ul id="myUL">
         <li><a class="navitem caret"><i class="bi bi-gear-fill"></i> Configuración <i class=""></i></a>
           <ul class="nested">
@@ -40,19 +56,21 @@
       <a class="navitem" href="candidates.php"><i class="bi bi-person-badge-fill"></i> Candidatos</a>
       <a class="navitem" href="employees.php"><i class="bi bi-person-fill"></i> Empleados</a>
       <a class="navitem" href="trainings.php"> <i class="bi bi-file-earmark-text-fill"></i> Capacitaciones</a>
+      <?php } ?>
       <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
-      <a class="navitem" href="overview_aspirant.php">V_E</a>
     </div>
     <div id="main">
       <nav class="navbar navbar-expand-lg" style='background: #00252e '>
         <div class="container-fluid">
           <span onclick="openNav()"><i class="fa fa-bars" style="color: white"></i></span>
-          <div class="d-flex">
+          <div class="d-flex">            
             <a class=" btn btn-link" href="#" id="close_sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
-              <i class="bi bi-person-circle"></i>
+              <i class="bi bi-person-circle"></i> <?php echo $usuario ?>
             </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="close_sesion">
-              <li><a class="dropdown-item" href="/awarh">Cerrar Sesión</a></li>
+            <ul class="toggler">
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDrop">
+                  <li><a class="dropdown-item" href="logout.php">Cerrar Sesión <i class="bi bi-box-arrow-right"></i></a></li>
+              </ul>
             </ul>
           </div>
         </div>
@@ -89,3 +107,5 @@ for (i = 0; i < toggler.length; i++) {
   });
 } 
 </script>
+
+    

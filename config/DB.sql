@@ -216,6 +216,12 @@ BEGIN
     RETURN @cant;
 END$
 
+DELIMITER $
+CREATE FUNCTION `number_positions_areas` (`id` INT) RETURNS int(11)
+BEGIN
+    SELECT COUNT(ap.fk_area) INTO @cant FROM `areas` AS `a` INNER JOIN `positions_areas` AS `ap` ON ap.fk_area = a.id_area WHERE a.id_area = id;
+    RETURN @cant;
+END$
 
 -- PROCEDURES
 
@@ -449,3 +455,6 @@ SELECT t.id_training, t.t_name, t.d_date_start, t.d_date_finish, t_description, 
 
 CREATE VIEW view_number_activities_charges as
 select c.fk_charge, c.fk_activity, a.t_name from charges_activities c INNER JOIN activities a on id_activity = c.fk_activity;
+
+CREATE VIEW view_number_positions_areas as
+select a.fk_area, a.fk_position, p.t_name from positions_areas a INNER JOIN positions p on id_position = a.fk_position;

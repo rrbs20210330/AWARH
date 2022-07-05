@@ -81,6 +81,18 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
+        public function count_data_training($id){
+            $sql = "SELECT count(*) as count_data FROM `employees_trainings` where fk_employee = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function count_data_training_files($id){
+            $sql = "SELECT count(*) as count_data FROM `trainings_files` where fk_training= $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
         public function read_single_record_user_employee($id){
             $sql = "SELECT * FROM employees_users WHERE fk_user = $id";
             $res = mysqli_query($this->con, $sql);
@@ -552,6 +564,26 @@
                 return false;
             }
             
+        }
+        public function num_position_area($id){
+            $sql = "SELECT `number_positions_areas`($id) AS `numPosAr`;";
+            $res = mysqli_query($this->con, $sql);
+            $obj = mysqli_fetch_object($res);
+            if($res){
+                return $obj;
+            }else{
+                return false;
+            }
+        }
+        public function read_data_table_employees_trainings($id){
+            $sql = "SELECT * FROM employees_trainings WHERE fk_employee = $id";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
+        }
+        public function read_positions_areas($id){
+            $sql = "SELECT * FROM view_number_positions_areas WHERE fk_area = $id";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
         }
         public function num_employees_position($id){
             $sql = "SELECT COUNT(ep.fk_employee) as numEmpp FROM employees_positions ep INNER JOIN employees e on ep.fk_employee = e.id_employee WHERE fk_position = $id";

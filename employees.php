@@ -66,7 +66,7 @@ if(intval($tipo) === 2)header('Location: error.php');
 
 <!-- FORMULARIO DE REGISTRO DE USUARIOS -->
 <div class="modal fade" id="registroempleado" tabindex="-1"  aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Nuevo de Empleado</h5>
@@ -220,7 +220,7 @@ if(intval($tipo) === 2)header('Location: error.php');
 ?>
     <!-- FORMULARIO DE EDICION DE USUARIOS -->
     <div class="modal fade" id="EditEmployee-<?php echo $idL ?>" tabindex="-1"  aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edición<nav></nav> de Empleado</h5>
@@ -391,6 +391,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         $path_p = $DataBase->read_single_record_files($employee_info->fk_img)->t_path;
         $id_user = $DataBase->read_single_record_employee_user($idL)->fk_user;
         $user_info = $DataBase->read_single_record_user($id_user);
+        $count = $DataBase->count_data_training($idL); 
 ?>      
     <!-- FORMULARIO DE EDICION DE USUARIOS -->
     <div class="modal fade" id="SeeInfoEmployee-<?php echo $idL ?>" tabindex="-1"  aria-hidden="true">
@@ -427,9 +428,25 @@ if(intval($tipo) === 2)header('Location: error.php');
                             <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
                             <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
                             <strong>Área:</strong> <?php echo $area_info->t_name ?> <br>
-                            <strong>Capacitaciones:</strong> 198 <br>
                             <strong>Usuario:</strong> <?php echo $user_info->t_user; ?> <br>
                             <strong>Contraseña:</strong> <?php echo $user_info->t_password; ?> <br>
+                            <strong>Capacitaciones:</strong> <?php echo $count->count_data; ?> <button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Ver mas
+                                </button>
+                        </p>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <ul class="list-group">
+                                        <?php $l_training = $DataBase->read_data_table_employees_trainings($idL);
+                                        while($row = mysqli_fetch_object($l_training)){
+                                        $id_training = $row->fk_training;
+                                        $infotrain = $DataBase->read_single_record_training($id_training);
+                                        ?>
+                                        <li class="list-group-item"><?php echo $infotrain->t_name; ?></li>
+                                        <?php } ?>
+                                    </ul> 
+                                </div> 
+                            </div>               
                         </p>  
                     </div> 
                 </div>                 

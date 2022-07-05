@@ -38,17 +38,17 @@ Se agrego confirmacion en toda creacion y edicion de informacion, se agrego iden
 |COMPLETADO| Muestra de conteo de los empleados que tienen un puesto | 
 |COMPLETADO| Muestra de conteo de los empleados que tienen un cargo |
 |COMPLETADO| Muestra de todas las actividades de un cargo |
-| | Muestra de todos los puestos de una area | 
+|COMPLETADO| Muestra de todos los puestos de una area | 
 | | Se podra mandar para que actualicen su cv |
-| | Se podra ver en la informacion del empleado, las capacitaciones relacionadas |
+|COMPLETADO| Se podra ver en la informacion del empleado, las capacitaciones relacionadas |
 | | Herramientas de ayuda |
 | | Validaciones Generales |
 | | Mostrar en el puesto a que area pertenece al momento de seleccionar en empleado o candidato |
-| | Mostrar la cantidad de puestos en una area |
+|COMPLETADO| Mostrar la cantidad de puestos en una area |
 | | Poder definir una hora en candidatos |
-| | Funcionalidad de muestra de numero de capacitaciones en un empleado|
+|COMPLETADO| Funcionalidad de muestra de numero de capacitaciones en un empleado|
 | | Funcionalidad mostrar boton cuando un empleado solicite cambio de información en la lista de empleados |
-| | Funcionalidad de muestra de numero y informacion de todas las capacitaciones de un empleado en overview |
+|COMPLETADO| Funcionalidad de muestra de numero y informacion de todas las capacitaciones de un empleado en overview |
 | | Validacion de si el empleado puede o no meterse a una convocatoria en especifico dependiendo de su cargo, area y puesto |
 | | Añadir una id a cada fila de la tabla para hacer referencias de "#" |
 | | Cambiar modales por mas anchos |

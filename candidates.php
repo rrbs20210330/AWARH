@@ -60,7 +60,7 @@ if(intval($tipo) === 2)header('Location: error.php');
 
 <!-- FORMULARIO DE REGISTRO DE CANDIDATO -->
 <div class="modal fade" id="registrocandidato" tabindex="-1"  aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Nuevo de Candidato</h5>
@@ -70,18 +70,14 @@ if(intval($tipo) === 2)header('Location: error.php');
             <div class="modal-body">
                 <center><label for="">Información General</label></center>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <label>Nombre Completo </label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <label >Teléfono</label>
                         <input type="number" class="form-control" id="phone_number" name="phone_number" required minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>    
-                    <div class="col-sm-4">
-                        <label >Fecha de Cita</label>
-                        <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
-                    </div>
                     <div class="col-sm-6">
                         <label >Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
@@ -104,8 +100,12 @@ if(intval($tipo) === 2)header('Location: error.php');
                             <?php } ?>
                         </select>
                     </div>
-                    
                     <div class="col-sm-6">
+                        <label >Fecha de Cita</label>
+                        <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
+                    </div>
+                    
+                    <div class="col-sm-12">
                         <label>CV</label>
                         <input type="file" class="form-control" id="archivo[]" name="archivo[]" required>
                     </div>
@@ -135,7 +135,7 @@ if(intval($tipo) === 2)header('Location: error.php');
 ?>
     <!-- FORMULARIO DE EDICION DE CANDIDATO -->
     <div class="modal fade" id="EditCandidate-<?php echo $id ?>" tabindex="-1"  aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edición<nav></nav> de Candidato</h5>
@@ -145,18 +145,14 @@ if(intval($tipo) === 2)header('Location: error.php');
                     <div class="modal-body">
                         <center><label for="">Información General</label></center>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <label>Nombre Completo </label>
                                 <input type="text" class="form-control" id="name" name="name" value="<?php echo $name?>">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <label >Teléfono</label>
                                 <input type="number" class="form-control" id="phone_number" name="phone_number" value="<?php echo $phone_number?>" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                            </div> 
-                            <div class="col-sm-4">
-                                <label >Fecha de Cita</label>
-                                <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo $appointment_date?>">
-                            </div>   
+                            </div>  
                             <div class="col-sm-6">
                                 <label >Email</label>
                                 <input type="email" class="form-control" id="email" name="email" value="<?php echo $email?>">
@@ -179,8 +175,11 @@ if(intval($tipo) === 2)header('Location: error.php');
                                     <?php } ?>
                                 </select>
                             </div>
-                            
                             <div class="col-sm-6">
+                                <label >Fecha de Cita</label>
+                                <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?php echo $appointment_date?>">
+                            </div>  
+                            <div class="col-sm-12">
                                 <label>CV</label>
                                 <input type="file" disabled class="form-control" id="archivo[]" name="archivo[]" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                             </div>

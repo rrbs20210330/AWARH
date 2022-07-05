@@ -210,6 +210,7 @@ if(intval($tipo) === 2)header('Location: error.php');
     $descripcion = $training->t_description;
     $date_start = $training->d_date_start;
     $date_finish = $training->d_date_finish;
+    $count = $DataBase->count_data_training_files($id);
 ?>
   <!-- Modal See Info-->
   <div class="modal fade" id="SeeInfoTraining-<?php echo $id ?>" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -225,7 +226,7 @@ if(intval($tipo) === 2)header('Location: error.php');
             <b>Periodo de Realización</b><br>
             <b>Inicio:</b> <?php echo $date_start?><br>
             <b>Fin:</b> <?php echo $date_finish?><br>
-            <b>Archivos</b> <?php echo "6" ?> <button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <b>Archivos</b> <?php echo $count->count_data; ?> <br><button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Ver mas
             </button>
             <div class="collapse" id="collapseExample">

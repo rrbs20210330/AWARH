@@ -15,6 +15,7 @@ if(intval($tipo) === 1){
   $user_info = $DataBase->read_single_record_user($id_user);
   $id_area = $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area;
   $area_info = $DataBase->read_single_record_area($id_area);
+  $count = $DataBase->count_data_training($id_employee);
 } 
 ?>
 <br>
@@ -109,7 +110,7 @@ if(intval($tipo) === 1){
             <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
             <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
             <strong>Área:</strong> <?php echo $area_info->t_name ?> <br>
-            <strong>Capacitaciones:</strong> 198 <br>
+            <strong>Capacitaciones:</strong> <?php echo $count->count_data; ?> <br>
           </div>
           <div class="col">
             <strong>Usuario:</strong> <?php echo $user_info->t_user; ?> <br>
@@ -180,7 +181,7 @@ if(intval($tipo) === 1){
   </div>  
     <!-- FORMULARIO DE REGISTRO DE USUARIOS -->
     <div class="modal fade" id="editpassword" tabindex="-1"  aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Editar Contraseña</h5>
@@ -189,12 +190,11 @@ if(intval($tipo) === 1){
         <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="row">
-              <div class="col-sm-6">
-                <label>Antigua Contraseña </label>
-                <input type="text" class="form-control" name="password_old" required value="">
-              </div> 
-              <div class="col-sm-6">
+              <div class="col">
+                <center>
                 <label>Nueva Contraseña </label>
+                
+                </center>
                 <input type="text" class="form-control" name="password_new" required value="">
               </div>          
             </div>

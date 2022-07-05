@@ -15,6 +15,7 @@ if(intval($tipo) === 2)header('Location: error.php');
     <thead style="color: white">
       <th>Nombre</th>
       <th>Descripción</th>
+      <th># Puestos</th>
       <th></th>
     </thead>
     <tbody>
@@ -23,7 +24,9 @@ if(intval($tipo) === 2)header('Location: error.php');
         while ($row = mysqli_fetch_object($l_area)){
           $id = $row->id_area;
           $nombre = $row->t_name;
-          $description = $row->t_description;?>
+          $description = $row->t_description;
+          $num = $DataBase->num_position_area($id) ? $DataBase->num_position_area($id)->numPosAr : 0;
+          ?>
           <tr>
             <td>
               <?php echo $nombre ?>
@@ -32,8 +35,12 @@ if(intval($tipo) === 2)header('Location: error.php');
               <?php echo $description ?>
             </td>
             <td>
+              <?php echo $num ?>
+            </td>
+            <td>
               <a class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#EditArea-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
               <a class="btn btn-danger btn-sm "data-bs-toggle="modal" data-bs-target="#DeleteArea-<?php echo $id ?>"><i class="bi-trash"></i></a>
+              <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeePositionArea-<?php echo $id?>"><i class="bi bi-eye"></i></a>
             </td>
           </tr>
         <?php }?>
@@ -54,11 +61,11 @@ if(intval($tipo) === 2)header('Location: error.php');
       <form action="process/new.php"method="post">
         <div class="modal-body">
           <div class="row">
-              <div class="col-sm-4">
+              <div class="col-sm-6">
               <label for="">Nombre </label>
               <input type="text" class="form-control" id="name" name="name" required>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-6">
               <label for="">Descripción </label>
               <input type="text" class="form-control" id="description" name="description" required>
               </div>
@@ -92,11 +99,11 @@ if(intval($tipo) === 2)header('Location: error.php');
       <div class="modal-body">
       <form action="process/update.php" method="post">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label for="">Nombre </label>
             <input value="<?php echo $nombre ?>" type="text" class="form-control" id="name" name="name">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label for="">Descripción </label>
             <input value="<?php echo $description ?>" type="text" class="form-control" id="description" name="description">
             </div>
@@ -148,6 +155,49 @@ if(intval($tipo) === 2)header('Location: error.php');
     </div>
   </div>
 <?php } ?>
+
+
+
+<?php 
+$l_area = $DataBase->read_data_table('areas');
+while ($row = mysqli_fetch_object($l_area)) {
+  $id = $row->id_area;
+  $nombre = $row->t_name;
+?>
+
+<!------------------MODAL OJO------------------->
+<div class="modal fade" id="SeePositionArea-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Posiciones del Area <strong><?php echo $nombre ?></strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> 
+                <div class="row">
+                    <?php $l_positions = $DataBase->read_positions_areas($id);
+                    $cont = 0;
+                    if($l_positions->num_rows === 0){?>
+                        <p>Este cargo no tiene ninguna actividad.</p>
+                    <?php }else{
+                        while($row = mysqli_fetch_object($l_positions)){ ?>
+                            <p><?php 
+                            $cont +=1;
+                            echo '<strong>'.$cont.'.</strong> '.$row->t_name;?></p><br>
+                        <?php } 
+                    }?>
+                </div>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php } ?>
+
 
 <?php
 include("components/footer.php");

@@ -185,17 +185,17 @@ CREATE TABLE IF NOT EXISTS `employees_charges`(
     FOREIGN KEY (`fk_charge`) REFERENCES `charges`(`id_charge`)
 );
 CREATE TABLE IF NOT EXISTS `employees_announcements`(
-    `fk_announcement` INT,
-    `fk_employee` INT,
-    `d_registry_date` DATE,
-    `b_status` INT,
+    `fk_announcement` INT NOT NULL,
+    `fk_employee` INT NOT NULL,
+    `d_registry_date` DATE NOT NULL,
+    `i_status` INT NOT NULL,
     `t_notice` VARCHAR(200),
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
 );
 CREATE TABLE IF NOT EXISTS `request_info_employees`(
-    `id_request` INT AUTO_INCREMENT,
-    `fk_employee` INT,
+    `id_request` INT AUTO_INCREMENT NOT NULL,
+    `fk_employee` INT NOT NULL,
     `t_phone_number` VARCHAR(100),
     `t_email` VARCHAR(100),
     `t_street` VARCHAR(100),
@@ -203,6 +203,9 @@ CREATE TABLE IF NOT EXISTS `request_info_employees`(
     `t_no_interior` VARCHAR(100),
     `t_colony` VARCHAR(100),
     `t_references` VARCHAR(100),
+    `i_status` INT NOT NULL,
+    `d_registry_date` date NOT NULL,
+    `t_notice`VARCHAR(200),
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     PRIMARY KEY (`id_request`)
 );
@@ -266,9 +269,10 @@ CREATE PROCEDURE procedure_delete_employee(`id` INT)
 DELIMITER $
 CREATE PROCEDURE procedure_delete_position(`id` INT) 
 	BEGIN 
-        DELETE FROM `positions_areas` WHERE `fk_position` = `id`;
-		DELETE FROM `announcements_positions` WHERE `fk_position` = `id`;
+        DELETE FROM `announcements_positions` WHERE `fk_position` = `id`;
+        DELETE FROM `candidates_positions` WHERE `fk_position` = `id`;
 		DELETE FROM `employees_positions` WHERE `fk_position` = `id`;
+        DELETE FROM `positions_areas` WHERE `fk_position` = `id`;
 		DELETE FROM `positions` WHERE `id_position` = `id`;
 	END$
 
@@ -322,7 +326,7 @@ DELIMITER $
 CREATE PROCEDURE procedure_update_position(`id` INT,`name` VARCHAR(100), `description` VARCHAR(200), `area` INT) 
 	BEGIN 
 		UPDATE `positions` SET `t_name` = `name`, `t_description` = `description` WHERE `id_position` = `id`;
-        UPDATE `positions_areas` SET `fk_area` = `area` WHERE `id_position` = `id`;
+        UPDATE `positions_areas` SET `fk_area` = `area` WHERE `fk_position` = `id`;
 	END$
 
 DELIMITER $

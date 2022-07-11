@@ -11,7 +11,7 @@ if(empty($_SESSION['id_usuario']) && empty($_SESSION['usuario']) && empty($_SESS
 
 $id_usuario = $_SESSION['id_usuario'];
 $usuario = $_SESSION['usuario'];
-$tipo = $_SESSION['tipo_usuario'];
+$tipo = intval($_SESSION['tipo_usuario']);
 
 ?>
 <!DOCTYPE html>
@@ -27,37 +27,38 @@ $tipo = $_SESSION['tipo_usuario'];
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   </head>
   <body>
     <div id="mySidenav" class="sidenav">
       <h2 style="color: white"><center>AWARH</center></h2>
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a class="navitem" href="overview.php"><i class="bi bi-sliders"></i> Menu</a>
-      <?php if(intval($tipo) === 1) { ?>
+      <a class="navitem" href="overview.php" id="overview_list"><i class="bi bi-sliders"></i> Menu</a>
+      <?php if($tipo === 1) { ?>
       <ul id="myUL">
-        <li><a class="navitem caret"><i class="bi bi-gear-fill"></i> Configuración <i class=""></i></a>
+        <li><a class="navitem caret" id="config_list"><i class="bi bi-gear-fill"></i> Configuración <i class=""></i></a>
           <ul class="nested">
-            <li><a class="navitem" href="charges.php"> Cargos</a></li>
+            <li><a class="navitem" href="charges.php" id="charge_list"> Cargos</a></li>
             <li>
-              <a class="navitem" href="activities.php"> Actividades</a>
+              <a class="navitem" href="activities.php" id="activity_list"> Actividades</a>
             </li>
             <li>
-              <a class="navitem" href="positions.php"> Puestos</a>
+              <a class="navitem" href="positions.php" id="position_list"> Puestos</a>
             </li>
             <li>
-              <a class="navitem" href="areas.php"> Áreas</a>
+              <a class="navitem" href="areas.php" id="area_list"> Áreas</a>
             </li>
             <li>
-              <a class="navitem" href="users.php"> Usuarios</a>
+              <a class="navitem" href="users.php" id="user_list"> Usuarios</a>
             </li>
           </ul>
         </li>
       </ul>
-      <a class="navitem" href="candidates.php"><i class="bi bi-person-badge-fill"></i> Candidatos</a>
-      <a class="navitem" href="employees.php"><i class="bi bi-person-fill"></i> Empleados</a>
-      <a class="navitem" href="trainings.php"> <i class="bi bi-file-earmark-text-fill"></i> Capacitaciones</a>
+      <a class="navitem" href="candidates.php" id="candidate_list"><i class="bi bi-person-badge-fill"></i> Candidatos</a>
+      <a class="navitem" href="employees.php" id="employee_list"><i class="bi bi-person-fill"></i> Empleados</a>
+      <a class="navitem" href="trainings.php" id="training_list"> <i class="bi bi-file-earmark-text-fill"></i> Capacitaciones</a>
       <?php } ?>
-      <a class="navitem" href="announcements.php"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
+      <a class="navitem" href="announcements.php" id="announcement_list"><i class="bi bi-megaphone-fill"></i> Convocatorias</a>
     </div>
     <div id="main">
       <nav class="navbar navbar-expand-lg" style='background: #00252e '>
@@ -76,33 +77,13 @@ $tipo = $_SESSION['tipo_usuario'];
         </div>
       </nav>
       <script>
-  // Get the container element
-var btnContainer = document.getElementById("mySidenav");
-
-// Get all buttons with class="btn" inside the container
-var btns = btnContainer.getElementsByClassName("navitem");
-
-// Loop through the buttons and add the active class to the current/clicked button
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    
-    // If there's no active class
-    if (current.length > 0) {
-      current[0].className = current[0].className.replace(" active", "");
-    }
-
-    // Add the active class to the current/clicked button
-    this.className += " active";
-  });
-} 
 
 var toggler = document.getElementsByClassName("caret");
 var i;
 
 for (i = 0; i < toggler.length; i++) {
   toggler[i].addEventListener("click", function() {
-    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.parentElement.querySelector(".nested").classList.toggle("activo");
     this.classList.toggle("caret-down");
   });
 } 

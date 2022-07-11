@@ -2,7 +2,10 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
-if(intval($tipo) === 2)header('Location: error.php');
+if($tipo === 2)header('Location: error.php');
+require('process/new.php');
+require('process/delete.php');
+require('process/update.php');
 ?>
 <center><h2>Áreas</h2></center>
 
@@ -20,7 +23,7 @@ if(intval($tipo) === 2)header('Location: error.php');
     </thead>
     <tbody>
       <?php 
-        $l_area = $DataBase->read_all_area();
+        $l_area = $DataBase->read_data_table('areas');
         while ($row = mysqli_fetch_object($l_area)){
           $id = $row->id_area;
           $nombre = $row->t_name;
@@ -58,7 +61,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         <h5 class="modal-title" id="exampleModalLabel">Registro de Áreas</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="process/new.php"method="post">
+      <form method="post">
         <div class="modal-body">
           <div class="row">
               <div class="col-sm-6">
@@ -70,6 +73,7 @@ if(intval($tipo) === 2)header('Location: error.php');
               <input type="text" class="form-control" id="description" name="description" required>
               </div>
               <input type="hidden" name="typeOp" value="10">
+              <input type="hidden" name="new" value="1">
           </div>
           <br>    
         </div>
@@ -82,7 +86,7 @@ if(intval($tipo) === 2)header('Location: error.php');
 </div>
 
 <?php 
-    $l_area = $DataBase->read_all_area();
+    $l_area = $DataBase->read_data_table('areas');
     while ($row = mysqli_fetch_object($l_area)) {
         $id = $row->id_area;
         $nombre = $row->t_name;
@@ -97,7 +101,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form action="process/update.php" method="post">
+      <form method="post">
         <div class="row">
             <div class="col-sm-6">
             <label for="">Nombre </label>
@@ -111,6 +115,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         <br>
         <input type="hidden" name="id" value="<?php echo $id ?>">
         <input type="hidden" name="typeOp" value="9">
+        <input type="hidden" name="update" value="1">
     
       </div>
       <div class="modal-footer">
@@ -144,10 +149,10 @@ if(intval($tipo) === 2)header('Location: error.php');
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="process/delete.php" method="post">
+          <form method="post">
             <input type="hidden" name="id" id="id" value="<?php echo $id?>">
             <input type="hidden" name="typeOp" id="typeOp" value="9">
-          
+            <input type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -198,7 +203,12 @@ while ($row = mysqli_fetch_object($l_area)) {
 
 <?php } ?>
 
-
+<script>
+  var elemento = document.getElementById('area_list');
+elemento.classList.add("active");
+var elemento = document.getElementById('config_list');
+elemento.classList.add("active");
+</script>
 <?php
 include("components/footer.php");
 ?>

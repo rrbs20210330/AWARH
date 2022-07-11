@@ -1,26 +1,32 @@
 <?php include('components/header.php');
 include('config/db.php');
 $DataBase = new db();
-if(intval($tipo) === 1){
+if($tipo === 1){
   $pe = $DataBase->count_data_table('employees');
   $pt = $DataBase->count_data_table('trainings');
   $pa = $DataBase->count_data_table('announcements');
   $employees = $pe->count_data;
   $trainings = $pt->count_data;
   $announcements = $pa->count_data;
+  require('process/new.php');
+  require('process/delete.php');
+  require('process/update.php');
 }else{
   $id_user = $_SESSION['id_usuario'];
   $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
   $employee_info = $DataBase->read_info_employee(intval($id_employee));
   $user_info = $DataBase->read_single_record_user($id_user);
-  $id_area = $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area;
-  $area_info = $DataBase->read_single_record_area($id_area);
+  $id_area = $employee_info->fk_position !== null ? $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area : null;
+  $area_info = $id_area !== null ? $DataBase->read_single_record_area($id_area)->t_name : "Ninguna";
+  $puesto = $employee_info->fk_position !== null ? $DataBase->read_single_record_position($employee_info->fk_position)->t_name : "Ninguno";
+  $cargo = $employee_info->fk_charge !== null ? $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name : "Ninguno";
   $count = $DataBase->count_data_training($id_employee);
+  require('process/update.php');
 } 
 ?>
 <br>
 <div class="container">
-  <?php if(intval($tipo) === 1){ ?>
+  <?php if($tipo === 1){ ?>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col">
         <div class="card text-bg-dark h-100">
@@ -105,17 +111,17 @@ if(intval($tipo) === 1){
         <h2 class="card-title btn btn-dark"> Información Institucional</h2>
         <div class="row row-cols-1 row-cols-md-2">
           <div class="col">
-            <strong>Puesto:</strong> <?php echo $DataBase->read_single_record_position($employee_info->fk_position)->t_name; ?>  <br>
-            <strong>Cargo:</strong> <?php echo $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name; ?>  <br>
+            <strong>Puesto:</strong> <?php echo $puesto; ?>  <br>
+            <strong>Cargo:</strong> <?php echo $cargo; ?>  <br>
             <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
             <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
-            <strong>Área:</strong> <?php echo $area_info->t_name ?> <br>
+            <strong>Área:</strong> <?php echo $area_info ?> <br>
             <strong>Capacitaciones:</strong> <?php echo $count->count_data; ?> <br>
           </div>
           <div class="col">
             <strong>Usuario:</strong> <?php echo $user_info->t_user; ?> <br>
             <strong>Contraseña:</strong> <?php echo $user_info->t_password; ?> <br>
-            <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editpassword"><i class="bi bi-exclamation-triangle-fill" ></i> Cambiar Contraseña</a>
+            <a class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editpassword<?php echo $id_user ?>"><i class="bi bi-exclamation-triangle-fill" ></i> Cambiar Contraseña</a>
           </div>
         </div>
       </div>
@@ -123,22 +129,22 @@ if(intval($tipo) === 1){
   <?php } ?>
 </div>
 
-<?php if(intval($tipo) === 2){ ?>
+<?php if($tipo === 2){ ?>
   <!-- FORMULARIO DE REGISTRO DE USUARIOS -->
   <div class="modal fade" id="edicion" tabindex="-1"  aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Nuevo de Empleado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
+        <form method="post" id="formul" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="row">
               <center><label for="">Contacto</label></center>
               <div class="col-sm-6">
                 <label>Teléfono </label>
-                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="" min="1111111111" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-6">
                 <label >Correo Electrónico</label>
@@ -154,22 +160,24 @@ if(intval($tipo) === 1){
               </div>
               <div class="col-sm-4">
                 <label>Número Exterior</label>
-                <input type="number" class="form-control" id="no_exterior" name="no_exterior" required>
+                <input type="number" class="form-control" id="no_exterior" name="no_exterior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-4">
                 <label >Número Interior</label>
-                <input type="number" class="form-control" id="no_interior" name="no_interior" required>
+                <input type="number" class="form-control" id="no_interior" name="no_interior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-4">
                 <label >Colonia</label>
                 <input type="text" class="form-control" id="colony" name="colony" required>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-8">
                 <label>Referencias</label>
                 <textarea class="form-control" name="references" id="references" cols="30" rows="1"></textarea>
               </div>
             </div>
             <input type="hidden" name="typeOp" value="3">
+            <input type="hidden" name="update">
+            <input type="hidden" name="id" value="<?php echo $id_employee?>">
             <br>    
           </div>
           <div class="modal-footer">
@@ -179,26 +187,30 @@ if(intval($tipo) === 1){
       </div>
     </div>
   </div>  
-    <!-- FORMULARIO DE REGISTRO DE USUARIOS -->
-    <div class="modal fade" id="editpassword" tabindex="-1"  aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+    <!-- FORMULARIO DE CAMBIAR CONTRASEñA DE USUARIOS -->
+    <?php 
+  $l_password = $DataBase->read_data_table('users');
+  while ($row = mysqli_fetch_object($l_password)) {
+    $id = $row->id_user;
+?>
+    <div class="modal fade" id="editpassword<?php echo $id ?>" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Editar Contraseña</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
+        <form method="post" id="formul" enctype="multipart/form-data">
           <div class="modal-body">
             <div class="row">
-              <div class="col">
-                <center>
+              <div class="col-sm-6">
                 <label>Nueva Contraseña </label>
-                
-                </center>
-                <input type="text" class="form-control" name="password_new" required value="">
+                <input type="text" class="form-control" name="password" required value="">
               </div>          
             </div>
-            <input type="hidden" name="typeOp" value="3">
+            <input type="hidden" name="id" value="<?php echo $id ?>">
+            <input type="hidden" name="typeOp" value="10">
+            <input type="hidden" name="update" value="1">
             <br>    
           </div>
           <div class="modal-footer">
@@ -207,7 +219,8 @@ if(intval($tipo) === 1){
         </form>
       </div>
     </div>
-  </div>    
+  </div> 
+  <?php } ?>   
 <?php } ?>
 <!-- <div style="width:50%">
   <canvas id="grafica" width="1" height="1"></canvas>
@@ -217,5 +230,7 @@ if(intval($tipo) === 1){
     var charCode = (evt.which) ? evt.which : evt.keyCode
     return !(charCode > 31 && (charCode < 48 || charCode > 57));
 }
+var elemento = document.getElementById('overview_list');
+elemento.classList.add("active");
   </script>
 <?php include('components/footer.php') ?>

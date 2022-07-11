@@ -4,15 +4,18 @@ include('config/db.php');
 $DataBase = new db();
 ?>
 
-<?php if(intval($tipo) === 1){ ?>
+<?php if($tipo === 1){ ?>
   <center><h1>Convocatorias</h1></center>
-<?php }else{ ?>
+<?php 
+require('process/new.php');
+require('process/delete.php');
+require('process/update.php');}else{ ?>
   <center><h1>Tus Convocatorias</h1></center>
 <?php } ?>
   <br>
 
 <div class="container">
-  <?php if(intval($tipo) === 1){ ?>
+  <?php if($tipo === 1){ ?>
     <div class="col-sm-4">
     <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal1">
       Nueva Convocatoria
@@ -49,7 +52,16 @@ $DataBase = new db();
             <p class="card-text">
               <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteAnnouncement-<?php echo $id ?>"><i class="bi-trash"></i></a>
               <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eA-<?php echo $id ?>"><i class="bi bi-pencil-square"></i></a>
-              <?php if ($active == 0){ ?><a class="btn btn-secondary" href="process/update.php?id=<?php echo $id?>&table=announcements&location=announcements&typeOp=2"><i class="bi bi-eye-slash-fill"></i></a><?php }else{ ?><a class="btn btn-success" href="process/update.php?id=<?php echo $id?>&table=announcements&location=announcements&typeOp=2"><i class="bi bi-eye-fill"></i></a><?php }?>
+              <form method="post">
+                <input type="hidden" name="update" value="1">
+                <input type="hidden" name="id" value="<?php echo $id ?>">
+                <input type="hidden" name="typeOp" value="12">
+              <?php if ($active == 0){ ?>
+                <button type="submit" class="btn btn-secondary"><i class="bi bi-eye-slash-fill"></i></button>
+                <?php }else{ ?>
+                  <button type="submit" class="btn btn-success"><i class="bi bi-eye-fill"></i></button>
+                  <?php }?>
+              </form>
             </p>
           </div>
         </div>     
@@ -63,15 +75,17 @@ $DataBase = new db();
           $id_user = $_SESSION['id_usuario'];
           $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
           $employee_info = $DataBase->read_info_employee(intval($id_employee));
+          $count = 0;
           while ($row = mysqli_fetch_object($l_annoucements)) {
             $id = $row->id_announcement;
             $name = $row->t_name;
             $description = $row->t_description;
             $active = $row->b_active;
-            $position = $DataBase->read_single_record_announcement_position($id)->fk_position;
-            $charge = $DataBase->read_single_record_announcement_charge($id)->fk_charge;
+            $position = $DataBase->read_single_record_announcement_position($id) ? $DataBase->read_single_record_announcement_position($id)->fk_position : 0;
+            $charge = $DataBase->read_single_record_announcement_charge($id) ? $DataBase->read_single_record_announcement_charge($id)->fk_charge : 0;
             if($active){
               if(intval($position) === intval($employee_info->fk_position) || intval($charge) === intval($employee_info->fk_charge)){?>
+                <?php $count += 1; ?>
                 <div class="col">
                   <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
                     <div class="card-header">
@@ -91,8 +105,9 @@ $DataBase = new db();
         <?php } } }?> 
  <?php } ?>
 </div>
+<?php if($count === 0) {;?><center><h3>Aún no hay ninguna convocatoria disponible para ti.</h3></center>  <?php } ?> 
 
-<?php if(intval($tipo) === 1){ ?>
+<?php if($tipo === 1){ ?>
   <!--Modal para el boton  nueva convocatoria--->
 
 <div class="modal fade" tabindex="-1" id="modal1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -102,7 +117,7 @@ $DataBase = new db();
         <h5 class="modal-title">Nueva convocatoria </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="efe" action="process/new.php" method="post" enctype="multipart/form-data">
+      <form id="efe" method="post" enctype="multipart/form-data">
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-6">
@@ -183,6 +198,7 @@ $DataBase = new db();
               <label >Funciones</label>
               <textarea type="text" class="form-control" id="functions" name="functions" required ></textarea>
               <input type="hidden" name="typeOp" value="5">
+              <input type="hidden" name="new" value="1">
             </div>
 
           </div>
@@ -221,7 +237,7 @@ $DataBase = new db();
           <h5 class="modal-title">Editar convocatoria </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="efe" action="process/update.php" method="post">
+        <form id="efe" method="post">
           <div class="modal-body">
           
             <div class="row">
@@ -303,6 +319,7 @@ $DataBase = new db();
                 <textarea type="text" class="form-control" id="functions" name="functions" required ><?php echo $functions?></textarea>
                 <input type="hidden" name="typeOp" value="8">
                 <input type="hidden" name="id" value="<?php echo $ida ?>">
+                <input type="hidden" name="update" value="1">
               </div>
             <div>
           </div>
@@ -339,9 +356,10 @@ $DataBase = new db();
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="process/delete.php" method="post">
+          <form method="post">
             <input type="hidden" name="id" id="id" value="<?php echo $id?>">
             <input type="hidden" name="typeOp" id="typeOp" value="8">
+            <input type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -351,6 +369,10 @@ $DataBase = new db();
 <?php } ?>
 
 <?php }?>
+<script>
+  var elemento = document.getElementById('announcement_list');
+elemento.classList.add("active");
+</script>
 <?php
 include("components/footer.php");
 ?>

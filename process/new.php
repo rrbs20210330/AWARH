@@ -1,8 +1,5 @@
 <?php 
-    include('../config/db.php');
-     //!empty($_POST)
-    // return print_r($_POST['typeOp']);
-    if(isset($_POST) && isset($_POST['typeOp'])){
+    if(isset($_POST) && isset($_POST['typeOp']) && isset($_POST['new'])){
         
         switch (intval($_POST['typeOp'])) {
             case 1:#
@@ -35,15 +32,15 @@
             case 10:#
                 new_area($_POST);
                 break;
+            case 11: 
+                apply_announcement($_POST);
+                break;
             default:
                 // header('location: ../error.php');
                 echo "efe";
                 break;
         }
         
-    }else{
-        echo "efe";
-        // header('location: ../error.php');
     }
     function new_user($data){
         $DataBase = new db();
@@ -52,7 +49,12 @@
         $res = $DataBase->insert_t_users($user, $password, true);//siempre sera true por que es un nuevo usuario activo, la fecha de ultima entrada no se añade por obvias razones
 
         if($res){
-            header("location: ../users.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El usuario $user fue creado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             echo "efe";
         }
@@ -93,7 +95,12 @@
         }
         
         if($res){
-            header("location: ../trainings.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La capacitacion $name fue creada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -178,7 +185,12 @@
         }
         $res = $DataBase->proNewEmployee($names, $last_names, $birthday, $filename,$file_path, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position, $filename_c,$file_path_c, $rfc,$nss,$filename_cv,$file_path_cv);
         if($res){
-            header("location: ../employees.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El empleado $names $last_names fue creado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             echo "efe";
         }
@@ -192,7 +204,12 @@
         
         $res = $DataBase->proNewActivity($name, $description, $charge);
         if($res){
-            header("location: ../activities.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La actividad $name fue creada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -232,7 +249,12 @@
         }
         $res =$DataBase->proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $filename,$file_path,$charge,$area);
         if($res){
-            header("location: ../announcements.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La convocatoria $name fue creada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -245,7 +267,12 @@
         $res = $DataBase->insert_t_charges($name, $description);
 
         if($res){
-            header('location: ../charges.php');
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El cargo $name fue creado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -257,7 +284,12 @@
         $area = intval($data['area']);
         $res = $DataBase->insert_t_positions($name, $description, $area);
         if($res){
-            header('location: ../positions.php');
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El puesto $name fue creado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -292,7 +324,12 @@
         }
         $res = $DataBase->proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$filename,$file_path);
         if($res){
-            header('location: ../candidates.php');
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El candidato $name fue creado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             print_r('efe');
         }
@@ -303,9 +340,28 @@
         $description = $DataBase->sanitize($_POST['description']);
         $res = $DataBase->insert_t_area($name,$description);
         if($res){
-            header('location: ../areas.php');
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El area $name fue creada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
-}
+    }
+    function apply_announcement($data){
+        $DataBase = new db();
+        $announcement = intval($data['announcement']);
+        $employee = intval($data['employee']);
+        $date = date("Y/m/d");//current date; 
+        $status = 2; //2 pending - 1 approved - 0 dennied
+        $notice = null; //el administrador cambia el valor cuando el estado deja de ser 2
+        $res = $DataBase->insert_t_employees_announcements($announcement, $employee, $date, $status, $notice);
+        if($res){
+            echo 'efe';
+        }else{
+           echo 'efe2';
+        }
+    }
 ?>

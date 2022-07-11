@@ -3,6 +3,7 @@
     $DataBase = new db();
     if($_POST){
         foreach($_POST["area"] as $key => $value){
+            if(count($_POST['area']) === 0)echo 'efe';
             echo "Seleccionaste ",$_POST['area'][$key];
         }
     }
@@ -12,8 +13,8 @@
     <?php 
         $l_area = $DataBase->read_data_table('areas');
         while ($row = mysqli_fetch_object($l_area)) {
-        $id = $row->id_area; 
-        $name = $row->t_name?>
+            $id = $row->id_area; 
+            $name = $row->t_name?>
             <label for="areas-<?php echo $id?>"><?php echo $name ?></label>
             <input type="checkbox" name="area[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>">
         <?php }?>

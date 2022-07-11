@@ -2,7 +2,10 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
-if(intval($tipo) === 2)header('Location: error.php');
+if($tipo === 2)header('Location: error.php');
+require('process/new.php');
+require('process/delete.php');
+require('process/update.php');
 ?>
 
 <center><h2>Lista de Empleados</h2></center>
@@ -30,18 +33,26 @@ if(intval($tipo) === 2)header('Location: error.php');
                     $fullname = $row->t_names." ".$row->t_last_names;
                     $email = $row->t_email;
                     $phone_number = $row->t_phone_number;
+                    $id_user = $DataBase->read_single_record_employee_user($id)->fk_user;
             ?>
             <tr>
                 <td>
+                    <form method="post">
+                    <input type="hidden" name="update" value="1">
+                    <input type="hidden" name="typeOp" value="11">
+                    <input type="hidden" name="id" value="<?php echo $id ?>">
+                    <input type="hidden" name="idu" value="<?php echo $id_user ?>">
                     <?php if ($active == 0){
                       ?>
-                    <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-eye-slash-fill"></i></a>
+                    <button type="submit"class="btn btn-secondary btn-sm"><i class="bi bi-eye-slash-fill"></i></button>
                     <?php
 
                     }else{?>
-                    <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=employees&location=employees&typeOp=1"><i class="bi bi-eye-fill"></i></a>
+                    <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-eye-fill"></i></button>
                     <?php
                     }?>
+                    
+                    </form>
                 </td>
                 <td>
                     <?php echo $fullname ?>
@@ -73,7 +84,7 @@ if(intval($tipo) === 2)header('Location: error.php');
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form method="post" action="process/new.php" id="formul" enctype="multipart/form-data">
+          <form method="post"  id="formul" enctype="multipart/form-data">
           <center><label for="">Información General</label></center>
             <div class="row">
                 
@@ -133,9 +144,9 @@ if(intval($tipo) === 2)header('Location: error.php');
                 <label >Colonia</label>
                 <input type="text" class="form-control" id="colony" name="colony" required>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                 <label>Referencias</label>
-                <textarea class="form-control" name="references" id="references" cols="30" rows="1"></textarea>
+                <textarea class="form-control" name="references" id="references" rows="1" required></textarea>
                 
                 </div>
             </div>
@@ -144,10 +155,13 @@ if(intval($tipo) === 2)header('Location: error.php');
                 <center><label for="">Información de trabajo</label></center>
                 <div class="col-sm-6">
                 <label>Cargo</label>
-                <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                    <option selected disabled value="">Selecciona una área</option>
-                    <?php     
-                        $l_charges_select = $DataBase->read_data_table('charges');
+                <select class="form-select" aria-label="Default select example" id="charge" name="charge" required>
+                <?php     
+                            $l_charges_select = $DataBase->read_data_table('charges');
+                            if(mysqli_num_rows($l_charges_select) === 0 ) { ?>
+                            <option selected disabled value="">Necesitas crear un cargo primero</option>
+                            <?php } else { ?> <option selected disabled value="">Selecciona un Cargo</option><?php } ?>
+                            <?php 
                         while ($row = mysqli_fetch_object($l_charges_select)) {
                             $id = $row->id_charge;
                             $name = $row->t_name;
@@ -158,10 +172,13 @@ if(intval($tipo) === 2)header('Location: error.php');
                 </div>
                 <div class="col-sm-6">
                     <label for="">Puesto</label>
-                    <select class="form-select" aria-label="Default select example" id="position" name="position">
-                        <option selected disabled value="">Selecciona un puesto</option>
-                        <?php     
+                    <select class="form-select" aria-label="Default select example" id="position" name="position" required>
+                    <?php     
                             $l_positions_select = $DataBase->read_data_table('positions');
+                            if(mysqli_num_rows($l_positions_select) === 0 ) { ?>
+                            <option selected disabled value="">Necesitas crear un puesto primero</option>
+                            <?php } else { ?> <option selected disabled value="">Selecciona un Puesto</option><?php } ?>
+                            <?php 
                             while ($row = mysqli_fetch_object($l_positions_select)) {
                                 $id = $row->id_position;
                                 $name = $row->t_name;
@@ -180,10 +197,10 @@ if(intval($tipo) === 2)header('Location: error.php');
                 </div>
             </div>
             <input type="hidden" name="typeOp" value="3">
+            <input type="hidden" name="new" value="1">
             <br>    
           </div>
           <div class="modal-footer">
-            
             <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
           </div>
           </form>
@@ -227,7 +244,7 @@ if(intval($tipo) === 2)header('Location: error.php');
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form method="post" action="process/update.php" id="formul">
+            <form method="post"  id="formul">
             <center><label for="">Información General</label></center>
                 <div class="row">
                     
@@ -287,9 +304,9 @@ if(intval($tipo) === 2)header('Location: error.php');
                     <label >Colonia</label>
                     <input value="<?php echo $colony?>" type="text" class="form-control" id="colony" name="colony" >
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                     <label>Referencias</label>
-                    <textarea class="form-control" name="references" id="references" cols="30" rows="1"><?php echo $references?></textarea>
+                    <textarea class="form-control" name="references" id="references" rows="1" required><?php echo $references?></textarea>
                     
                     </div>
                 </div>
@@ -298,10 +315,13 @@ if(intval($tipo) === 2)header('Location: error.php');
                     <center><label for="">Información de trabajo</label></center>
                     <div class="col-sm-6">
                     <label>Cargo</label>
-                    <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                        <option disabled value="">Selecciona una área</option>
-                        <?php     
+                    <select class="form-select" aria-label="Default select example" id="charge" name="charge" required>
+                    <?php     
                             $l_charges_select = $DataBase->read_data_table('charges');
+                            if(mysqli_num_rows($l_charges_select) === 0 ) { ?>
+                            <option selected disabled value="">Necesitas crear un cargo primero</option>
+                            <?php } else { ?> <option <?php if(intval($charge) === 0){?> selected <?php }?> disabled value="">Selecciona un Cargo</option><?php } ?>
+                            <?php 
                             while ($row = mysqli_fetch_object($l_charges_select)) {
                                 $idc = $row->id_charge;
                                 $namec = $row->t_name;
@@ -312,10 +332,13 @@ if(intval($tipo) === 2)header('Location: error.php');
                     </div>
                     <div class="col-sm-6">
                         <label for="">Puesto</label>
-                        <select class="form-select" aria-label="Default select example" id="position" name="position">
-                            <option selected disabled value="">Selecciona un puesto</option>
-                            <?php     
-                                $l_positions_select = $DataBase->read_data_table('positions');
+                        <select class="form-select" aria-label="Default select example" id="position" name="position" required>
+                        <?php     
+                            $l_positions_select = $DataBase->read_data_table('positions');
+                            if(mysqli_num_rows($l_positions_select) === 0 ) { ?>
+                            <option selected disabled value="">Necesitas crear un puesto primero</option>
+                            <?php } else { ?> <option <?php if(intval($position) === 0){?> selected <?php }?> disabled value="">Selecciona un Puesto</option><?php } ?>
+                            <?php 
                                 while ($row = mysqli_fetch_object($l_positions_select)) {
                                     $idp = $row->id_position;
                                     $namep = $row->t_name;
@@ -335,6 +358,7 @@ if(intval($tipo) === 2)header('Location: error.php');
                 </div>
                 <input type="hidden" name="typeOp" value="4">
                 <input type="hidden" name="id" value="<?php echo $idL ?>">
+                <input type="hidden" name="update" value="1">
                 <br>    
             </div>
             <div class="modal-footer">
@@ -365,10 +389,10 @@ if(intval($tipo) === 2)header('Location: error.php');
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="process/delete.php" method="post">
+          <form method="post">
             <input type="hidden" name="id" id="id" value="<?php echo $id?>">
             <input type="hidden" name="typeOp" id="typeOp" value="4">
-          
+            <input type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -386,8 +410,10 @@ if(intval($tipo) === 2)header('Location: error.php');
     while ($row = mysqli_fetch_object($l_employees)) {
         $idL = $row->id_employee;
         $employee_info = $DataBase->read_info_employee(intval($idL));
-        $id_area = $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area;
-        $area_info = $DataBase->read_single_record_area($id_area);
+        $id_area = $employee_info->fk_position !== null ? $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area : null;
+        $area_info = $id_area !== null ? $DataBase->read_single_record_area($id_area)->t_name : "Ninguna";
+        $puesto = $employee_info->fk_position !== null ? $DataBase->read_single_record_position($employee_info->fk_position)->t_name : "Ninguno";
+        $cargo = $employee_info->fk_charge !== null ? $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name : "Ninguno";
         $path_p = $DataBase->read_single_record_files($employee_info->fk_img)->t_path;
         $id_user = $DataBase->read_single_record_employee_user($idL)->fk_user;
         $user_info = $DataBase->read_single_record_user($id_user);
@@ -423,11 +449,11 @@ if(intval($tipo) === 2)header('Location: error.php');
                     <div class="col">
                         <center><label for="">Información Institucional</label></center>
                         <p>
-                            <strong>Puesto:</strong> <?php echo $DataBase->read_single_record_position($employee_info->fk_position)->t_name; ?>  <br>
-                            <strong>Cargo:</strong> <?php echo $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name; ?>  <br>
+                            <strong>Puesto:</strong> <?php echo $puesto ?>  <br>
+                            <strong>Cargo:</strong> <?php echo $cargo ?>  <br>
                             <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
                             <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
-                            <strong>Área:</strong> <?php echo $area_info->t_name ?> <br>
+                            <strong>Área:</strong> <?php echo $area_info ?> <br>
                             <strong>Usuario:</strong> <?php echo $user_info->t_user; ?> <br>
                             <strong>Contraseña:</strong> <?php echo $user_info->t_password; ?> <br>
                             <strong>Capacitaciones:</strong> <?php echo $count->count_data; ?> <button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
@@ -464,6 +490,8 @@ if(intval($tipo) === 2)header('Location: error.php');
     var charCode = (evt.which) ? evt.which : evt.keyCode
     return !(charCode > 31 && (charCode < 48 || charCode > 57));
 }
+var elemento = document.getElementById('employee_list');
+elemento.classList.add("active");
   </script>
 <?php 
 include("components/footer.php");

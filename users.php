@@ -2,7 +2,10 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
-if(intval($tipo) === 2)header('Location: error.php');
+if($tipo === 2)header('Location: error.php');
+require('process/new.php');
+require('process/delete.php');
+require('process/update.php');
 ?>
 <center><h2>Lista de usuarios</h2></center>
 
@@ -34,10 +37,14 @@ if(intval($tipo) === 2)header('Location: error.php');
       ?>
       <tr>
           <td>
+              <form method="post">
+                <input type="hidden" name="update" value="1">
+                <input type="hidden" name="id" value="<?php echo $id ?>">
+                <input type="hidden" name="typeOp" value="13">
               <?php if ($active == 0){?>
-                <a class="btn btn-secondary btn-sm" href="process/update.php?id=<?php echo $id?>&table=users&location=config&typeOp=3"><i class="bi bi-eye-slash-fill"></i></a>
+                <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-eye-slash-fill"></i></button>
               <?php }else{?>
-                <a class="btn btn-success btn-sm" href="process/update.php?id=<?php echo $id?>&table=users&location=config&typeOp=3"><i class="bi bi-eye-fill"></i></a>
+                <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-eye-fill"></i></button>
               <?php
               }?>
           </td>
@@ -75,7 +82,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         <h5 class="modal-title" id="exampleModalLabel">Registro de Usuarios Administradores</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="process/new.php" method="post" id="formul">
+      <form  method="post" id="formul">
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-6">
@@ -88,6 +95,7 @@ if(intval($tipo) === 2)header('Location: error.php');
             </div>          
           </div>
           <input type="hidden" name="typeOp" value="1">
+          <input type="hidden" name="new" value="1">
           <br>    
         </div>
         <div class="modal-footer">
@@ -106,6 +114,7 @@ if(intval($tipo) === 2)header('Location: error.php');
     $active = $row->b_active;
     $user = $row->t_user;
     $password = $row->t_password;
+    $tipo = $row->i_type;
 ?>
     <div class="modal fade" id="EditUser-<?php echo $id?>" tabindex="-1"  aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -114,12 +123,12 @@ if(intval($tipo) === 2)header('Location: error.php');
             <h5 class="modal-title" id="exampleModalLabel">Edicion de Usuario Administrador</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="process/update.php" method="post" id="formul">
+          <form method="post" id="formul">
             <div class="modal-body">
               <div class="row">
                 <div class="col-sm-4">
                   <label >Usuario </label>
-                  <input type="text" class="form-control" id="user" name="user" required value="<?php echo $user?>">
+                  <input type="text" class="form-control" id="user" name="user" <?php if($tipo === 2){ ?> disabled <?php }?> value="<?php echo $user?>">
                 </div>
                 <div class="col-sm-4">
                   <label >Contraseña</label>
@@ -128,6 +137,7 @@ if(intval($tipo) === 2)header('Location: error.php');
               </div>
               <input type="hidden" name="id" value="<?php echo $id?>">
               <input type="hidden" name="typeOp" value="1">
+              <input type="hidden" name="update" value="1">
               <br>    
             </div>
             <div class="modal-footer">
@@ -159,10 +169,10 @@ if(intval($tipo) === 2)header('Location: error.php');
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="process/delete.php" method="post">
+          <form  method="post">
             <input type="hidden" name="id" id="id" value="<?php echo $id?>">
             <input type="hidden" name="typeOp" id="typeOp" value="1">
-          
+            <input type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -170,7 +180,12 @@ if(intval($tipo) === 2)header('Location: error.php');
     </div>
   </div>
 <?php } ?>
-
+<script>
+  var elemento = document.getElementById('user_list');
+elemento.classList.add("active");
+var elemento = document.getElementById('config_list');
+elemento.classList.add("active");
+</script>
 <?php
 include("components/footer.php");
 ?>

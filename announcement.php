@@ -1,10 +1,12 @@
 <?php
 include("components/header.php");
 include('config/db.php');
+include('process/new.php');
 //la  creacion para ver toda la Información junta como reporte
 
 $DataBase = new db();
-$announcement = $DataBase->read_single_record_announcement($_GET['id']);
+$id = $_GET['id'];
+$announcement = $DataBase->read_single_record_announcement($id);
 $nombre = $announcement->t_name;
 $descripcion = $announcement->t_description;
 $fechadeinicio = $announcement->d_date_start;
@@ -15,6 +17,15 @@ $funciones = $announcement->t_functions;
 $estado = $announcement->b_active;
 $file = $announcement->fk_file;
 $path_file = $DataBase->read_single_record_files($file)->t_path;;
+if($tipo == 2){
+  $id_user = $_SESSION['id_usuario'];
+  $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
+  $employee_info = $DataBase->read_info_employee(intval($id_employee));
+  $position = $DataBase->read_single_record_announcement_position($id) ? $DataBase->read_single_record_announcement_position($id)->fk_position : 0;
+  $charge = $DataBase->read_single_record_announcement_charge($id) ? $DataBase->read_single_record_announcement_charge($id)->fk_charge : 0;
+  if(!$estado)echo "estado";
+  // if(intval($position) !== intval($employee_info->fk_position) || intval($charge) !== intval($employee_info->fk_charge))echo $employee_info->fk_position."-".$position."-".$employee_info->fk_charge."-".$charge;
+}
 ?>
 <br>
 
@@ -40,7 +51,7 @@ $path_file = $DataBase->read_single_record_files($file)->t_path;;
     </div>
   </div>
   <br>
-  <?php if(intval($tipo) === 1){?>
+  <?php if($tipo === 1){?>
     <table class="table table-striped table-bordered userTable"  style='background: #00252e '>
       <thead style="color: white">
           <th>Aspirante</th>
@@ -48,30 +59,54 @@ $path_file = $DataBase->read_single_record_files($file)->t_path;;
           <th></th>
       </thead>
       <tbody>
-        <tr>
-            
+        <?php 
+        $l_em_ann_list = $DataBase->read_data_table_announcements_employees($id);
+        while ($row = mysqli_fetch_object($l_em_ann_list)) { 
+          $employee_info = $DataBase->read_info_employee($row->fk_employee);
+          $estado_e = intval($row->b_status);
+          ?>
+          <tr>
             <td>
-                Roberto
+                <?php echo $employee_info->t_names." ".$employee_info->t_last_names ?>
             </td>
             <td>
-                Pendiente
+                <?php switch ($estado_e) {
+                  case 0:
+                    echo "Rechazado";
+                    break;
+                  case 1:
+                    echo "Aceptado";
+                    break;
+                  default:
+                    echo "Pendiente";
+                    break;
+                } ?>
             </td>
             <td>
-                <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#EditUser-<?php echo $id?>">Aceptar</a>
-                <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteUser-<?php echo $id?>">Rechazar</a>
+                <?php if($estado_e == 2){?>
+                  <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#Accept-<?php echo $id?>">Aceptar</a>
+                  <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#Dismiss-<?php echo $id?>">Rechazar</a>
+                <?php }else{?>
+                  <a class="btn btn-info btn-sm">Mostrar Más</a>
+                <?php } ?>
             </td>
         </tr>  
+        <?php } ?>
       </tbody>
     </table>
   <?php }else{
-    $id_user = $_SESSION['id_usuario'];
-    $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
-    $employee_info = $DataBase->read_info_employee(intval($id_employee));
-    $is_applied = $DataBase->read_single_record_employee_announcement($id_employee) ? $DataBase->read_single_record_employee_announcement($id_employee)->num_rows : 0;?>
+    $consult = $DataBase->read_single_record_employee_announcement($id_employee);
+    $is_applied = $consult ? $consult->fk_employee : 0;?>
     <?php if(intval($is_applied) === 0){?>
-      <a class="btn btn-dark btn-sm"> Aplicar</a>
+      <form method="post">
+        <input type="hidden" name="announcement" value="<?php echo $id ?>">
+        <input type="hidden" name="employee" value="<?php echo $id_employee ?>">
+        <input type="hidden" name="new" value="1">
+        <input type="hidden" name="typeOp" value="11">
+        <button class="btn btn-dark btn-sm" type="submit">Aplicar</button>
+      </form>
     <?php }else{ ?>
-    <a class="btn btn-dark btn-sm">Ya has aplicado</a>
+    <button class="btn btn-secondary btn-sm" disabled>Ya has aplicado</button> <!-- Agregar nota "esperar confirmacion" -->
   <?php } }?>
 </div>
 

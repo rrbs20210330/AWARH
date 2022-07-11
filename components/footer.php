@@ -21,8 +21,8 @@
     $(document).ready(function() {
         $('.userTable').DataTable();
     });
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     function confirmSave(){
       var res = confirm('¿Estás seguro?\nTus datos serán guardados')
       if(res){
@@ -31,7 +31,8 @@
         return false;
       }
     }
-  
+  // poner en todos los new de process/new.php $('#form2').trigger('reset');
+  // poner en cambiar contraseña de empleado en process/update.php window.location.reload();
   </script>
   
   

@@ -2,7 +2,10 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
-if(intval($tipo) === 2)header('Location: error.php');
+if($tipo === 2)header('Location: error.php');
+require('process/new.php');
+require('process/delete.php');
+require('process/update.php');
 ?>
 <center><h2>Lista de Puestos</h2></center>
 
@@ -58,32 +61,36 @@ if(intval($tipo) === 2)header('Location: error.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form action="process/new.php"method="post">
+      <form method="post">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label for="">Nombre </label>
             <input type="text" class="form-control" id="name" name="name" required>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label for="">Descripción </label>
             <input type="text" class="form-control" id="description" name="description" required>
             </div>
-            <div class="col-sm-4">  
+            <div class="col-sm-12">  
               <label>Área</label>
-              <select class="form-select" aria-label="Default select example" id="area" name="area">
-                  <option selected disabled value="">Selecciona una área</option>
-                  <?php     
-                      $l_charges_select = $DataBase->read_data_table('areas');
-                      while ($row = mysqli_fetch_object($l_charges_select)) {
+              <select class="form-select" aria-label="Default select example" id="area" name="area" required>
+              <?php     
+                      $l_areas_select = $DataBase->read_data_table('areas');
+                      if(mysqli_num_rows($l_areas_select) === 0 ) { ?>
+                      <option selected disabled value="">Necesitas crear una área primero</option>
+                      <?php } else { ?> <option selected disabled value="">Selecciona una Área</option><?php } ?>
+                      
+                      <?php 
+                      while ($row = mysqli_fetch_object($l_areas_select)) {
                           $idc = $row->id_area;
                           $namec = $row->t_name;
                           ?>
-                  <option value="<?php echo $idc ?>"><?php echo $namec ?></option>
+                  <option value="<?php echo $idc ?>" ><?php echo $namec ?></option>
                   <?php } ?>
               </select>
             </div>
             <input type="hidden" name="typeOp" value="7">
-            
+            <input type="hidden" name="new" value="1">
         </div>
         
         <br>
@@ -105,6 +112,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         $id = $row->id_position;
         $nombre = $row->t_name;
         $description = $row->t_description;
+        $object = $DataBase->read_single_record_area_position($id) ? $DataBase->read_single_record_area_position($id)->fk_area : 0;
 ?>
 <div class="modal fade" id="EditPosition-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   
@@ -115,28 +123,32 @@ if(intval($tipo) === 2)header('Location: error.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form action="process/update.php" method="post">
+      <form  method="post">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label for="">Nombre </label>
             <input value="<?php echo $nombre ?>" type="text" class="form-control" id="name" name="name">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label for="">Descripción </label>
             <input value="<?php echo $description ?>" type="text" class="form-control" id="description" name="description">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-12">
               <label>Área</label>
               
-              <select class="form-select" aria-label="Default select example" id="area" name="area">
-                    <option disabled value="">Selecciona una Área</option> 
-                  <?php     
-                      $l_charges_select = $DataBase->read_data_table('areas');
-                      while ($row = mysqli_fetch_object($l_charges_select)) {
+              <select class="form-select" aria-label="Default select example" id="area" name="area" required>
+                    <?php     
+                      $l_areas_select = $DataBase->read_data_table('areas');
+                      if(mysqli_num_rows($l_areas_select) === 0 ) { ?>
+                      <option disabled value="">Necesitas crear una área primero</option>
+                      <?php } else { ?> <option disabled value="">Selecciona una Área</option><?php } ?>
+                      
+                      <?php 
+                      while ($row = mysqli_fetch_object($l_areas_select)) {
                           $idc = $row->id_areas;
                           $namec = $row->t_name;
                           ?>
-                  <option value="<?php echo $idc ?>"><?php echo $namec ?></option>
+                  <option value="<?php echo $idc ?>" <?php if(intval($idc) === intval($object)){?> selected <?php }?>><?php echo $namec ?></option>
                   <?php } ?>
               </select>
           </div>
@@ -144,6 +156,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         <br>
         <input type="hidden" name="id" value="<?php echo $id ?>">
         <input type="hidden" name="typeOp" value="5">
+        <input type="hidden" name="update" value="1">
     
       </div>
       <div class="modal-footer">
@@ -177,10 +190,10 @@ if(intval($tipo) === 2)header('Location: error.php');
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="process/delete.php" method="post">
+          <form  method="post">
             <input type="hidden" name="id" id="id" value="<?php echo $id?>">
             <input type="hidden" name="typeOp" id="typeOp" value="5">
-          
+            <input type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -188,7 +201,12 @@ if(intval($tipo) === 2)header('Location: error.php');
     </div>
   </div>
 <?php } ?>
-
+<script>
+  var elemento = document.getElementById('position_list');
+elemento.classList.add("active");
+var elemento = document.getElementById('config_list');
+elemento.classList.add("active");
+</script>
 <?php
 include("components/footer.php");
 ?>

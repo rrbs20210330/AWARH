@@ -2,7 +2,10 @@
 include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
-if(intval($tipo) === 2)header('Location: error.php');
+if($tipo === 2)header('Location: error.php');
+require('process/new.php');
+require('process/delete.php');
+require('process/update.php');
 ?>
 
 <center><h2>Lista de Capacitaciones</h2></center>
@@ -55,29 +58,32 @@ if(intval($tipo) === 2)header('Location: error.php');
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form action="process/new.php" method="post" id="formul" enctype="multipart/form-data">
+          <form method="post" id="formul" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-sm-4">
-                <label for="">Nombre </label>
-                <input type="text" class="form-control" id="name" name="name" required value="">
+                <div class="col-sm-6">
+                  <label for="">Nombre </label>
+                  <input type="text" class="form-control" id="name" name="name" required value="">
                 </div>
-                <div class="col-sm-4">
-                <label for="">Descripcion</label>
-                <input type="text" class="form-control" id="description" name="description" required>
+                <div class="col-sm-6">
+                  <label for="">Empleado</label>
+                  <select class="form-select" aria-label="Default select example" id="employee" name="employee" required>
+                    <?php     
+                      $l_employees_select = $DataBase->read_data_table('employees');
+                      if(mysqli_num_rows($l_employees_select) === 0 ) { ?>
+                      <option selected disabled value="">Necesitas crear un empleado primero</option>
+                      <?php } else { ?> <option selected disabled value="">Selecciona un empleado</option><?php } ?>
+                      <?php 
+                        while ($row = mysqli_fetch_object($l_employees_select)) {
+                            $id = $row->id_employee;
+                            $name = $row->t_names." ".$row->t_last_names;
+                            ?>
+                    <option value="<?php echo $id ?>"><?php echo $name ?></option>
+                    <?php } ?>
+                  </select>
                 </div>
-                <div class="col-sm-4">
-                <label for="">Empleado</label>
-                <select class="form-select" aria-label="Default select example" id="employee" name="employee">
-                <option selected disabled value="">Selecciona un empleado</option>
-                <?php     
-                    $l_employees_select = $DataBase->read_data_table('employees');
-                    while ($row = mysqli_fetch_object($l_employees_select)) {
-                        $id = $row->id_employee;
-                        $name = $row->t_names." ".$row->t_last_names;
-                        ?>
-                <option value="<?php echo $id ?>"><?php echo $name ?></option>
-                <?php } ?>
-            </select>
+                <div class="col-sm-12">
+                  <label for="">Descripcion</label>
+                  <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
                 </div>
                 <div class="col-sm-6">
                     <center><label >Fecha de inicio</label></center>
@@ -95,6 +101,7 @@ if(intval($tipo) === 2)header('Location: error.php');
             <br>    
           </div>
           <input type="hidden" name="typeOp" value="8">
+          <input type="hidden" name="new" value="1">
           <div class="modal-footer">
             <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
           </div>
@@ -125,21 +132,21 @@ if(intval($tipo) === 2)header('Location: error.php');
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form action="process/update.php" method="post" id="formul">
+            <form method="post" id="formul">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                     <label for="">Nombre </label>
                     <input type="text" class="form-control" id="name" name="name" value="<?php echo $name_t ?>">
                     </div>
-                    <div class="col-sm-4">
-                    <label for="">Descripcion</label>
-                    <input type="text" class="form-control" id="description" name="description" value="<?php echo $description_t ?>">
-                    </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <label for="">Empleado</label>
-                        <select disabled class="form-select" aria-label="Default select example" id="employee" name="employee" value="<?php echo $employee_id_t ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="No se pueden editar el empleado seleccionado">
+                        <select disabled class="form-select" aria-label="Default select example" id="employee" name="employee" data-bs-toggle="tooltip" data-bs-placement="top" title="No se pueden editar el empleado seleccionado">
                             <option selected ><?php echo $employee_name_t ?></option>
                         </select>
+                    </div>
+                    <div class="col-sm-12">
+                    <label for="">Descripcion</label>
+                    <textarea class="form-control" id="description" name="description" rows="1"><?php echo $description_t ?></textarea>
                     </div>
                     <div class="col-sm-6">
                         <center><label >Fecha de inicio</label></center>
@@ -161,6 +168,7 @@ if(intval($tipo) === 2)header('Location: error.php');
             <div class="modal-footer">
             <input type="hidden" name="id" value="<?php echo $id_t ?>">
                 <input type="hidden" name="typeOp" value="2">
+                <input type="hidden" name="update" value="1">
                 <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
             </div>
             </form>
@@ -188,10 +196,10 @@ if(intval($tipo) === 2)header('Location: error.php');
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="process/delete.php" method="post">
+          <form  method="post">
             <input type="hidden" name="id" id="id" value="<?php echo $id?>">
             <input type="hidden" name="typeOp" id="typeOp" value="7">
-          
+            <input type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -251,7 +259,10 @@ if(intval($tipo) === 2)header('Location: error.php');
   </div>
 <?php } ?>
 
-
+<script>
+  var elemento = document.getElementById('training_list');
+elemento.classList.add("active");
+</script>
 <?php
 include("components/footer.php");
 ?>

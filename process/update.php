@@ -1,24 +1,6 @@
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 <?php 
-    include('../config/db.php');
-    if(isset($_GET) && isset($_GET['id']) && isset($_GET['typeOp'])){
-        switch (intval($_GET['typeOp'])) {
-            case 1:
-                update_status_employee($_GET);
-                break;
-            case 2:
-                update_status_announcement($_GET);
-                break;
-            case 3:
-                update_status_user($_GET);
-                break;
-            default:
-                header('location: ../error.php');
-                break;
-        }
-        
-    }
-    if(isset($_POST) && isset($_POST['typeOp']) && isset($_POST['id'])){
+    if(isset($_POST) && isset($_POST['typeOp']) && isset($_POST['id']) && isset($_POST['update'])){
         switch (intval($_POST['typeOp'])) {
             case 1:#
                 update_user($_POST);
@@ -47,6 +29,18 @@
             case 9:#
                 update_area($_POST);
                 break;
+            case 10:#
+                update_pass($_POST);
+                break;
+            case 11:
+                update_status_employee($_POST);
+                break;
+            case 12:
+                update_status_announcement($_POST);
+                break;
+            case 13:
+                update_status_user($_POST);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -57,10 +51,14 @@
     function update_status_employee($data){
         $DataBase = new db();
         $id =intval($data['id']);
-        
-        $res = $DataBase->update_active_employees($id);
+        $idu = intval($data['idu']);
+        $res = $DataBase->update_active_employees($id, $idu);
         if($res){
-            header("location: ../employees.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -71,7 +69,11 @@
         
         $res = $DataBase->update_active_users($id);
         if($res){
-            header("location: ../users.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -82,7 +84,11 @@
         
         $res = $DataBase->update_active_announcements($id);
         if($res){
-            header("location: ../announcements.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -95,7 +101,12 @@
         $password = $data['password'];
         $res = $DataBase->update_t_users($id, $user,$password);
         if($res){
-            header("location: ../users.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El usuario seleccionado fue editado correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -109,7 +120,12 @@
         $date_finish = $data['date_finish'] == false ? 0 : $data['date_finish'];
         $res = $DataBase->update_t_trainings($id, $name, $description, $date_start, $date_finish);
         if($res){
-            header("location: ../trainings.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La capacitación seleccionada fue editada correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -121,7 +137,12 @@
         $description = $DataBase->sanitize($data['description']);
         $res = $DataBase->update_t_charges($id,$name, $description);
         if($res){
-            header("location: ../charges.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El cargo seleccionado fue editado correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -145,7 +166,12 @@
         $rfc = $DataBase->sanitize($data['rfc']);
         $res = $DataBase->proEditEmployee($id,$names, $last_names, $birthday, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position,$nss,$rfc);
         if($res){
-            header("location: ../employees.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El empleado seleccionado fue editado correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -158,9 +184,14 @@
         $area = intval($data['area']);
         $res = $DataBase->update_t_positions($id, $name, $description, $area);
         if($res){
-            header("location: ../positions.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El puesto seleccionado fue editado correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
-            header('location: ../error.php');
+            echo ("error");
         }
     }
     function update_activity($data){
@@ -172,7 +203,12 @@
         
         $res = $DataBase->proEditActivity($id,$name, $description, $charge);
         if($res){
-            header("location: ../activities.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La actividad seleccionada fue editada correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -188,7 +224,12 @@
         $perfil = $DataBase->sanitize($data['perfil']);
         $res = $DataBase->update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil);
         if($res){
-            header("location: ../candidates.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El candidato seleccionado fue editado correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -209,7 +250,12 @@
 
         $res =$DataBase->update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$charge,$area);
         if($res){
-            header("location: ../announcements.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'Ka convocatoria seleccionada fue editada correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -222,7 +268,29 @@
         $res = $DataBase->update_t_area($id,$name,$description);
 
         if($res){
-            header("location: ../areas.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El area seleccionada fue editada correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
+        }else{
+            header('location: ../error.php');
+        }
+    }
+    function update_pass($data){
+        $DataBase = new db();
+        $id = intval($_POST['id']);
+        $password = $DataBase->sanitize($_POST['password']);
+        $res = $DataBase->update_t_pass($id,$password);
+
+        if($res){
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La contraseña fue editada correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }

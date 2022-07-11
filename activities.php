@@ -3,7 +3,10 @@ include("components/header.php");
 include('config/db.php');
 $DataBase = new db();
 
-if(intval($tipo) === 2)header('Location: error.php');
+if($tipo === 2)header('Location: error.php');
+require('process/new.php');
+require('process/delete.php');
+require('process/update.php');
 ?>
 <center><h2>Lista de Actividades</h2></center>
 <div class="container">
@@ -26,7 +29,7 @@ if(intval($tipo) === 2)header('Location: error.php');
                     $id = $row->id_activity;
                     $nombre = $row->t_name;
                     $description = $row->t_description;
-                    $object = $DataBase->read_single_record_relation_charge_activity('charges_activities', $id) ? $DataBase->read_single_record_relation_charge_activity('charges_activities', $id)->fk_charge : 0;
+                    $object = $DataBase->read_single_record_relation_charge_activity($id) ? $DataBase->read_single_record_relation_charge_activity($id)->fk_charge : 0;
                     $charge;
                     
                     if(intval($object) === 0){
@@ -67,22 +70,26 @@ if(intval($tipo) === 2)header('Location: error.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form method="post" action="process/new.php">
+      <form method="post">
         <div class="row needs-validation" novalidate>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label >Nombre </label>
             <input type="text" class="form-control" id="name" name="name">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
             <label >Descripción </label>
             <input type="text" class="form-control" id="description" name="description" required>
             </div>
-            <div class="col-sm-4">
-                <label>Cargo</label>
-                <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                    <option selected disabled value="">Selecciona una área</option>
+            <div class="col-sm-12">
+                <center><label>Cargo</label></center>
+                <select class="form-select" aria-label="Default select example" id="charge" name="charge" required>
                     <?php     
-                        $l_charges_select = $DataBase->read_data_table('charges');
+                    $l_charges_select = $DataBase->read_data_table('charges');
+                    if(mysqli_num_rows($l_charges_select) === 0 ) { ?>
+                    <option selected disabled value="">Necesitas crear un cargo primero</option>
+                    <?php } else { ?> <option selected disabled value="">Selecciona una área</option><?php } ?>
+                    
+                    <?php 
                         while ($row = mysqli_fetch_object($l_charges_select)) {
                             $idc = $row->id_charge;
                             $namec = $row->t_name;
@@ -92,6 +99,7 @@ if(intval($tipo) === 2)header('Location: error.php');
                 </select>
             </div>
             <input type="hidden" name="typeOp" value="4">
+            <input type="hidden" name="new" value="1">
         </div>
         
         <br>
@@ -113,7 +121,7 @@ if(intval($tipo) === 2)header('Location: error.php');
         $id = $row->id_activity;
         $nombre = $row->t_name;
         $description = $row->t_description;
-        $object = $DataBase->read_single_record_relation_charge_activity('charges_activities', $id) ? $DataBase->read_single_record_relation_charge_activity('charges_activities', $id)->fk_charge : 0;
+        $object = $DataBase->read_single_record_relation_charge_activity($id) ? $DataBase->read_single_record_relation_charge_activity($id)->fk_charge : 0;
 ?>
     <div class="modal fade" id="EditActivity-<?php echo $id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -123,33 +131,37 @@ if(intval($tipo) === 2)header('Location: error.php');
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <form method="post" action="process/update.php">
+        <form method="post">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                 <label >Nombre </label>
                 <input value="<?php echo $nombre?>"type="text" class="form-control" id="name" name="name" required>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                 <label >Descripción </label>
                 <input value="<?php echo $description ?>"type="text" class="form-control" id="description" name="description" required>
                 </div>
-                <div class="col-sm-4">
-                    <label>Cargo</label>
+                <div class="col-sm-12">
+                    <label>Cargo </label>
                     
-                    <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                         <option <?php if(intval($object) === 0){ ?>selected <?php } ?> disabled value="">Selecciona un Cargo</option> 
-                        <?php     
+                    <select class="form-select" aria-label="Default select example" id="charge" name="charge" required>
+                         <?php     
                             $l_charges_select = $DataBase->read_data_table('charges');
+                            if(mysqli_num_rows($l_charges_select) === 0 ) { ?>
+                            <option selected disabled value="">Necesitas crear un cargo primero</option>
+                            <?php } else { ?> <option <?php if(intval($object) === 0){?> selected <?php }?> disabled value="">Selecciona una Cargo</option><?php } ?>
+                            <?php 
                             while ($row = mysqli_fetch_object($l_charges_select)) {
                                 $idc = $row->id_charge;
                                 $namec = $row->t_name;
                                 ?>
-                        <option value="<?php echo $idc ?>" <?php if(intval($idc) === intval($object)){?> selected <?php }?>><?php echo $namec ?></option>
+                        <option value="<?php echo $idc ?>" <?php if(intval($idc) === intval($object)){?> selected <?php }?>><?php echo $namec ?> </option>
                         <?php } ?>
                     </select>
                 </div>
                 <input type="hidden" name="typeOp" value="6">
                 <input type="hidden" name="id" value="<?php echo $id?>">
+                <input type="hidden" name="update" value="1">
             </div>
             
             <br>
@@ -186,10 +198,10 @@ if(intval($tipo) === 2)header('Location: error.php');
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="process/delete.php" method="post">
+          <form method="post">
             <input type="hidden" name="id" id="id" value="<?php echo $id?>">
             <input type="hidden" name="typeOp" id="typeOp" value="2">
-          
+            <input type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -197,7 +209,12 @@ if(intval($tipo) === 2)header('Location: error.php');
     </div>
   </div>
 <?php } ?>
-
+<script>
+  var elemento = document.getElementById('activity_list');
+elemento.classList.add("active");
+var elemento = document.getElementById('config_list');
+elemento.classList.add("active");
+</script>
 <?php
 include("components/footer.php");
 ?>

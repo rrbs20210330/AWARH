@@ -22,17 +22,6 @@
             return $return;
         }
 
-        public function delete_data_table($where, $id){
-            $sql = "DELETE FROM `$where` WHERE `id` = '$id'";
-            
-            $res = mysqli_query($this->con, $sql);
-            
-            if($res){
-                return true;
-            }else{
-                return false;
-            } 
-        }
         public function delete_data_users($id){
             $sql = "DELETE FROM users WHERE `id_user` = '$id'";
             
@@ -69,14 +58,13 @@
                 return false;
             }
         }
-        public function read_single_record($table, $id){
-            $sql = "SELECT * FROM $table WHERE id = '$id'";
+        public function read_data_table_announcements_employees($id){
+            $sql = "SELECT * FROM employees_announcements WHERE fk_announcement = $id";
             $res = mysqli_query($this->con, $sql);
-            $return = mysqli_fetch_object($res);
-            return $return;
+            return $res;
         }
         public function read_single_record_employee_announcement($id){
-            $sql = "SELECT * FROM employees_announcements WHERE fk_employee = '$id'";
+            $sql = "SELECT * FROM employees_announcements WHERE fk_employee = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -129,6 +117,12 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
+        public function read_single_record_positions_areas($id){
+            $sql = "SELECT * FROM positions_areas WHERE fk_position = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
         public function read_single_record_training($id){
             $sql = "SELECT * FROM trainings WHERE id_training = '$id'";
             $res = mysqli_query($this->con, $sql);
@@ -159,8 +153,8 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
-        public function read_single_record_relation_charge_activity($table, $id){
-            $sql = "SELECT * FROM $table WHERE fk_activity = $id";
+        public function read_single_record_relation_charge_activity($id){
+            $sql = "SELECT * FROM charges_activities WHERE fk_activity = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -191,6 +185,15 @@
             }
 
         }
+        public function update_t_pass($id,$password){
+            $sql = "UPDATE users SET `t_password`='$password' WHERE id_user = $id";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function insert_t_area($name, $description){
             $sql = "INSERT INTO `areas` (`t_name`, `t_description`) VALUES ('$name','$description')";
             $res = mysqli_query($this->con, $sql);
@@ -199,11 +202,6 @@
             }else{
                 return false;
             }
-        }
-        public function read_all_area(){
-            $sql = "SELECT * FROM areas";
-            $res = mysqli_query($this->con, $sql);
-            return $res;
         }
         public function update_active_users($id){
             $sql="SELECT b_active FROM users WHERE id_user ='$id'"; 
@@ -222,15 +220,24 @@
                 return false;
             }
         }
-        public function update_active_employees($id){
-            $sql="SELECT b_active FROM employees WHERE id_employee ='$id'"; 
+        public function insert_t_employees_announcements($announcement, $employee, $date, $status, $notice){
+            $sql = "INSERT INTO employees_announcements(`fk_announcement`, `fk_employee`, `d_registry_date`, `b_status`) VALUES ($announcement, $employee,'$date', $status)";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function update_active_employees($id, $idu){
+            $sql="SELECT employees.b_active as eb, users.b_active AS ub FROM employees, users WHERE id_employee = $id AND id_user = $idu"; 
             $res= mysqli_query($this->con, $sql);
             $return=mysqli_fetch_object($res);
-            if($return->b_active == 1){
-                $sql ="UPDATE employees SET b_active=0 WHERE id_employee ='$id'";
+            if($return->eb == 1){
+                $sql ="UPDATE employees,users SET employees.b_active = 0, users.b_active = 0 WHERE id_employee = $id AND id_user = $idu";
             }
             else{
-                $sql ="UPDATE employees SET b_active=1 WHERE id_employee ='$id'";
+                $sql ="UPDATE employees,users SET employees.b_active = 1, users.b_active = 1 WHERE id_employee = $id AND id_user = $idu";
             }
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -279,6 +286,7 @@
 
         }
         public function proDeleteEmployee($id){
+            #aqui insertar un loop obteniendo todas las capacitaciones y haciendo una llamada a el procedimiento de eliminar capacitaciones
             $sql = "CALL procedure_delete_employee($id);";
 
             $res = mysqli_query($this->con, $sql);
@@ -479,6 +487,7 @@
                 return false;
             }
         }
+        
         
         #CRUD (USERS)
         public function insert_t_users($user, $password, $active){

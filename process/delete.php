@@ -1,6 +1,5 @@
 <?php
-    include('../config/db.php');
-    if(isset($_POST) && isset($_POST['typeOp']) && isset($_POST['id'])){
+    if(isset($_POST) && isset($_POST['typeOp']) && isset($_POST['id']) && isset($_POST['delete'])){
         switch (intval($_POST['typeOp'])) {
             case 1:#Borrado general de una sola tabla e id, dando como entrada de que archivo viene y que tabla y fila eliminara de la base de datos.
                 delete_general_info($_POST);
@@ -34,8 +33,6 @@
                 break;
         }
         
-    }else{
-        header('location: ../error.php');
     }
 
     function delete_general_info($data){
@@ -43,7 +40,12 @@
         $id = intval($data['id']);
         $res = $DataBase->delete_data_users($id);
         if($res){
-            header("location: ../users.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El usuario seleccionado fue eliminado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -54,7 +56,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteActivity($id);
         if($res ){
-            header("location: ../activities.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La actividad seleccionada fue eliminada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -64,7 +71,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteCharge($id);
         if($res ){
-            header("location: ../charges.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El cargo seleccionado fue eliminado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -74,7 +86,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteEmployee($id);
         if($res ){
-            header("location: ../employees.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El empleado seleccionado fue eliminado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -84,7 +101,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeletePosition($id);
         if($res ){
-            header("location: ../positions.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El puesto seleccionado fue eliminado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -94,7 +116,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteCandidate($id);
         if($res){
-            header("location: ../candidates.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El candidato seleccionado fue eliminado exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -104,7 +131,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteTraining($id);
         if($res){
-            header("location: ../trainings.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La capacitación seleccionada fue eliminada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -115,7 +147,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteAnnouncement($id);
         if($res){
-            header("location: ../announcements.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'La convocatoria seleccionada fue eliminada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header('location: ../error.php');
         }
@@ -125,7 +162,12 @@
         $id = intval($data['id']);
         $res = $DataBase->proDeleteArea($id);
         if($res){
-            header("location: ../areas.php");
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El area seleccionada fue eliminada exitosamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
         }else{
             header("location: ../error.php");
         }

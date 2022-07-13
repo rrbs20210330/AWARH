@@ -10,9 +10,9 @@ require('process/update.php');
 <center><h2>Lista de Puestos</h2></center>
 
 <div class="container">
-  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
-    Nuevo Puesto
-  </button>
+  <abbr title="Nuevo puesto"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroPosicion">
+  <i style='font-size:24px' class="bi bi-file-earmark-person"><span class="glyphicon">&#x2b;</span></i>
+  </button></abbr>
   <br>
     <br>
   <table class="table table-striped table-bordered userTable" style='background: #00252e '>

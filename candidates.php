@@ -12,9 +12,9 @@ require('process/update.php');
 <center><h2>Lista de Candidatos</h2></center>
 
 <div class="container">
-    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrocandidato">
-        Nuevo Candidato
-    </button>
+    <abbr title="Nuevo candidato"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrocandidato">
+    <i style='font-size:24px' class="bi bi-person-badge-fill"><span class="glyphicon">&#x2b;</span></i>
+    </button></abbr>
     <br>
     <br>
     <table class="table table-striped table-bordered userTable" style='background: #00252e '>

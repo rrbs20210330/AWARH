@@ -11,9 +11,9 @@ require('process/update.php');
 <center><h2>Lista de Capacitaciones</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrousuario">
-  Nueva Capacitacion
-</button>
+<abbr title="Nueva capacitación"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrousuario">
+<i style='font-size:24px' class="bi bi-file-earmark-text-fill"><span class="glyphicon">&#x2b;</span></i> 
+</button></abbr>
 <br>
 <br>
     <table class="table table-striped table-bordered userTable"style='background: #00252e '>

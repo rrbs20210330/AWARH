@@ -38,18 +38,18 @@ $tipo = intval($_SESSION['tipo_usuario']);
       <ul id="myUL">
         <li><a class="navitem caret" id="config_list"><i class="bi bi-gear-fill"></i> Configuración <i class=""></i></a>
           <ul class="nested">
-            <li><a class="navitem" href="charges.php" id="charge_list"> Cargos</a></li>
+            <li><a class="navitem" href="charges.php" id="charge_list"><i class="bi bi-person-badge"></i> Cargos</a></li>
             <li>
-              <a class="navitem" href="activities.php" id="activity_list"> Actividades</a>
+              <a class="navitem" href="activities.php" id="activity_list"><i class="bi bi-card-checklist"></i> Actividades</a>
             </li>
             <li>
-              <a class="navitem" href="positions.php" id="position_list"> Puestos</a>
+              <a class="navitem" href="positions.php" id="position_list"><i class="bi bi-file-earmark-person"></i> Puestos</a>
             </li>
             <li>
-              <a class="navitem" href="areas.php" id="area_list"> Áreas</a>
+              <a class="navitem" href="areas.php" id="area_list"><i class="bi bi-person-workspace"></i> Áreas</a>
             </li>
             <li>
-              <a class="navitem" href="users.php" id="user_list"> Usuarios</a>
+              <a class="navitem" href="users.php" id="user_list"><i class="bi bi-person-plus-fill"></i> Usuarios</a>
             </li>
           </ul>
         </li>
@@ -65,7 +65,7 @@ $tipo = intval($_SESSION['tipo_usuario']);
         <div class="container-fluid">
           <span onclick="openNav()"><i class="fa fa-bars" style="color: white"></i></span>
           <div class="d-flex">            
-            <a class=" btn btn-link" href="#" id="close_sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+            <a class=" btn btn" href="#" id="close_sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; background: #00252e ">
               <i class="bi bi-person-circle"></i> <?php echo $usuario ?>
             </a>
             <ul class="toggler">

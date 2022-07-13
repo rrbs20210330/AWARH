@@ -10,9 +10,9 @@ require('process/update.php');
 <center><h2>Áreas</h2></center>
 
 <div class="container">
-  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroArea">
-    Nueva Área
-  </button>
+  <abbr title="Nueva Área"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroArea">
+  <i style='font-size:24px' class="bi bi-person-workspace"><span class="glyphicon">&#x2b;</span></i>
+  </button></abbr>
   <br><br>
   <table class="table table-striped table-bordered userTable" style='background: #00252e '>
     <thead style="color: white">

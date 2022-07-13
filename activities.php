@@ -10,9 +10,9 @@ require('process/update.php');
 ?>
 <center><h2>Lista de Actividades</h2></center>
 <div class="container">
-<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroActivity">
-  Nueva Actividad
-</button>
+<abbr title="Nueva Actividad"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#RegistroActivity">
+<i style='font-size:24px' class="bi bi-card-checklist"><span class="glyphicon">&#x2b;</span></i>
+</button></abbr>
 <br>
     <br>
     <table class="table table-striped table-bordered userTable" style='background: #00252e '>

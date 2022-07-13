@@ -11,9 +11,9 @@ require('process/update.php');
 <center><h2>Lista de Empleados</h2></center>
 
 <div class="container">
-<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registroempleado">
-  Nuevo Empleado
-</button>
+<abbr title="Nuevo empleado"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registroempleado">
+<i style='font-size:24px' class="bi bi-person-fill"><span class="glyphicon">&#x2b;</span></i>
+</button></abbr>
 <br><br>
     <table class="table table-striped table-bordered userTable" style='background: #00252e '>
         <thead style="color: white"> 

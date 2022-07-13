@@ -10,9 +10,9 @@ require('process/update.php');
 <center><h2>Lista de usuarios</h2></center>
 
 <div class="container">
-  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrousuario">
-    Nuevo Usuario
-  </button>
+  <abbr title="Nuevo usuario"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registrousuario">
+  <i style='font-size:24px' class='fas'>&#xf234;</i>
+  </button></abbr>
   <br>
     <br>
   <table class="table table-striped table-bordered userTable"  style='background: #00252e '>

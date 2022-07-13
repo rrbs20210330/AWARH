@@ -4,7 +4,7 @@ USE `rh`;
 
 CREATE TABLE IF NOT EXISTS `users` (
     `id_user` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id de la tabla de user',
-    `t_user` VARCHAR(20) NOT NULL COMMENT 'Nombre del usuario',
+    `t_user` VARCHAR(20) NOT NULL UNIQUE COMMENT 'Nombre del usuario',
     `t_password` VARCHAR(100) NOT NULL COMMENT 'Contraseña del usuario',
     `b_active` BOOLEAN NOT NULL COMMENT 'El estado del usuario esto desmuestra si esta activo o inactivo',
     `i_type` INT(11) NOT NULL COMMENT 'El tipo de usuario ya sea Administrador, empleado o aspirante',

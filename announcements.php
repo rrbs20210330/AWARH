@@ -17,9 +17,9 @@ require('process/update.php');}else{ ?>
 <div class="container">
   <?php if($tipo === 1){ ?>
     <div class="col-sm-4">
-    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal1">
-      Nueva Convocatoria
-    </button>
+    <abbr title=" Nueva Convocatoria "><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal1">
+    <i style='font-size:24px' class="bi bi-megaphone-fill"><span class="glyphicon">&#x2b;</span></i>
+    </button></abbr>
   </div>  
   <br>
   <?php $l_annoucements = $DataBase->read_data_table('announcements');

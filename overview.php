@@ -138,7 +138,7 @@ if($tipo === 1){
           <h5 class="modal-title" id="exampleModalLabel">Nuevo de Empleado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form method="post" id="formul" enctype="multipart/form-data">
+        <form method="post" id="formul" enctype="multipart/form-data" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
           <div class="modal-body">
             <div class="row">
               <center><label for="">Contacto</label></center>
@@ -181,7 +181,7 @@ if($tipo === 1){
             <br>    
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
+            <button type="submit" class="btn btn-success" >Registrar</button>
           </div>
         </form>
       </div>
@@ -192,6 +192,7 @@ if($tipo === 1){
   $l_password = $DataBase->read_data_table('users');
   while ($row = mysqli_fetch_object($l_password)) {
     $id = $row->id_user;
+    $passwrd = $row->t_password;
 ?>
     <div class="modal fade" id="editpassword<?php echo $id ?>" tabindex="-1"  aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -200,12 +201,12 @@ if($tipo === 1){
           <h5 class="modal-title" id="exampleModalLabel">Editar Contraseña</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form method="post" id="formul" enctype="multipart/form-data">
+        <form method="post" id="formul" enctype="multipart/form-data" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
           <div class="modal-body">
             <div class="row">
               <div class="col-sm-6">
                 <label>Nueva Contraseña </label>
-                <input type="text" class="form-control" name="password" required value="">
+                <input type="text" class="form-control" name="password" required value="<?php echo $passwrd?>">
               </div>          
             </div>
             <input type="hidden" name="id" value="<?php echo $id ?>">
@@ -214,7 +215,7 @@ if($tipo === 1){
             <br>    
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-success" onclick="confirmSave()">Cambiar Contraseña</button>
+            <button type="submit" class="btn btn-success" >Cambiar Contraseña</button>
           </div>
         </form>
       </div>

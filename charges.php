@@ -67,7 +67,7 @@ require('process/update.php');
                 <h5 class="modal-title" id="exampleModalLabel">Registro de cargos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post">
+            <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
                 <div class="modal-body"> 
                     <div class="row">
                         <div class="col-sm-6">
@@ -85,7 +85,7 @@ require('process/update.php');
                     <input type="hidden" name="new" value="1">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
+                    <button type="submit" class="btn btn-success" >Registrar</button>
                 </div>
             </form>
         </div>
@@ -110,7 +110,7 @@ require('process/update.php');
                 <h5 class="modal-title" id="exampleModalLabel">Registro de cargos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post">
+            <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
                 <div class="modal-body"> 
                     <div class="row">
                         <div class="col-sm-6">
@@ -128,7 +128,7 @@ require('process/update.php');
                 <input type="hidden" name="id" value="<?php echo $id ?>">
                 <input type="hidden" name="update" value="1">
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
+                    <button type="submit" class="btn btn-success" >Editar</button>
                 </div>
             </form>
         </div>

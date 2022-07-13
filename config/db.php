@@ -58,6 +58,15 @@
                 return false;
             }
         }
+        public function update_status_emp_announcement($ide, $ida ,$status,$notice){
+            $sql = "UPDATE employees_announcements SET b_status = $status, t_notice = '$notice' WHERE fk_announcement = $ida AND fk_employee = $ide";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
         public function read_data_table_announcements_employees($id){
             $sql = "SELECT * FROM employees_announcements WHERE fk_announcement = $id";
             $res = mysqli_query($this->con, $sql);

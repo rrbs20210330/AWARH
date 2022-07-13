@@ -41,6 +41,9 @@
             case 13:
                 update_status_user($_POST);
                 break;
+            case 14:
+                update_status_employee_announcement($_POST);
+                break;
             default:
                 header('location: ../error.php');
                 break;
@@ -288,6 +291,30 @@
             echo "<script> swal({
                 title: 'Listo!',
                 text: 'La contraseña fue editada correctamente.',
+                icon: 'success',
+                button: 'Ok!',
+              });</script>";
+        }else{
+            header('location: ../error.php');
+        }
+    }
+    function update_status_employee_announcement($data){
+        $DataBase = new db();
+        $ide = intval($_POST['id']);
+        $ida = intval($_POST['ida']);
+        $status = intval($_POST['status']);
+        $notice = $DataBase->sanitize($_POST['notice']);
+        $res = $DataBase->update_status_emp_announcement($ide,$ida,$status,$notice);
+        $msg;
+        if($status == 1){
+            $msg = "fue aceptado";
+        }else{
+            $msg = "fue rechazado";
+        }
+        if($res){
+            echo "<script> swal({
+                title: 'Listo!',
+                text: 'El aspirante $msg.',
                 icon: 'success',
                 button: 'Ok!',
               });</script>";

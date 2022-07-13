@@ -58,7 +58,7 @@ require('process/update.php');
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-          <form method="post" id="formul" enctype="multipart/form-data">
+          <form method="post" id="formul" enctype="multipart/form-data" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
             <div class="row">
                 <div class="col-sm-6">
                   <label for="">Nombre </label>
@@ -103,7 +103,7 @@ require('process/update.php');
           <input type="hidden" name="typeOp" value="8">
           <input type="hidden" name="new" value="1">
           <div class="modal-footer">
-            <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
+            <button type="submit" class="btn btn-success" >Registrar</button>
           </div>
           </form>
         </div>
@@ -132,7 +132,7 @@ require('process/update.php');
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            <form method="post" id="formul">
+            <form method="post" id="formul" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
                 <div class="row">
                     <div class="col-sm-6">
                     <label for="">Nombre </label>
@@ -169,7 +169,7 @@ require('process/update.php');
             <input type="hidden" name="id" value="<?php echo $id_t ?>">
                 <input type="hidden" name="typeOp" value="2">
                 <input type="hidden" name="update" value="1">
-                <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
+                <button type="submit" class="btn btn-success" >Editar</button>
             </div>
             </form>
             </div>

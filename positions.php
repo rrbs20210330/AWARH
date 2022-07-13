@@ -61,7 +61,7 @@ require('process/update.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form method="post">
+      <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="row">
             <div class="col-sm-6">
             <label for="">Nombre </label>
@@ -99,7 +99,7 @@ require('process/update.php');
       </div>
       <div class="modal-footer">
         
-        <button type="submit" class="btn btn-success" onclick="confirmSave()">Registrar</button>
+        <button type="submit" class="btn btn-success" >Registrar</button>
       </div>
       </form>
     </div>
@@ -123,7 +123,7 @@ require('process/update.php');
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form  method="post">
+      <form  method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="row">
             <div class="col-sm-6">
             <label for="">Nombre </label>
@@ -161,7 +161,7 @@ require('process/update.php');
       </div>
       <div class="modal-footer">
         
-        <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button>
+        <button type="submit" class="btn btn-success" >Editar</button>
       </div>
       </form>
     </div>

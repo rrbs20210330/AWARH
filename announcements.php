@@ -103,9 +103,11 @@ require('process/update.php');}else{ ?>
                   </div>     
                 </div>
         <?php } } }?> 
+        </div>
+        <?php if($count === 0 && mysqli_num_rows($l_annoucements) !== 0) {;?><center><h3>Aún no hay ninguna convocatoria disponible para ti.</h3></center>  <?php } ?> 
  <?php } ?>
-</div>
-<?php if($count === 0) {;?><center><h3>Aún no hay ninguna convocatoria disponible para ti.</h3></center>  <?php } ?> 
+
+
 
 <?php if($tipo === 1){ ?>
   <!--Modal para el boton  nueva convocatoria--->
@@ -117,7 +119,7 @@ require('process/update.php');}else{ ?>
         <h5 class="modal-title">Nueva convocatoria </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="efe" method="post" enctype="multipart/form-data">
+      <form id="efe" method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');" enctype="multipart/form-data">
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-6">
@@ -205,7 +207,7 @@ require('process/update.php');}else{ ?>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-success" onclick="confirmSave()">Crear</button> 
+          <button type="submit" class="btn btn-success">Crear</button> 
         </div>
       </form>
     </div>
@@ -237,7 +239,7 @@ require('process/update.php');}else{ ?>
           <h5 class="modal-title">Editar convocatoria </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="efe" method="post">
+        <form id="efe" method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
           <div class="modal-body">
           
             <div class="row">
@@ -325,7 +327,7 @@ require('process/update.php');}else{ ?>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success" onclick="confirmSave()">Editar</button> 
+            <button type="submit" class="btn btn-success" >Editar</button> 
           </div>
         </form>
       </div>

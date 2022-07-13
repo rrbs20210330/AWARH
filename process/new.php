@@ -78,7 +78,7 @@
                 $file_type = $_FILES['file']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
                 
-                $directorio = '../docs/'; 
+                $directorio = 'docs/'; 
                 if(!file_exists($directorio)){
                     mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
                 }
@@ -129,7 +129,7 @@
                 $file_type = $_FILES['photo']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
                 
-                $directorio = '../docs/'; 
+                $directorio = 'docs/'; 
                 if(!file_exists($directorio)){
                     mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
                 }
@@ -149,7 +149,7 @@
                 $file_type = $_FILES['cv']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
                 
-                $directorio = '../docs/'; 
+                $directorio = 'docs/'; 
                 if(!file_exists($directorio)){
                     mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
                 }
@@ -170,7 +170,7 @@
                 $file_type = $_FILES['contract']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
                 
-                $directorio = '../docs/'; 
+                $directorio = 'docs/'; 
                 if(!file_exists($directorio)){
                     mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
                 }
@@ -234,7 +234,7 @@
                 $file_type = $_FILES['archivo']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
                 
-                $directorio = '../docs/'; 
+                $directorio = 'docs/'; 
                 if(!file_exists($directorio)){
                     mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
                 }
@@ -309,7 +309,7 @@
                 $file_type = $_FILES['archivo']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
                 
-                $directorio = '../docs/'; 
+                $directorio = 'docs/'; 
                 if(!file_exists($directorio)){
                     mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
                 }

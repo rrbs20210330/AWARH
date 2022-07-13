@@ -47,9 +47,8 @@ Se agrego confirmacion en toda creacion y edicion de informacion, se agrego iden
 | | Cambiar selects por checkbox en convocatorias |
 | | Mostrar en el puesto a que area pertenece al momento de seleccionar en empleado o candidato | |
 | | Si un empleado es eliminado tambien deben de ser eliminadas sus capacitaciones | |
-| | Modificar error.php | |
+|COMPLETADO| Modificar error.php | |
 | | Validacion de si el empleado puede o no meterse a una convocatoria en especifico dependiendo de su cargo, area y puesto | |
-| | Investigar sobre dirname | |
 |COMPLETADO| Si un empleado se deshabilita tambien debe de deshabilitar el usuario | |
 | | Funcionalidad mostrar boton cuando un empleado solicite cambio de información en la lista de empleados | |
 |COMPLETADO| Mostrar la cantidad de puestos en una area | |
@@ -65,7 +64,7 @@ Se agrego confirmacion en toda creacion y edicion de informacion, se agrego iden
 |COMPLETADO| Funcionalidad de actualizacion de contraseña del usuario desde la vista del empleado | |
 |COMPLETADO| Un empleado podra aplicar a la convocatoria | |
 |COMPLETADO| Una convocatoria podra mostrar la cantidad de aspirantes a ella y quienes | |
-| | El administrador podra rechazar o aceptar el aspirante a esa convocatoria | |
+|COMPLETADO| El administrador podra rechazar o aceptar el aspirante a esa convocatoria | |
 | | Login sin que sea plantilla | |
 | | Administrar Limites de fechas con "https://www.daterangepicker.com/" o "https://bootstrap-datepicker.readthedocs.io/en/latest/markup.html"| |
 |COMPLETADO| Validación de numero de telefono | |

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `b_active` BOOLEAN NOT NULL COMMENT 'El estado del usuario esto desmuestra si esta activo o inactivo',
     `i_type` INT(11) NOT NULL COMMENT 'El tipo de usuario ya sea Administrador, empleado o aspirante',
     `dt_last_join` DATETIME COMMENT 'La última conexión que tuvo la persona al entrar al sistema',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY KEY (`id_user`)
 );
 
@@ -16,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `positions`(
     `id_position` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla de puestos',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre del puesto',
     `t_description` VARCHAR(255) NOT NULL COMMENT 'La descripción del puesto',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY key (`id_position`)
 );
 
@@ -23,17 +25,20 @@ CREATE TABLE IF NOT EXISTS `areas`(
     `id_area` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla de áreas',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'Es el nombre de la área',
     `t_description` VARCHAR(200) NOT NULL COMMENT 'Es la descripción de áreas',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY KEY (`id_area`)
 );
 CREATE TABLE IF NOT EXISTS `positions_areas`(
     `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con area',
     `fk_area` INT COMMENT 'Id de la tabla de areas, es lo que relaciona area con puestos',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`)
 );
 CREATE TABLE IF NOT EXISTS `charges` (
     `id_charge` INT(11) AUTO_INCREMENT COMMENT'Id de la tabla de cargos',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'Es el nombre de los cargos',
     `t_description` VARCHAR(100) NOT NULL COMMENT 'La descripción de cargos',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY KEY(`id_charge`)
 );
 
@@ -41,12 +46,14 @@ CREATE TABLE IF NOT EXISTS `activities`(
     `id_activity` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla actividades',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre de actividades',
     `t_description` VARCHAR(200) NOT NULL COMMENT 'La descripción de actividades',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY KEY (`id_activity`)
 );
 
 CREATE TABLE IF NOT EXISTS `charges_activities`(
     `fk_charge` INT COMMENT 'La Id de la tabla de cargos, es lo que relaciona las actividades con los cargos',
     `fk_activity` INT COMMENT 'La Id de la tabla de actividades , es lo que relaciona los cargos con las actividades',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_activity`) REFERENCES `activities`(`id_activity`),
     FOREIGN KEY (`fk_charge`) REFERENCES `charges`(`id_charge`)
 );
@@ -56,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `files` (
     `id_file` INT(11) AUTO_INCREMENT COMMENT 'Id de la tabla de archivos',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'El nombre del archivo',
     `t_path` VARCHAR(255) NOT NULL COMMENT 'La referencia del archivo',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY KEY (`id_file`)
 );
 
@@ -66,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `addresses` (
     `t_references` VARCHAR(255) NOT NULL COMMENT 'Las referencias que posee la dirección',
     `t_street` VARCHAR(100) NOT NULL COMMENT 'La calle de la dirección',
     `t_colony` VARCHAR(100) NOT NULL COMMENT 'La colonia',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY KEY (`id_address`)
 );
 
@@ -83,6 +92,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
     `fk_img` INT NOT NULL COMMENT 'La relación que tiene con la tabla de archivos ',
     `fk_address` INT NOT NULL COMMENT 'La relación que tiene con la tabla de direcciones',
     `fk_cv` INT NOT NULL COMMENT 'La relación que tiene con la tabla de archivos',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_contract`) REFERENCES `files`(`id_file`),
     FOREIGN KEY (`fk_cv`) REFERENCES `files`(`id_file`),
     FOREIGN KEY (`fk_img`) REFERENCES `files`(`id_file`),
@@ -93,6 +103,7 @@ ALTER TABLE `employees` AUTO_INCREMENT=20210001;
 CREATE TABLE IF NOT EXISTS `employees_users`(
     `fk_employee` INT COMMENT 'La Id de la tabla de empleados, es lo que relaciona empleados con los usuarios',
     `fk_user` INT COMMENT 'La Id de la tabla de usuarios, es lo que relaciona usuarios con los empleados',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_user`) REFERENCES `users`(`id_user`)
 );
@@ -103,12 +114,14 @@ CREATE TABLE IF NOT EXISTS `trainings` (
     `d_date_start` DATE NOT NULL COMMENT 'La fecha que comienza la capacitación',
     `d_date_finish` DATE NOT NULL COMMENT 'La fecha que termina la capacitación',
     `t_description` VARCHAR(100) NOT NULL COMMENT 'La descripción de la capacitación',
+    `b_deleted` BOOLEAN NOT NULL,
     PRIMARY KEY (`id_training`)
 );
 
 CREATE TABLE IF NOT EXISTS `employees_trainings`(
     `fk_employee` INT COMMENT 'La Id de la tabla de empleados, es lo que relaciona empleados con las capacitaciones',
     `fk_training` INT COMMENT 'La Id de la tabla de capacitaciones, es lo que relaciona capacitaciones con los empleados',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_training`) REFERENCES `trainings`(`id_training`)
 );
@@ -116,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `employees_trainings`(
 CREATE TABLE IF NOT EXISTS `trainings_files`(
     `fk_training` INT NOT NULL COMMENT 'La Id de la tabla de capacitaciones, es lo que relaciona capacitaciones con los archivos',
     `fk_file` INT NOT NULL COMMENT 'La Id de la tabla de archivos, es lo que relaciona archivos con las capacitaciones esto nos permite subir archivos',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_training`) REFERENCES `trainings`(`id_training`),
     FOREIGN KEY (`fk_file`) REFERENCES `files`(`id_file`)
 );
@@ -129,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `candidates` (
     `t_profile` VARCHAR(100) NOT NULL COMMENT 'El perfil que se necesita para ser el nuevo candidato',
     `fk_cv` INT NOT NULL COMMENT 'La Id de la tabla de archivos para subir el Curriculum',
     `b_is_employee` BOOLEAN NOT NULL COMMENT 'Es para saber si un candidato fue contratado y es un empleado',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_cv`) REFERENCES `files`(`id_file`),
     PRIMARY KEY (`id_candidate`)
 );
@@ -136,6 +151,7 @@ CREATE TABLE IF NOT EXISTS `candidates` (
 CREATE TABLE IF NOT EXISTS `candidates_positions`(
     `fk_position` INT NOT NULL COMMENT 'La Id de la tabla puestos que lo relaciona con candidatos',
     `fk_candidate` INT NOT NULL COMMENT 'La Id de la tabla candidatos que lo relaciona con puestos',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`),
     FOREIGN KEY (`fk_candidate`) REFERENCES `candidates`(`id_candidate`)
 );
@@ -151,6 +167,7 @@ CREATE TABLE IF NOT EXISTS `announcements` (
     `t_functions` VARCHAR(100) NOT NULL COMMENT 'Función de la convocatoria',
     `b_active` BOOLEAN NOT NULL COMMENT 'Estatus de la convocatoria saber si esta ctiva o inactiva',  
     `fk_file` INT NOT NULL COMMENT 'Id de la tabla de archivo para subir una imagen de la convocatoria',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_file`) REFERENCES `files`(`id_file`),
     PRIMARY KEY (`id_announcement`)
 );
@@ -158,22 +175,26 @@ CREATE TABLE IF NOT EXISTS `announcements` (
 CREATE TABLE IF NOT EXISTS `announcements_positions`(
     `fk_announcement` INT COMMENT 'Id de la tabla de convocatorias, es lo que relaciona convocatorias con puesto',
     `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con convocatorias',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
 );
 CREATE TABLE IF NOT EXISTS `announcements_areas`(
     `fk_announcement` INT COMMENT 'Id de la tabla de convocatorias, es lo que relaciona convocatorias con area',
     `fk_area` INT COMMENT 'Id de la tabla de area, es lo que relaciona area con convocatorias',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
 );
 CREATE TABLE IF NOT EXISTS `announcements_charges`(
     `fk_announcement` INT COMMENT 'Id de la tabla de convocatorias, es lo que relaciona convocatorias con cargo',
     `fk_charge` INT COMMENT 'Id de la tabla de cargo, es lo que relaciona cargo con convocatorias',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
 );
 
 CREATE TABLE IF NOT EXISTS `employees_positions`(
     `fk_employee` INT COMMENT 'Id de la tabla de empleados, es lo que relaciona empleados con puesto',
     `fk_position` INT COMMENT 'Id de la tabla de puesto, es lo que relaciona puesto con empleados',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_position`) REFERENCES `positions`(`id_position`)
 );
@@ -181,6 +202,7 @@ CREATE TABLE IF NOT EXISTS `employees_positions`(
 CREATE TABLE IF NOT EXISTS `employees_charges`(
     `fk_employee` INT COMMENT 'Id de la tabla de empleados, es lo que relaciona empleados con cargo',
     `fk_charge` INT COMMENT 'Id de la tabla de cargo, es lo que relaciona cargo con empleado',
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_charge`) REFERENCES `charges`(`id_charge`)
 );
@@ -190,6 +212,7 @@ CREATE TABLE IF NOT EXISTS `employees_announcements`(
     `d_registry_date` DATE NOT NULL,
     `i_status` INT NOT NULL,
     `t_notice` VARCHAR(200),
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     FOREIGN KEY (`fk_announcement`) REFERENCES `announcements`(`id_announcement`)
 );
@@ -206,6 +229,7 @@ CREATE TABLE IF NOT EXISTS `request_info_employees`(
     `i_status` INT NOT NULL,
     `d_registry_date` date NOT NULL,
     `t_notice`VARCHAR(200),
+    `b_deleted` BOOLEAN NOT NULL,
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     PRIMARY KEY (`id_request`)
 );

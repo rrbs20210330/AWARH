@@ -45,10 +45,12 @@ Se agrego confirmacion en toda creacion y edicion de informacion, se agrego iden
 | | verificar si existe la relacion, si no, insertar una | |
 |COMPLETADO| Validaciones de Telefono y Selects| |
 | | Cambiar selects por checkbox en convocatorias |
+| | Cambiar selects por checkbox en puesto para que un puesto pueda pertenecer a varias areas | |
 | | Mostrar en el puesto a que area pertenece al momento de seleccionar en empleado o candidato | |
 | | Si un empleado es eliminado tambien deben de ser eliminadas sus capacitaciones | |
 |COMPLETADO| Modificar error.php | |
 | | Validacion de si el empleado puede o no meterse a una convocatoria en especifico dependiendo de su cargo, area y puesto | |
+| | Adaptar funcionalidad de borrado a nueva base de datos para borrado logico.
 |COMPLETADO| Si un empleado se deshabilita tambien debe de deshabilitar el usuario | |
 | | Funcionalidad mostrar boton cuando un empleado solicite cambio de información en la lista de empleados | |
 |COMPLETADO| Mostrar la cantidad de puestos en una area | |

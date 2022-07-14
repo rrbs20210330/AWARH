@@ -42,11 +42,12 @@ require('process/update.php');
                 <input type="hidden" name="id" value="<?php echo $id ?>">
                 <input type="hidden" name="typeOp" value="13">
               <?php if ($active == 0){?>
-                <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-eye-slash-fill"></i></button>
+                <button type="submit" <?php if($id === $id_usuario || intval($type) === 2){ ?> disabled <?php } ?> class="btn btn-secondary btn-sm"><i class="bi bi-eye-slash-fill"></i></button>
               <?php }else{?>
-                <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-eye-fill"></i></button>
+                <button type="submit" <?php if($id === $id_usuario || intval($type) === 2){ ?> disabled <?php } ?> class="btn btn-success btn-sm"><i class="bi bi-eye-fill"></i></button>
               <?php
               }?>
+              </form>
           </td>
           <td>
               <?php echo $user ?>
@@ -82,7 +83,7 @@ require('process/update.php');
         <h5 class="modal-title" id="exampleModalLabel">Registro de Usuarios Administradores</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form  method="post" id="formul">
+      <form method="post" id="formul" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-6">
@@ -123,7 +124,7 @@ require('process/update.php');
             <h5 class="modal-title" id="exampleModalLabel">Edicion de Usuario Administrador</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form method="post" id="formul">
+          <form method="post" id="formul" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
             <div class="modal-body">
               <div class="row">
                 <div class="col-sm-4">

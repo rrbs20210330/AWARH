@@ -46,18 +46,28 @@
         $DataBase = new db();
         $user = $DataBase->sanitize($data['user']);
         $password = $DataBase->sanitize($data['password']);
-        $res = $DataBase->insert_t_users($user, $password, true);//siempre sera true por que es un nuevo usuario activo, la fecha de ultima entrada no se añade por obvias razones
-
-        if($res){
+        
+        try {
+            $res = $DataBase->insert_t_users($user, $password, true);
+            if($res){
+                echo "<script> swal({
+                    title: 'Listo!',
+                    text: 'El usuario $user fue creado exitosamente.',
+                    icon: 'success',
+                    button: 'Ok!',
+                  });</script>";
+            }else{
+                echo "efe";
+            }
+        } catch (\Throwable $th) {
             echo "<script> swal({
-                title: 'Listo!',
-                text: 'El usuario $user fue creado exitosamente.',
-                icon: 'success',
+                title: 'Error!',
+                text: 'El usuario $user ya existe, intenta con otro nombre.',
+                icon: 'error',
                 button: 'Ok!',
               });</script>";
-        }else{
-            echo "efe";
         }
+        
     }
 
     function new_training($data){

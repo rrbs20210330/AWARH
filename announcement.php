@@ -11,7 +11,6 @@ $announcement = $DataBase->read_single_record_announcement($id);
 $nombre = $announcement->t_name;
 $descripcion = $announcement->t_description;
 $fechadeinicio = $announcement->d_date_start;
-$fechafinal = $announcement->d_date_finish;
 $Procedimiento = $announcement->t_process;
 $Perfilsolicitado = $announcement->t_profile;
 $funciones = $announcement->t_functions;
@@ -39,8 +38,7 @@ if($tipo == 2){
         <p class="card-text">
         <b>Nombre de la convocatoria:</b> <?php echo $nombre?><br>
         <b>Descripción de la convocatoria:</b> <?php echo $descripcion ?><br>
-        <b>Fecha del inicio:</b> <?php echo $fechadeinicio?><br>
-        <b>Fecha del Final:</b> <?php echo $fechafinal?><br>
+        <b>Fecha de la convocatoria:</b> <?php echo $fechadeinicio?><br>
         <b>Procedimiento:</b> <?php echo $Perfilsolicitado?><br>
         <b>Perfil solicitado:</b> <?php echo $Procedimiento?><br>
         <b>Funciones:</b> <?php echo $funciones?><br>

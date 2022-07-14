@@ -230,7 +230,6 @@
         $name = $DataBase->sanitize($_POST['name']);
         $description = $DataBase->sanitize($_POST['description']);
         $date_start = $DataBase->sanitize($_POST['date_start']);
-        $date_finish = $DataBase->sanitize($_POST['date_finish']);
         $position = intval($_POST['position']);
         $charge = intval($_POST['charge']);
         $area = intval($_POST['area']);
@@ -257,7 +256,7 @@
                 
             }
         }
-        $res =$DataBase->proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $filename,$file_path,$charge,$area);
+        $res =$DataBase->proNewAnnouncement($name, $description, $date_start, $position, $process, $profile, $functions, $filename,$file_path,$charge,$area);
         if($res){
             echo "<script> swal({
                 title: 'Listo!',

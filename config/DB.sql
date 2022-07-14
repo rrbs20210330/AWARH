@@ -144,8 +144,7 @@ CREATE TABLE IF NOT EXISTS `announcements` (
     `id_announcement` int(11) AUTO_INCREMENT NOT NULL COMMENT 'Id de la tabla de convocatorias',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre de la convocatoria',
     `t_description` VARCHAR(100) NOT NULL COMMENT 'Descripción de la convocatoria',
-    `d_date_start` DATE NOT NULL COMMENT 'Fecha de comienzo de la convocatoria',
-    `d_date_finish` DATE NOT NULL COMMENT 'Fecha de finalización de la convocatoria',
+    `d_date_start` VARCHAR(100) NOT NULL COMMENT 'Fecha de la convocatoria',
     `t_process` VARCHAR(100) NOT NULL COMMENT 'Procedimiento de la convocatoria',
     `t_profile` VARCHAR(100) NOT NULL COMMENT 'Perfil de la convocatoria',
     `t_functions` VARCHAR(100) NOT NULL COMMENT 'Función de la convocatoria',
@@ -421,11 +420,11 @@ CREATE PROCEDURE procedure_update_candidate(`id` int,`name` VARCHAR(100),`phone_
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`date_start` DATE,`date_finish` DATE, `position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200), `charge` INT, `area` INT) 
+CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`date_start` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200), `charge` INT, `area` INT) 
 	BEGIN 
 		INSERT INTO `files`(`t_name`, `t_path`) VALUES (`file_name`, `file_path`);
 		SELECT MAX(`id_file`) INTO @id_file_announcement FROM `files`;
-		INSERT INTO `announcements`(`t_name`, `t_description`, `d_date_start`,`d_date_finish`,`t_process`, `t_profile`,`t_functions`, `b_active`,`fk_file`)VALUES (`name`, `description`, `date_start`,`date_finish`,`process`, `profile`,`functions`,true, @id_file_announcement);
+		INSERT INTO `announcements`(`t_name`, `t_description`, `d_date_start`,`t_process`, `t_profile`,`t_functions`, `b_active`,`fk_file`)VALUES (`name`, `description`, `date_start`,`process`, `profile`,`functions`,true, @id_file_announcement);
         SELECT MAX(`id_announcement`) INTO @id_announcement FROM `announcements`;
         INSERT INTO `announcements_positions`(`fk_position`, `fk_announcement`) VALUES (`position`, @id_announcement);
         INSERT INTO `announcements_charges`(`fk_charge`, `fk_announcement`) VALUES (`charge`, @id_announcement);
@@ -434,9 +433,9 @@ CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VA
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_update_announcement(`id` INT,`name` VARCHAR(100),`description` VARCHAR(100),`date_start` DATE,`date_finish` DATE, `position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200), `charge` INT, `area` INT) 
+CREATE PROCEDURE procedure_update_announcement(`id` INT,`name` VARCHAR(100),`description` VARCHAR(100),`date_start` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200), `charge` INT, `area` INT) 
 	BEGIN 
-		UPDATE `announcements` SET `t_name` = `name`, `t_description` = `description`, `d_date_start` = `date_start`,`d_date_finish` = `date_finish`,`t_process` = `process`, `t_profile` = `profile`,`t_functions` = `functions` WHERE `id_announcement` = `id`;
+		UPDATE `announcements` SET `t_name` = `name`, `t_description` = `description`, `d_date_start` = `date_start`,`t_process` = `process`, `t_profile` = `profile`,`t_functions` = `functions` WHERE `id_announcement` = `id`;
         UPDATE `announcements_positions` SET `fk_position` = `position` WHERE `fk_announcement` = `id`;
         UPDATE `announcements_charges` SET`fk_charge` = `charge` WHERE `fk_announcement` = `id`;
         UPDATE `announcements_areas` SET `fk_area` = `area` WHERE `fk_announcement` = `id`;

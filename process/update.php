@@ -242,8 +242,7 @@
         $id = intval($_POST['id']);
         $name = $DataBase->sanitize($_POST['name']);
         $description = $DataBase->sanitize($_POST['description']);
-        $date_start = $_POST['date_start'] == false ? 0 : $data['date_start'];
-        $date_finish = $_POST['date_finish'] == false ? 0 : $data['date_finish'];
+        $date_start = $DataBase->sanitize($_POST['date_start']);
         $position = intval($_POST['position']);
         $charge = intval($_POST['charge']);
         $area = intval($_POST['area']);
@@ -251,11 +250,11 @@
         $profile = $DataBase->sanitize($_POST['profile']);
         $functions  = $DataBase->sanitize($_POST['functions']);
 
-        $res =$DataBase->update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$charge,$area);
+        $res =$DataBase->update_t_announcements($id,$name,$description,$date_start,$position,$process,$profile,$functions,$charge,$area);
         if($res){
             echo "<script> swal({
                 title: 'Listo!',
-                text: 'Ka convocatoria seleccionada fue editada correctamente.',
+                text: 'La convocatoria seleccionada fue editada correctamente.',
                 icon: 'success',
                 button: 'Ok!',
               });</script>";

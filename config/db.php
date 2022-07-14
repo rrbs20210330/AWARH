@@ -350,8 +350,8 @@
             }
 
         }
-        public function proNewAnnouncement($name, $description, $date_start,$date_finish, $position, $process, $profile, $functions, $file_name,$file_path,$charge,$area){
-            $sql = "CALL procedure_new_announcement('$name','$description','$date_start','$date_finish', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge,$area)";
+        public function proNewAnnouncement($name, $description, $date_start, $position, $process, $profile, $functions, $file_name,$file_path,$charge,$area){
+            $sql = "CALL procedure_new_announcement('$name','$description','$date_start', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge,$area)";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -550,8 +550,8 @@
         }
         #CRUD ANNOUNCEMENTS
 
-        public function update_t_announcements($id,$name,$description,$date_start,$date_finish,$position,$process,$profile,$functions,$charge,$area){
-            $sql = "CALL procedure_update_announcement($id,'$name','$description','$date_start','$date_finish',$position,'$process','$profile','$functions',$charge,$area)";
+        public function update_t_announcements($id,$name,$description,$date_start,$position,$process,$profile,$functions,$charge,$area){
+            $sql = "CALL procedure_update_announcement($id,'$name','$description','$date_start',$position,'$process','$profile','$functions',$charge,$area)";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;

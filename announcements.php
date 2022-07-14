@@ -134,13 +134,9 @@ require('process/update.php');}else{ ?>
               <center><label >Imagen <i class="bi bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo se permite una imagen."></i></label></center>
               <input type="file" class="form-control" id="archivo[]" name="archivo[]" required>
             </div> 
-            <div class="col-sm-6">
-              <center><label >Fecha de inicio</label></center>
-              <input type="date" class="form-control" id="date_start" name="date_start" required>
-            </div>
-            <div class="col-sm-6">
-              <center><label >Fecha Final</label></center>
-              <input type="date" class="form-control" id="date_finish" name="date_finish" required>
+            <div class="col-sm-12">
+              <center><label >Fecha de la convocatoria</label></center>
+              <input type="text" class="form-control" id="date_start" name="date_start" required>
             </div>
             <div class="col-sm-4">
               <center><label >Puesto</label></center>
@@ -225,8 +221,7 @@ require('process/update.php');}else{ ?>
     $name = $row->t_name;
     $description = $row->t_description;
     $active = $row->b_active;
-    $date_start = $row->d_date_start;
-    $date_finish = $row->d_date_finish;
+    $date = $row->d_date_start;
     $process = $row->t_process;
     $profile = $row->t_profile;
     $functions = $row->t_functions;
@@ -255,13 +250,9 @@ require('process/update.php');}else{ ?>
                 <center><label >Imagen <i class="bi bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo se permite una imagen."></i></label></center>
                 <input type="file" disabled class="form-control" id="archivo[]" name="archivo[]" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede modificar el archivo.">
               </div> 
-              <div class="col-sm-6">
-                <center><label >Fecha de inicio</label></center>
-                <input type="date" class="form-control" id="date_start" name="date_start" required value="<?php echo $date_start?>">
-              </div>
-              <div class="col-sm-6">
-                <center><label >Fecha Final</label></center>
-                <input type="date" class="form-control" id="date_finish" name="date_finish" required value="<?php echo $date_finish?>">
+              <div class="col-sm-12">
+                <center><label >Fecha de la convocatoria</label></center>
+                <input type="text" class="form-control" id="date_start" name="date_start" required value="<?php echo $date?>">
               </div>
               <div class="col-sm-4">
                 <center><label >Puesto</label></center>

@@ -82,7 +82,7 @@ require('process/update.php');
                   </select>
                 </div>
                 <div class="col-sm-12">
-                  <label for="">Descripcion</label>
+                  <label for="">Descripción</label>
                   <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
                 </div>
                 <div class="col-sm-12">
@@ -140,7 +140,7 @@ require('process/update.php');
                         </select>
                     </div>
                     <div class="col-sm-12">
-                    <label for="">Descripcion</label>
+                    <label for="">Descripción</label>
                     <textarea class="form-control" id="description" name="description" rows="1"><?php echo $description_t ?></textarea>
                     </div>
                     <div class="col-sm-12">
@@ -220,7 +220,7 @@ require('process/update.php');
         </div>
         <div class="modal-body">
             <b>Nombre de la capacitacion:</b> <?php echo $nombre?><br>
-            <b>Descripcion de la capacitacion:</b> <?php echo $descripcion ?><br>
+            <b>Descripción de la capacitacion:</b> <?php echo $descripcion ?><br>
             <b>Periodo de Realización</b><br>
             <b>Inicio - Fin:</b> <?php echo $dates?><br>
             <b>Archivos</b> <?php echo $count->count_data; ?> <br><button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">

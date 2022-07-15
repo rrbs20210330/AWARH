@@ -26,29 +26,29 @@ SELECT MAX(`id_charge`) INTO @C1 FROM `charges`;
 INSERT INTO `charges`(`t_name`, `t_description`) VALUES ('PTC C', 'Un cargo');
 SELECT MAX(`id_charge`) INTO @C2 FROM `charges`;
 INSERT INTO `charges`(`t_name`, `t_description`) VALUES ('PTC D', 'Un cargo');
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Enseñar', 'Tendrá que aguantar a los alumnos');
 SELECT MAX(`id_activity`) INTO @Act1 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act2 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act3 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act4 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act5 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act6 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act7 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act8 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act9 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act10 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act11 FROM `activities`;
-INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administracion', 'Una descripción');
+INSERT INTO `activities`(`t_name`, `t_description`)VALUES('Administración', 'Una descripción');
 SELECT MAX(`id_activity`) INTO @Act12 FROM `activities`;
 INSERT INTO `charges_activities`(`fk_charge`,`fk_activity`) VALUES(@Cargo, @Act1);
 INSERT INTO `charges_activities`(`fk_charge`,`fk_activity`) VALUES(@Cargo, @Act2);
@@ -66,13 +66,13 @@ INSERT INTO `charges_activities`(`fk_charge`,`fk_activity`) VALUES(@C2, @Act12);
 
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('CVrdcc','docs/CVrdcc.pdf');
 SELECT MAX(`id_file`) INTO @CV FROM `files`;
-INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Roque Donato Cioara Caparroz', '+52(353)-1225604','gdroquedonato3@yopmail.com', '2022-08-11 06:32:25','Decidido, Confiable, Egresado de alguna universidad chingona como la utem o algo asi.',@CV,false);
+INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Roque Donato Cioara Caparroz', '3141743531','gdroquedonato3@yopmail.com', '2022-08-11 06:32:25','Decidido, Confiable, Egresado de alguna universidad chingona como la utem o algo asi.',@CV,false);
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('CVadur','docs/CVadur.pdf');
 SELECT MAX(`id_file`) INTO @CV2 FROM `files`;
-INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Adrian D. Urrutia Rel', '+52(333)-4332437','ahrel7@yopmail.com', '2022-09-11 12:43:25','Decidido, Confiable, Egresado de alguna universidad chingona como la utem o algo asi.',@CV2,false);
+INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Adrian D. Urrutia Rel', '3141083423','ahrel7@yopmail.com', '2022-09-11 12:43:25','Decidido, Confiable, Egresado de alguna universidad chingona como la utem o algo asi.',@CV2,false);
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('CVaasv','docs/CVaasv.pdf');
 SELECT MAX(`id_file`) INTO @CV3 FROM `files`;
-INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Avril Alicia Santamaria Vallines', '+52(848)-1779375','hpavrilalicia15@yopmail.com', '2022-11-23 10:13:25','Decidida, Confiable, Egresada de alguna universidad chingona como la utem o algo asi.',@CV3,false);
+INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Avril Alicia Santamaria Vallines', '3141004881','hpavrilalicia15@yopmail.com', '2022-11-23 10:13:25','Decidida, Confiable, Egresada de alguna universidad chingona como la utem o algo asi.',@CV3,false);
 
 
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('Contractnoc','docs/Contractnoc.pdf');
@@ -84,7 +84,7 @@ SELECT MAX(`id_file`) INTO @CV FROM `files`;
 INSERT INTO `addresses`(`t_no_exterior`, `t_no_interior`, `t_references`, `t_street`, `t_colony`)VALUES ('38', '304', 'En algun lugar cerca de una tienda de algun color', 'GOLDSMITH', 'POLANCO');
 SELECT MAX(`id_address`) INTO @Direccion FROM `addresses`;
 INSERT INTO `employees`(`t_names`,`t_last_names`,`d_birthday`,`t_phone_number`, `t_email`, `fk_img`, `fk_address`, `fk_contract`,`b_active`, `t_rfc`, `t_nss`, `fk_cv`) 
-VALUES ('Nicholas', 'Obieta Carricajo', '2000-01-13', '+52(858)-0221175', 'hjnicholas9@yopmail.com', @Foto, @Direccion, @Contrato,true, 'OICN000113L95', 'OICN000113L95', @CV); 
+VALUES ('Nicholas', 'Obieta Carricajo', '2000-01-13', '3141083423', 'hjnicholas9@yopmail.com', @Foto, @Direccion, @Contrato,true, 'OICN000113L95', 'OICN000113L95', @CV); 
 SELECT MAX(`id_employee`) INTO @Empleado FROM `employees`;
 INSERT INTO `employees_charges`(`fk_employee`, `fk_charge`)
 VALUES (@Empleado, @Cargo);
@@ -107,7 +107,7 @@ SELECT MAX(`id_file`) INTO @CV1 FROM `files`;
 INSERT INTO `addresses`(`t_no_exterior`, `t_no_interior`, `t_references`, `t_street`, `t_colony`)VALUES ('430', 'A-304', 'En algun lugar cerca de una tienda de algun color', 'MARTIN DE MAYORGA', 'VIRREYES OBRERA');
 SELECT MAX(`id_address`) INTO @Direccion1 FROM `addresses`;
 INSERT INTO `employees`(`t_names`,`t_last_names`,`d_birthday`,`t_phone_number`, `t_email`, `fk_img`, `fk_address`, `fk_contract`,`b_active`, `t_rfc`, `t_nss`, `fk_cv`) 
-VALUES ('Maximino', 'Mehdaoui Fernández', '1998-07-21', '+52(343)-7332742', 'hqmaximino16@yopmail.com', @Foto1, @Direccion1, @Contrato1,true, 'MEFM980721QP4', 'MEFM980721QP4', @CV1); 
+VALUES ('Maximino', 'Mehdaoui Fernández', '1998-07-21', '3141092271', 'hqmaximino16@yopmail.com', @Foto1, @Direccion1, @Contrato1,true, 'MEFM980721QP4', 'MEFM980721QP4', @CV1); 
 SELECT MAX(`id_employee`) INTO @Empleado2 FROM `employees`;
 INSERT INTO `employees_charges`(`fk_employee`, `fk_charge`)
 VALUES (@Empleado2, @C1);
@@ -122,7 +122,7 @@ INSERT INTO `employees_users`(`fk_employee`, `fk_user`)
 VALUES (@Empleado2, @Usuario1);
 
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion1', 'Una Descripcion','07/14/2022 - 07/14/2022');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion1', 'Una Descripción','07/14/2022 - 07/14/2022');
 SELECT MAX(`id_training`) INTO @Capacitacion1 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C1E1','docs/A1C1E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C1E1 FROM `files`;
@@ -134,7 +134,7 @@ INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion1,@
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion1,@Archivo2C1E1);
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion1,@Archivo3C1E1);
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion2', 'Una Descripcion','07/14/2022 - 07/14/2022');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion2', 'Una Descripción','07/14/2022 - 07/14/2022');
 SELECT MAX(`id_training`) INTO @Capacitacion2 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C2E1','docs/A1C2E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C2E1 FROM `files`;
@@ -143,13 +143,13 @@ SELECT MAX(`id_file`) INTO @Archivo2C2E1 FROM `files`;
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion2,@Archivo1C2E1);
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion2,@Archivo2C2E1);
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion3', 'Una Descripcion','07/14/2022 - 07/14/2022');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion3', 'Una Descripción','07/14/2022 - 07/14/2022');
 SELECT MAX(`id_training`) INTO @Capacitacion3 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C3E1','docs/A1C3E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C3E1 FROM `files`;
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion3,@Archivo1C3E1);
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion4', 'Una Descripcion','07/14/2022 - 07/14/20221');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion4', 'Una Descripción','07/14/2022 - 07/14/20221');
 SELECT MAX(`id_training`) INTO @Capacitacion4 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C4E1','docs/A1C4E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C4E2 FROM `files`;

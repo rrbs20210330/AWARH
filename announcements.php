@@ -266,7 +266,7 @@ require('process/update.php');}else{ ?>
                   ?>
                   <option value="<?php echo $idp ?>" <?php if($idp == $ida){ ?> selected <?php }?>><?php echo $namep ?></option>
                   <?php } ?>
-                  
+                  <option value="0">Ninguno</option>
                 </select>
               </div>
               <div class="col-sm-4">
@@ -281,6 +281,7 @@ require('process/update.php');}else{ ?>
                   ?>
                   <option value="<?php echo $idp ?>" <?php if($idp == $ida){ ?> selected <?php }?>><?php echo $namep ?></option>
                   <?php } ?>
+                  <option value="0">Ninguno</option>
                 </select>
               </div>
               <div class="col-sm-4">

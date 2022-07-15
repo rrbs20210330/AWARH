@@ -87,7 +87,7 @@ require('process/update.php');
                     $l_charges_select = $DataBase->read_data_table('charges');
                     if(mysqli_num_rows($l_charges_select) === 0 ) { ?>
                     <option selected disabled value="">Necesitas crear un cargo primero</option>
-                    <?php } else { ?> <option selected disabled value="">Selecciona una área</option><?php } ?>
+                    <?php } else { ?> <option selected disabled value="">Selecciona un cargo</option><?php } ?>
                     
                     <?php 
                         while ($row = mysqli_fetch_object($l_charges_select)) {

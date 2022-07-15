@@ -10,7 +10,7 @@ $id = $_GET['id'];
 $announcement = $DataBase->read_single_record_announcement($id);
 $nombre = $announcement->t_name;
 $descripcion = $announcement->t_description;
-$fechadeinicio = $announcement->d_date_start;
+$fechadeinicio = $announcement->d_dates;
 $Procedimiento = $announcement->t_process;
 $Perfilsolicitado = $announcement->t_profile;
 $funciones = $announcement->t_functions;
@@ -51,6 +51,7 @@ if($tipo == 2){
   </div>
   <br>
   <?php if($tipo === 1){?>
+    <center><h1>Lista de Aspirantes</h1></center>
     <table class="table table-striped table-bordered userTable"  style='background: #00252e '>
       <thead style="color: white">
           <th>Aspirante</th>

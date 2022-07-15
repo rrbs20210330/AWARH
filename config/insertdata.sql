@@ -122,7 +122,7 @@ INSERT INTO `employees_users`(`fk_employee`, `fk_user`)
 VALUES (@Empleado2, @Usuario1);
 
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_date_start`, `d_date_finish`)VALUES ('Capacitacion1', 'Una Descripcion','2021-07-21','2022-07-21');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion1', 'Una Descripcion','07/14/2022 - 07/14/2022');
 SELECT MAX(`id_training`) INTO @Capacitacion1 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C1E1','docs/A1C1E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C1E1 FROM `files`;
@@ -134,7 +134,7 @@ INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion1,@
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion1,@Archivo2C1E1);
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion1,@Archivo3C1E1);
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_date_start`, `d_date_finish`)VALUES ('Capacitacion2', 'Una Descripcion','2021-07-21','2022-07-21');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion2', 'Una Descripcion','07/14/2022 - 07/14/2022');
 SELECT MAX(`id_training`) INTO @Capacitacion2 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C2E1','docs/A1C2E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C2E1 FROM `files`;
@@ -143,13 +143,13 @@ SELECT MAX(`id_file`) INTO @Archivo2C2E1 FROM `files`;
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion2,@Archivo1C2E1);
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion2,@Archivo2C2E1);
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_date_start`, `d_date_finish`)VALUES ('Capacitacion3', 'Una Descripcion','2021-07-21','2022-07-21');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion3', 'Una Descripcion','07/14/2022 - 07/14/2022');
 SELECT MAX(`id_training`) INTO @Capacitacion3 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C3E1','docs/A1C3E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C3E1 FROM `files`;
 INSERT INTO `trainings_files`(`fk_training`, `fk_file`) VALUES (@Capacitacion3,@Archivo1C3E1);
 
-INSERT INTO `trainings`(`t_name`, `t_description`, `d_date_start`, `d_date_finish`)VALUES ('Capacitacion4', 'Una Descripcion','2021-07-21','2022-07-21');
+INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)VALUES ('Capacitacion4', 'Una Descripcion','07/14/2022 - 07/14/20221');
 SELECT MAX(`id_training`) INTO @Capacitacion4 FROM `trainings`;
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('A1C4E1','docs/A1C4E1.pdf');
 SELECT MAX(`id_file`) INTO @Archivo1C4E2 FROM `files`;

@@ -37,7 +37,7 @@
   // poner en todos los new de process/new.php $('#form2').trigger('reset');
   // poner en cambiar contraseña de empleado en process/update.php window.location.reload();
   $(function() {
-  $('input[name="date_start"]').daterangepicker({
+  $('input[name="dates"]').daterangepicker({
     opens: 'left'
   }, function(start, end, label) {
     console.log("A new date selection was made: " + start.format('MM-DD-YYYY') + ' to ' + end.format('MM-DD-YYYY'));

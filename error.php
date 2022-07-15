@@ -50,7 +50,7 @@ body {
     <div class="row">
         <div class="xs-12 md-6 mx-auto">
             <div id="countUp">
-                <!-- <div class="number">1347</div> -->
+                <!-- <div class="number">2395</div> -->
                 <div class="text">Error</div>
                 <div class="text">La pagina que estas buscando no existe.</div>
                 <!-- <div class="text">Gastronomía se ve muy interesante si lo ves desde otro punto de vista</div> -->

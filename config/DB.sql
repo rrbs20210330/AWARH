@@ -100,8 +100,7 @@ CREATE TABLE IF NOT EXISTS `employees_users`(
 CREATE TABLE IF NOT EXISTS `trainings` (
     `id_training` INT AUTO_INCREMENT COMMENT 'Id de la tabla de capacitaciones',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'El nombre de la capacitación',
-    `d_date_start` DATE NOT NULL COMMENT 'La fecha que comienza la capacitación',
-    `d_date_finish` DATE NOT NULL COMMENT 'La fecha que termina la capacitación',
+    `d_dates` VARCHAR(100) NOT NULL COMMENT 'La fecha que comienza y termina la capacitación',
     `t_description` VARCHAR(100) NOT NULL COMMENT 'La descripción de la capacitación',
     PRIMARY KEY (`id_training`)
 );
@@ -144,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `announcements` (
     `id_announcement` int(11) AUTO_INCREMENT NOT NULL COMMENT 'Id de la tabla de convocatorias',
     `t_name` VARCHAR(100) NOT NULL COMMENT 'Nombre de la convocatoria',
     `t_description` VARCHAR(100) NOT NULL COMMENT 'Descripción de la convocatoria',
-    `d_date_start` VARCHAR(100) NOT NULL COMMENT 'Fecha de la convocatoria',
+    `d_dates` VARCHAR(100) NOT NULL COMMENT 'Fecha de la convocatoria',
     `t_process` VARCHAR(100) NOT NULL COMMENT 'Procedimiento de la convocatoria',
     `t_profile` VARCHAR(100) NOT NULL COMMENT 'Perfil de la convocatoria',
     `t_functions` VARCHAR(100) NOT NULL COMMENT 'Función de la convocatoria',
@@ -380,10 +379,10 @@ CREATE PROCEDURE procedure_edit_employee(`id` INT,`names` VARCHAR(100),`last_nam
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_new_training(`name` VARCHAR(100),`description` VARCHAR(200),`employee` INT(10),`date_start` date,`date_finish` date) 
+CREATE PROCEDURE procedure_new_training(`name` VARCHAR(100),`description` VARCHAR(200),`employee` INT(10),`d_dates` VARCHAR(100)) 
 	BEGIN 
-		INSERT INTO `trainings`(`t_name`, `t_description`, `d_date_start`,`d_date_finish`)
-		VALUES (`name`, `description`, `date_start`,`date_finish`);
+		INSERT INTO `trainings`(`t_name`, `t_description`, `d_dates`)
+		VALUES (`name`, `description`, `d_dates`);
 		SELECT MAX(`id_training`) INTO @id_training FROM `trainings`;
 		INSERT INTO `employees_trainings`(`fk_employee`, `fk_training`)
 		VALUES (`employee`, @id_training);
@@ -420,11 +419,11 @@ CREATE PROCEDURE procedure_update_candidate(`id` int,`name` VARCHAR(100),`phone_
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`date_start` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200), `charge` INT, `area` INT) 
+CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`d_dates` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200), `charge` INT, `area` INT) 
 	BEGIN 
 		INSERT INTO `files`(`t_name`, `t_path`) VALUES (`file_name`, `file_path`);
 		SELECT MAX(`id_file`) INTO @id_file_announcement FROM `files`;
-		INSERT INTO `announcements`(`t_name`, `t_description`, `d_date_start`,`t_process`, `t_profile`,`t_functions`, `b_active`,`fk_file`)VALUES (`name`, `description`, `date_start`,`process`, `profile`,`functions`,true, @id_file_announcement);
+		INSERT INTO `announcements`(`t_name`, `t_description`, `d_dates`,`t_process`, `t_profile`,`t_functions`, `b_active`,`fk_file`)VALUES (`name`, `description`, `d_dates`,`process`, `profile`,`functions`,true, @id_file_announcement);
         SELECT MAX(`id_announcement`) INTO @id_announcement FROM `announcements`;
         INSERT INTO `announcements_positions`(`fk_position`, `fk_announcement`) VALUES (`position`, @id_announcement);
         INSERT INTO `announcements_charges`(`fk_charge`, `fk_announcement`) VALUES (`charge`, @id_announcement);
@@ -433,9 +432,9 @@ CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VA
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_update_announcement(`id` INT,`name` VARCHAR(100),`description` VARCHAR(100),`date_start` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200), `charge` INT, `area` INT) 
+CREATE PROCEDURE procedure_update_announcement(`id` INT,`name` VARCHAR(100),`description` VARCHAR(100),`d_dates` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200), `charge` INT, `area` INT) 
 	BEGIN 
-		UPDATE `announcements` SET `t_name` = `name`, `t_description` = `description`, `d_date_start` = `date_start`,`t_process` = `process`, `t_profile` = `profile`,`t_functions` = `functions` WHERE `id_announcement` = `id`;
+		UPDATE `announcements` SET `t_name` = `name`, `t_description` = `description`, `d_dates` = `d_dates`,`t_process` = `process`, `t_profile` = `profile`,`t_functions` = `functions` WHERE `id_announcement` = `id`;
         UPDATE `announcements_positions` SET `fk_position` = `position` WHERE `fk_announcement` = `id`;
         UPDATE `announcements_charges` SET`fk_charge` = `charge` WHERE `fk_announcement` = `id`;
         UPDATE `announcements_areas` SET `fk_area` = `area` WHERE `fk_announcement` = `id`;
@@ -454,7 +453,7 @@ CREATE VIEW view_list_employees as
 SELECT id_employee, b_active, t_names, t_last_names, t_phone_number, t_email FROM employees;
 
 CREATE VIEW view_list_trainings as
-SELECT t.id_training, t.t_name, t.d_date_start, t.d_date_finish, t_description, e.id_employee as employee_id, CONCAT(e.t_names, " ", e.t_last_names) as employee_full_name  FROM trainings as t INNER JOIN employees_trainings as et on t.id_training = et.fk_training INNER JOIN employees as e on et.fk_employee = e.id_employee;
+SELECT t.id_training, t.t_name, t.d_dates, t_description, e.id_employee as employee_id, CONCAT(e.t_names, " ", e.t_last_names) as employee_full_name  FROM trainings as t INNER JOIN employees_trainings as et on t.id_training = et.fk_training INNER JOIN employees as e on et.fk_employee = e.id_employee;
 
 CREATE VIEW view_number_activities_charges as
 select c.fk_charge, c.fk_activity, a.t_name from charges_activities c INNER JOIN activities a on id_activity = c.fk_activity;

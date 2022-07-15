@@ -136,7 +136,7 @@ require('process/update.php');}else{ ?>
             </div> 
             <div class="col-sm-12">
               <center><label >Fecha de la convocatoria</label></center>
-              <input type="text" class="form-control" id="date_start" name="date_start" required>
+              <input type="text" class="form-control" id="dates" name="dates" required>
             </div>
             <div class="col-sm-4">
               <center><label >Puesto</label></center>
@@ -221,7 +221,7 @@ require('process/update.php');}else{ ?>
     $name = $row->t_name;
     $description = $row->t_description;
     $active = $row->b_active;
-    $date = $row->d_date_start;
+    $date = $row->d_dates;
     $process = $row->t_process;
     $profile = $row->t_profile;
     $functions = $row->t_functions;
@@ -252,7 +252,7 @@ require('process/update.php');}else{ ?>
               </div> 
               <div class="col-sm-12">
                 <center><label >Fecha de la convocatoria</label></center>
-                <input type="text" class="form-control" id="date_start" name="date_start" required value="<?php echo $date?>">
+                <input type="text" class="form-control" id="dates" name="dates" required value="<?php echo $date?>">
               </div>
               <div class="col-sm-4">
                 <center><label >Puesto</label></center>

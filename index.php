@@ -56,18 +56,19 @@ if ($_POST) { //va a guardar lo que lleve en método post
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
-   <link rel="stylesheet" href="assets/css/style.css">
+   <link rel="stylesheet" href="assets/css/login.css">
 <!--===============================================================================================-->
 </head>
 <body>
-	
-	<div class="limiter">
-		<div class="container-login100" style="background-image: url('assets/images/utem.png');">
+	   <div class="limiter">
+		  <div class="container-login100">
 			<div class="wrap-login100">
-				<form method="post" class="login100-form validate-form">
+        <div class="login-container">
+        <div class="login-info-container">
+				<form method="post" class="inputs-container login100-form validate-form ">
 
-					<span class="login100-form-title p-b-34 p-t-27">
-						Bienvenido!!!
+					<span class="login100-form-title p-b-34 p-t-27"><h1 class="title">
+						Bienvenido</h1>
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Inserta el nombre de usuario">
@@ -88,8 +89,10 @@ if ($_POST) { //va a guardar lo que lleve en método post
 					</div>
 				</form>
 			</div>
+       <img class="image-container" src="assets/img/Logo.png" alt="">
 		</div>
 	</div>
+</div>
 	
 
 	<div id="dropDownSelect1"></div>

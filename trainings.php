@@ -85,13 +85,9 @@ require('process/update.php');
                   <label for="">Descripcion</label>
                   <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
                 </div>
-                <div class="col-sm-6">
-                    <center><label >Fecha de inicio</label></center>
-                    <input type="date" class="form-control" id="date_start" name="date_start" required value="<?php echo $date_start?>">
-                </div>
-                <div class="col-sm-6">
-                    <center><label >Fecha Final</label></center>
-                    <input type="date" class="form-control" id="date_finish" name="date_finish" required value="<?php echo $date_finish?>">
+                <div class="col-sm-12">
+                    <center><label >Fecha de Inicio - Final</label></center>
+                    <input type="text" class="form-control" id="dates" name="dates" required >
                 </div>
                 <div class="col-sm-12">
                 <center><label for="">Archivos</label></center>
@@ -119,8 +115,7 @@ require('process/update.php');
         $description_t = $row->t_description;
         $employee_id_t = $row->employee_id;
         $employee_name_t = $row->employee_full_name;
-        $date_start = $row->d_date_start;
-        $date_finish = $row->d_date_finish;
+        $date = $row->d_dates;
 ?>
     <!-- FORMULARIO DE EDICION DE CAPACITACIONES -->
     <div class="modal fade" id="EditTraining-<?php echo $id_t ?>" tabindex="-1"  aria-hidden="true">
@@ -148,13 +143,9 @@ require('process/update.php');
                     <label for="">Descripcion</label>
                     <textarea class="form-control" id="description" name="description" rows="1"><?php echo $description_t ?></textarea>
                     </div>
-                    <div class="col-sm-6">
-                        <center><label >Fecha de inicio</label></center>
-                        <input type="date" class="form-control" id="date_start" name="date_start" required value="<?php echo $date_start?>">
-                    </div>
-                    <div class="col-sm-6">
-                        <center><label >Fecha Final</label></center>
-                        <input type="date" class="form-control" id="date_finish" name="date_finish" required value="<?php echo $date_finish?>">
+                    <div class="col-sm-12">
+                        <center><label >Fecha de Inicio - Final</label></center>
+                        <input type="text" class="form-control" id="dates" name="dates" required value="<?php echo $date?>">
                     </div>
                     <div class="col-sm-12">
                     <center><label for="">Archivos</label></center>
@@ -216,8 +207,7 @@ require('process/update.php');
     $training = $DataBase->read_single_record_training($id);
     $nombre = $training->t_name;
     $descripcion = $training->t_description;
-    $date_start = $training->d_date_start;
-    $date_finish = $training->d_date_finish;
+    $dates = $training->d_dates;
     $count = $DataBase->count_data_training_files($id);
 ?>
   <!-- Modal See Info-->
@@ -232,8 +222,7 @@ require('process/update.php');
             <b>Nombre de la capacitacion:</b> <?php echo $nombre?><br>
             <b>Descripcion de la capacitacion:</b> <?php echo $descripcion ?><br>
             <b>Periodo de Realización</b><br>
-            <b>Inicio:</b> <?php echo $date_start?><br>
-            <b>Fin:</b> <?php echo $date_finish?><br>
+            <b>Inicio - Fin:</b> <?php echo $dates?><br>
             <b>Archivos</b> <?php echo $count->count_data; ?> <br><button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Ver mas
             </button>

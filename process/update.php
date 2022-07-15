@@ -119,9 +119,8 @@
         $id = intval($data['id']);
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
-        $date_start = $data['date_start'] == false ? 0 : $data['date_start'];
-        $date_finish = $data['date_finish'] == false ? 0 : $data['date_finish'];
-        $res = $DataBase->update_t_trainings($id, $name, $description, $date_start, $date_finish);
+        $dates = $data['dates'] == false ? 0 : $data['dates'];
+        $res = $DataBase->update_t_trainings($id, $name, $description, $dates);
         if($res){
             echo "<script> swal({
                 title: 'Listo!',
@@ -242,7 +241,7 @@
         $id = intval($_POST['id']);
         $name = $DataBase->sanitize($_POST['name']);
         $description = $DataBase->sanitize($_POST['description']);
-        $date_start = $DataBase->sanitize($_POST['date_start']);
+        $dates = $DataBase->sanitize($_POST['dates']);
         $position = intval($_POST['position']);
         $charge = intval($_POST['charge']);
         $area = intval($_POST['area']);
@@ -250,7 +249,7 @@
         $profile = $DataBase->sanitize($_POST['profile']);
         $functions  = $DataBase->sanitize($_POST['functions']);
 
-        $res =$DataBase->update_t_announcements($id,$name,$description,$date_start,$position,$process,$profile,$functions,$charge,$area);
+        $res =$DataBase->update_t_announcements($id,$name,$description,$dates,$position,$process,$profile,$functions,$charge,$area);
         if($res){
             echo "<script> swal({
                 title: 'Listo!',

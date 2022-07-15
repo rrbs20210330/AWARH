@@ -74,10 +74,9 @@
         $DataBase = new db();
         $name = $DataBase->sanitize($data['name']);
         $description = $DataBase->sanitize($data['description']);
-        $date_start = $DataBase->sanitize($data['date_start']);
-        $date_finish = $DataBase->sanitize($data['date_finish']);
+        $dates = $DataBase->sanitize($data['dates']);
         $employee = intval($DataBase->sanitize($data['employee']));
-        $register_training = $DataBase->procedure_new_training($name,$description,$employee,$date_start,$date_finish);
+        $register_training = $DataBase->procedure_new_training($name,$description,$employee,$dates);
         if(!$register_training){
             header('location: ../error.php');
         }
@@ -229,7 +228,7 @@
         $DataBase = new db();
         $name = $DataBase->sanitize($_POST['name']);
         $description = $DataBase->sanitize($_POST['description']);
-        $date_start = $DataBase->sanitize($_POST['date_start']);
+        $dates = $DataBase->sanitize($_POST['dates']);
         $position = intval($_POST['position']);
         $charge = intval($_POST['charge']);
         $area = intval($_POST['area']);
@@ -256,7 +255,7 @@
                 
             }
         }
-        $res =$DataBase->proNewAnnouncement($name, $description, $date_start, $position, $process, $profile, $functions, $filename,$file_path,$charge,$area);
+        $res =$DataBase->proNewAnnouncement($name, $description, $dates, $position, $process, $profile, $functions, $filename,$file_path,$charge,$area);
         if($res){
             echo "<script> swal({
                 title: 'Listo!',

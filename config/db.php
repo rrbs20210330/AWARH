@@ -295,7 +295,11 @@
 
         }
         public function proDeleteEmployee($id){
-            #aqui insertar un loop obteniendo todas las capacitaciones y haciendo una llamada a el procedimiento de eliminar capacitaciones
+            $l_trainings = mysqli_query($this->con, "SELECT * FROM employees_trainings WHERE fk_employee = $id");
+            while ($row = mysqli_fetch_object($l_trainings)) {
+                $id_t = $row->fk_training;
+                mysqli_query($this->con, "CALL procedure_delete_training($id_t)");
+            }
             $sql = "CALL procedure_delete_employee($id);";
 
             $res = mysqli_query($this->con, $sql);
@@ -350,8 +354,8 @@
             }
 
         }
-        public function proNewAnnouncement($name, $description, $date_start, $position, $process, $profile, $functions, $file_name,$file_path,$charge,$area){
-            $sql = "CALL procedure_new_announcement('$name','$description','$date_start', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge,$area)";
+        public function proNewAnnouncement($name, $description, $dates, $position, $process, $profile, $functions, $file_name,$file_path,$charge,$area){
+            $sql = "CALL procedure_new_announcement('$name','$description','$dates', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge,$area)";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -430,8 +434,8 @@
                 return false;
             }
         }
-        public function procedure_new_training($name, $description, $employee, $date_start, $date_finish){
-            $sql = "CALL procedure_new_training('$name', '$description', $employee, '$date_start', '$date_finish');";
+        public function procedure_new_training($name, $description, $employee, $dates){
+            $sql = "CALL procedure_new_training('$name', '$description', $employee, '$dates');";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -457,8 +461,8 @@
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
-        public function update_t_trainings($id, $name, $description, $date_start, $date_finish){
-            $sql = "UPDATE trainings SET `t_name`='$name',`t_description`='$description', `d_date_start` = '$date_start', `d_date_finish` = '$date_finish' WHERE `id_training` = $id";
+        public function update_t_trainings($id, $name, $description, $dates){
+            $sql = "UPDATE trainings SET `t_name`='$name',`t_description`='$description', `d_dates` = '$dates' WHERE `id_training` = $id";
             
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -550,8 +554,8 @@
         }
         #CRUD ANNOUNCEMENTS
 
-        public function update_t_announcements($id,$name,$description,$date_start,$position,$process,$profile,$functions,$charge,$area){
-            $sql = "CALL procedure_update_announcement($id,'$name','$description','$date_start',$position,'$process','$profile','$functions',$charge,$area)";
+        public function update_t_announcements($id,$name,$description,$dates,$position,$process,$profile,$functions,$charge,$area){
+            $sql = "CALL procedure_update_announcement($id,'$name','$description','$dates',$position,'$process','$profile','$functions',$charge,$area)";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;

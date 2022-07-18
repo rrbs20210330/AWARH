@@ -67,13 +67,18 @@ INSERT INTO `charges_activities`(`fk_charge`,`fk_activity`) VALUES(@C2, @Act12);
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('CVrdcc','docs/CVrdcc.pdf');
 SELECT MAX(`id_file`) INTO @CV FROM `files`;
 INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Roque Donato Cioara Caparroz', '3141743531','gdroquedonato3@yopmail.com', '2022-08-11 06:32:25','Decidido, Confiable, Egresado de alguna universidad chingona como la utem o algo asi.',@CV,false);
+SELECT MAX(`id_candidate`) INTO @Cand1 FROM `candidates`;
+INSERT INTO `candidates_positions`(`fk_candidate`, `fk_position`) VALUES (@Cand1, @Puesto);
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('CVadur','docs/CVadur.pdf');
 SELECT MAX(`id_file`) INTO @CV2 FROM `files`;
 INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Adrian D. Urrutia Rel', '3141083423','ahrel7@yopmail.com', '2022-09-11 12:43:25','Decidido, Confiable, Egresado de alguna universidad chingona como la utem o algo asi.',@CV2,false);
+SELECT MAX(`id_candidate`) INTO @Cand2 FROM `candidates`;
+INSERT INTO `candidates_positions`(`fk_candidate`, `fk_position`) VALUES (@Cand2, @P1);
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('CVaasv','docs/CVaasv.pdf');
 SELECT MAX(`id_file`) INTO @CV3 FROM `files`;
 INSERT INTO `candidates`(`t_name`,`t_phone_number`,`t_email`, `dt_appointment_date`, `t_profile`,`fk_cv`,`b_is_employee`) VALUES ('Avril Alicia Santamaria Vallines', '3141004881','hpavrilalicia15@yopmail.com', '2022-11-23 10:13:25','Decidida, Confiable, Egresada de alguna universidad chingona como la utem o algo asi.',@CV3,false);
-
+SELECT MAX(`id_candidate`) INTO @Cand3 FROM `candidates`;
+INSERT INTO `candidates_positions`(`fk_candidate`, `fk_position`) VALUES (@Cand3, @P2);
 
 INSERT INTO `files`(`t_name`, `t_path`) VALUES ('Contractnoc','docs/Contractnoc.pdf');
 SELECT MAX(`id_file`) INTO @Contrato FROM `files`;

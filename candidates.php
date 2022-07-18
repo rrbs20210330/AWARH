@@ -101,8 +101,10 @@ require('process/update.php');
                             while ($row = mysqli_fetch_object($l_positions_select)) {
                                 $idc = $row->id_position;
                                 $namec = $row->t_name;
+                                $area_id = $DataBase->read_single_record_positions_areas($idc) ? $DataBase->read_single_record_positions_areas($idc)->fk_position : 0;
+                                $area = $area_id == 0 ? "Ninguna" : ($DataBase->read_single_record_area($area_id) ? $DataBase->read_single_record_area($area_id)->t_name : "Ninguna");
                                 ?>
-                            <option value="<?php echo $idc ?>"  ><?php echo $namec ?></option>
+                            <option value="<?php echo $idc ?>"  ><?php echo $namec." - ".$area ?></option>
                             <?php } ?>
                             
                         </select>
@@ -181,8 +183,10 @@ require('process/update.php');
                                     while ($row = mysqli_fetch_object($l_positions_select)) {
                                         $idc = $row->id_position;
                                         $namec = $row->t_name;
+                                        $area_id = $DataBase->read_single_record_positions_areas($idc) ? $DataBase->read_single_record_positions_areas($idc)->fk_position : 0;
+                                        $area = $area_id == 0 ? "Ninguna" : ($DataBase->read_single_record_area($area_id) ? $DataBase->read_single_record_area($area_id)->t_name : "Ninguna");
                                         ?>
-                                <option value="<?php echo $idc ?>" <?php if($idc === $request_position){ ?> selected <?php } ?>><?php echo $namec ?></option>
+                                <option value="<?php echo $idc ?>" <?php if($idc === $request_position){ ?> selected <?php } ?>><?php echo $namec." - ".$area ?></option>
                                 <?php } ?>
                             </select>
                         </div>

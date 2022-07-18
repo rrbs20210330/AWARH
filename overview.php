@@ -16,10 +16,10 @@ if($tipo === 1){
   $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
   $employee_info = $DataBase->read_info_employee(intval($id_employee));
   $user_info = $DataBase->read_single_record_user($id_user);
-  $id_area = $employee_info->fk_position !== null ? $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area : null;
+  $id_area = $employee_info->fk_position !== null ? ($DataBase->read_single_record_area_position($employee_info->fk_position) ? $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area : null) : null;
   $area_info = $id_area !== null ? $DataBase->read_single_record_area($id_area)->t_name : "Ninguna";
-  $puesto = $employee_info->fk_position !== null ? $DataBase->read_single_record_position($employee_info->fk_position)->t_name : "Ninguno";
-  $cargo = $employee_info->fk_charge !== null ? $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name : "Ninguno";
+  $puesto = $employee_info->fk_position === null ? "Ninguno" : ($DataBase->read_single_record_position($employee_info->fk_position)->b_deleted == 1 ? "Ninguno" : $DataBase->read_single_record_position($employee_info->fk_position)->t_name);
+  $cargo = $employee_info->fk_charge === null ? "Ninguno" : ($DataBase->read_single_record_charges($employee_info->fk_charge)->b_deleted == 1 ? "Ninguno" : $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name);
   $count = $DataBase->count_data_training($id_employee);
   require('process/update.php');
 } 

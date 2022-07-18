@@ -139,49 +139,73 @@ require('process/update.php');}else{ ?>
               <input type="text" class="form-control" id="dates" name="dates" required>
             </div>
             <div class="col-sm-4">
-              <center><label >Puesto</label></center>
-              <select class="form-select" aria-label="Default select example" id="position" name="position">
-                <option selected disabled value="">Selecciona un puesto</option>
-                <?php     
-                  $l_charges_select = $DataBase->read_data_table('positions');
-                  while ($row = mysqli_fetch_object($l_charges_select)) {
-                    $id = $row->id_position;
-                    $name = $row->t_name;
-                ?>
-                <option value="<?php echo $id ?>"><?php echo $name ?></option>
-                <?php } ?>
-                <option value="0">Ninguno</option>
-              </select>
+            <br>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-positions" aria-expanded="true" aria-controls="collapseOne">
+                      Puestos
+                    </button>
+                  </h2>
+                  <div id="collapse-positions" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <?php 
+                        $l_position = $DataBase->read_data_table('positions');
+                        while ($row = mysqli_fetch_object($l_position)) {
+                          $id = $row->id_position; 
+                          $name = $row->t_name?>
+                          <input type="checkbox" name="positions[]" value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php }?>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-sm-4">
-              <center><label >Cargo</label></center>
-              <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                <option selected disabled value="">Selecciona un cargo</option>
-                <?php     
-                  $l_charges_select = $DataBase->read_data_table('charges');
-                  while ($row = mysqli_fetch_object($l_charges_select)) {
-                    $id = $row->id_charge;
-                    $name = $row->t_name;
-                ?>
-                <option value="<?php echo $id ?>"><?php echo $name ?></option>
-                <?php } ?>
-                <option value="0">Ninguno</option>
-              </select>
+            <br>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-charges" aria-expanded="true" aria-controls="collapseOne">
+                      Cargos
+                    </button>
+                  </h2>
+                  <div id="collapse-charges" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <?php 
+                        $l_charge = $DataBase->read_data_table('charges');
+                        while ($row = mysqli_fetch_object($l_charge)) {
+                          $id = $row->id_charge; 
+                          $name = $row->t_name?>
+                          <input type="checkbox" name="charges[]" value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php }?>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-sm-4">
-              <center><label >Área</label></center>
-              <select class="form-select" aria-label="Default select example" id="area" name="area">
-                <option selected disabled value="">Selecciona una área</option>
-                <?php     
-                  $l_charges_select = $DataBase->read_data_table('areas');
-                  while ($row = mysqli_fetch_object($l_charges_select)) {
-                    $id = $row->id_area;
-                    $name = $row->t_name;
-                ?>
-                <option value="<?php echo $id ?>"><?php echo $name ?></option>
-                <?php } ?>
-                <option value="0">Ninguno</option>
-              </select>
+            <br>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-areas" aria-expanded="true" aria-controls="collapseOne">
+                      Areas
+                    </button>
+                  </h2>
+                  <div id="collapse-areas" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <?php 
+                        $l_area = $DataBase->read_data_table('areas');
+                        while ($row = mysqli_fetch_object($l_area)) {
+                          $id = $row->id_area; 
+                          $name = $row->t_name?>
+                          <input type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php }?>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-sm-4">
               <center><label >Procedimiento</label></center>
@@ -255,49 +279,73 @@ require('process/update.php');}else{ ?>
                 <input type="text" class="form-control" id="dates" name="dates" required value="<?php echo $date?>">
               </div>
               <div class="col-sm-4">
-                <center><label >Puesto</label></center>
-                <select class="form-select" aria-label="Default select example" id="position" name="position">
-                  <option selected disabled value="">Selecciona un puesto</option>
-                  <?php     
-                    $l_charges_select = $DataBase->read_data_table('positions');
-                    while ($row = mysqli_fetch_object($l_charges_select)) {
-                      $idp = $row->id_position;
-                      $namep = $row->t_name;
-                  ?>
-                  <option value="<?php echo $idp ?>" <?php if($idp == $ida){ ?> selected <?php }?>><?php echo $namep ?></option>
-                  <?php } ?>
-                  <option value="0">Ninguno</option>
-                </select>
+            <br>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-positions" aria-expanded="true" aria-controls="collapseOne">
+                      Puestos
+                    </button>
+                  </h2>
+                  <div id="collapse-positions" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <?php 
+                        $l_position = $DataBase->read_data_table('positions');
+                        while ($row = mysqli_fetch_object($l_position)) {
+                          $id = $row->id_position; 
+                          $name = $row->t_name?>
+                          <input type="checkbox" name="positions[]" value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php }?>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-sm-4">
-                <center><label >Cargo</label></center>
-                <select class="form-select" aria-label="Default select example" id="charge" name="charge">
-                  <option selected disabled value="">Selecciona un cargo</option>
-                  <?php     
-                    $l_charges_select = $DataBase->read_data_table('charges');
-                    while ($row = mysqli_fetch_object($l_charges_select)) {
-                      $idp = $row->id_charge;
-                      $namep = $row->t_name;
-                  ?>
-                  <option value="<?php echo $idp ?>" <?php if($idp == $ida){ ?> selected <?php }?>><?php echo $namep ?></option>
-                  <?php } ?>
-                  <option value="0">Ninguno</option>
-                </select>
+            </div>
+            <div class="col-sm-4">
+            <br>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-charges" aria-expanded="true" aria-controls="collapseOne">
+                      Cargos
+                    </button>
+                  </h2>
+                  <div id="collapse-charges" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <?php 
+                        $l_charge = $DataBase->read_data_table('charges');
+                        while ($row = mysqli_fetch_object($l_charge)) {
+                          $id = $row->id_charge; 
+                          $name = $row->t_name?>
+                          <input type="checkbox" name="charges[]" value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php }?>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-sm-4">
-              <center><label >Área</label></center>
-              <select class="form-select" aria-label="Default select example" id="area" name="area">
-                <option selected disabled value="">Selecciona una área</option>
-                <?php     
-                  $l_charges_select = $DataBase->read_data_table('areas');
-                  while ($row = mysqli_fetch_object($l_charges_select)) {
-                    $id = $row->id_area;
-                    $name = $row->t_name;
-                ?>
-                <option value="<?php echo $id ?>"><?php echo $name ?></option>
-                <?php } ?>
-                <option value="0">Ninguno</option>
-              </select>
+            </div>
+            <div class="col-sm-4">
+            <br>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-areas" aria-expanded="true" aria-controls="collapseOne">
+                      Areas
+                    </button>
+                  </h2>
+                  <div id="collapse-areas" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <?php 
+                        $l_area = $DataBase->read_data_table('areas');
+                        while ($row = mysqli_fetch_object($l_area)) {
+                          $id = $row->id_area; 
+                          $name = $row->t_name?>
+                          <input type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php }?>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
               <div class="col-sm-4">
                 <center><label >Procedimiento</label></center>

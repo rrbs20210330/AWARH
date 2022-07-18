@@ -64,13 +64,13 @@ require('process/update.php');
       <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="modal-body">
           <div class="row">
-              <div class="col-sm-6">
+              <div class="col-sm-12">
               <label for="">Nombre </label>
               <input type="text" class="form-control" id="name" name="name" required>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-12">
               <label for="">Descripción </label>
-              <input type="text" class="form-control" id="description" name="description" required>
+              <textarea class="form-control" id="description" name="description" rows="1" required></textarea>
               </div>
               <input type="hidden" name="typeOp" value="10">
               <input type="hidden" name="new" value="1">
@@ -97,19 +97,19 @@ require('process/update.php');
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edición de Áreas</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edición de Área</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label for="">Nombre </label>
             <input value="<?php echo $nombre ?>" type="text" class="form-control" id="name" name="name">
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label for="">Descripción </label>
-            <input value="<?php echo $description ?>" type="text" class="form-control" id="description" name="description">
+            <textarea class="form-control" id="description" name="description" rows="1"><?php echo $description ?></textarea>
             </div>
         </div>
         <br>
@@ -175,7 +175,7 @@ while ($row = mysqli_fetch_object($l_area)) {
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Posiciones del Area <strong><?php echo $nombre ?></strong></h5>
+                <h5 class="modal-title" id="exampleModalLabel">Puestos del Area <strong><?php echo $nombre ?></strong></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body"> 
@@ -183,7 +183,7 @@ while ($row = mysqli_fetch_object($l_area)) {
                     <?php $l_positions = $DataBase->read_positions_areas($id);
                     $cont = 0;
                     if($l_positions->num_rows === 0){?>
-                        <p>Este cargo no tiene ninguna actividad.</p>
+                        <p>Esta área no tiene ningun puesto.</p>
                     <?php }else{
                         while($row = mysqli_fetch_object($l_positions)){ ?>
                             <p><?php 

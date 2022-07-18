@@ -20,6 +20,7 @@ require('process/update.php');
       <th>Nombre</th>
       <th>Descripción</th>
       <th># Empleados</th>
+      <th>Area</th>
       <th></th>
     </thead>
     <tbody>
@@ -28,7 +29,9 @@ require('process/update.php');
         while ($row = mysqli_fetch_object($l_positions)) {
           $id = $row->id_position;
           $nombre = $row->t_name;
-          $description = $row->t_description;?>
+          $description = $row->t_description;
+          $area_id = $DataBase->read_single_record_positions_areas($id) ? $DataBase->read_single_record_positions_areas($id)->fk_area : 0;
+          $area = $area_id == 0 ? "Ninguna" : ($DataBase->read_single_record_area($area_id) ? $DataBase->read_single_record_area($area_id)->t_name : "Ninguna");?>
           <tr>
             <td>
               <?php echo $nombre ?>
@@ -38,6 +41,9 @@ require('process/update.php');
             </td>
             <td>
               <?php echo $DataBase->num_employees_position($id)->numEmpp ?>
+            </td>
+            <td>
+              <?php echo $area ?>
             </td>
             <td>
               <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
@@ -57,19 +63,19 @@ require('process/update.php');
 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registro de Puesto</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Registro de Puestos</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label for="">Nombre </label>
             <input type="text" class="form-control" id="name" name="name" required>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label for="">Descripción </label>
-            <input type="text" class="form-control" id="description" name="description" required>
+            <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
             </div>
             <div class="col-sm-12">  
               <label>Área</label>
@@ -125,13 +131,13 @@ require('process/update.php');
       <div class="modal-body">
       <form  method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label for="">Nombre </label>
-            <input value="<?php echo $nombre ?>" type="text" class="form-control" id="name" name="name">
+            <input value="<?php echo $nombre ?>" type="text" class="form-control" id="name" name="name" required>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label for="">Descripción </label>
-            <input value="<?php echo $description ?>" type="text" class="form-control" id="description" name="description">
+            <textarea class="form-control" id="description" name="description" rows="1" required><?php echo $description ?></textarea>
             </div>
             <div class="col-sm-12">
               <label>Área</label>
@@ -140,12 +146,12 @@ require('process/update.php');
                     <?php     
                       $l_areas_select = $DataBase->read_data_table('areas');
                       if(mysqli_num_rows($l_areas_select) === 0 ) { ?>
-                      <option disabled value="">Necesitas crear una área primero</option>
-                      <?php } else { ?> <option disabled value="">Selecciona una Área</option><?php } ?>
+                      <option selected disabled value="">Necesitas crear una área primero</option>
+                      <?php } else { ?> <option selected disabled value="">Selecciona una Área</option><?php } ?>
                       
                       <?php 
                       while ($row = mysqli_fetch_object($l_areas_select)) {
-                          $idc = $row->id_areas;
+                          $idc = $row->id_area;
                           $namec = $row->t_name;
                           ?>
                   <option value="<?php echo $idc ?>" <?php if(intval($idc) === intval($object)){?> selected <?php }?>><?php echo $namec ?></option>

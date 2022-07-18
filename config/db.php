@@ -23,7 +23,7 @@
         }
 
         public function delete_data_users($id){
-            $sql = "DELETE FROM users WHERE `id_user` = '$id'";
+            $sql = "UPDATE users SET b_deleted = 1 WHERE `id_user` = $id";
             
             $res = mysqli_query($this->con, $sql);
             
@@ -34,23 +34,29 @@
             } 
         }
         public function read_data_table($table){
-            $sql = "SELECT * FROM `$table`";
+            $sql = "SELECT * FROM `$table` WHERE b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
         public function read_data_table_files_trainings($id){
-            $sql = "SELECT * FROM trainings_files WHERE fk_training = $id";
+            $sql = "SELECT * FROM trainings_files WHERE fk_training = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
         public function count_data_table($table){
-            $sql = "SELECT count(*) as count_data FROM `$table`";
+            $sql = "SELECT count(*) as count_data FROM `$table` where b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function proEditActivity($id, $name, $description, $id_charge){
-            $sql = "UPDATE activities as a, charges_activities as ca SET a.t_name = '$name', a.t_description = '$description', ca.fk_charge = $id_charge WHERE a.id_activity = $id and ca.fk_activity = $id";
+            $consult = mysqli_query($this->con, "SELECT fk_charge FROM charges_activities WHERE fk_activity = $id and b_deleted = 0");
+            $charge = intval($consult->num_rows) == 0 ? false : true; 
+            if($charge){
+                $sql = "UPDATE activities as a, charges_activities as ca SET a.t_name = '$name', a.t_description = '$description', ca.fk_charge = $id_charge WHERE a.id_activity = $id and ca.fk_activity = $id";
+            }else{
+                $sql = "CALL procedure_update_activity($id, '$name', '$description', $id_charge)";
+            }
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -68,54 +74,54 @@
             }
         }
         public function read_data_table_announcements_employees($id){
-            $sql = "SELECT * FROM employees_announcements WHERE fk_announcement = $id";
+            $sql = "SELECT * FROM employees_announcements WHERE fk_announcement = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
         public function read_single_record_employee_announcement($id){
-            $sql = "SELECT * FROM employees_announcements WHERE fk_employee = $id";
+            $sql = "SELECT * FROM employees_announcements WHERE fk_employee = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function count_data_training($id){
-            $sql = "SELECT count(*) as count_data FROM `employees_trainings` where fk_employee = $id";
+            $sql = "SELECT count(*) as count_data FROM `employees_trainings` where fk_employee = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function count_data_training_files($id){
-            $sql = "SELECT count(*) as count_data FROM `trainings_files` where fk_training= $id";
+            $sql = "SELECT count(*) as count_data FROM `trainings_files` where fk_training= $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_user_employee($id){
-            $sql = "SELECT * FROM employees_users WHERE fk_user = $id";
+            $sql = "SELECT * FROM employees_users WHERE fk_user = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_employee_user($id){
-            $sql = "SELECT * FROM employees_users WHERE fk_employee = $id";
+            $sql = "SELECT * FROM employees_users WHERE fk_employee = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_announcement_position($id){
-            $sql = "SELECT * FROM announcements_positions WHERE fk_announcement = $id";
+            $sql = "SELECT * FROM announcements_positions WHERE fk_announcement = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_announcement_charge($id){
-            $sql = "SELECT * FROM announcements_charges WHERE fk_announcement = $id";
+            $sql = "SELECT * FROM announcements_charges WHERE fk_announcement = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_candidates_position($id){
-            $sql = "SELECT * FROM candidates_positions WHERE fk_candidate = $id";
+            $sql = "SELECT * FROM candidates_positions WHERE fk_candidate = $id AND b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -127,49 +133,43 @@
             return $return;
         }
         public function read_single_record_positions_areas($id){
-            $sql = "SELECT * FROM positions_areas WHERE fk_position = $id";
+            $sql = "SELECT * FROM positions_areas WHERE fk_position = $id AND b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_training($id){
-            $sql = "SELECT * FROM trainings WHERE id_training = '$id'";
+            $sql = "SELECT * FROM trainings WHERE id_training = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_announcement($id){
-            $sql = "SELECT * FROM announcements WHERE id_announcement = '$id'";
+            $sql = "SELECT * FROM announcements WHERE id_announcement = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_files($id){
-            $sql = "SELECT * FROM files WHERE id_file = '$id'";
+            $sql = "SELECT * FROM files WHERE id_file = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_candidates($id){
-            $sql = "SELECT * FROM candidates WHERE id_candidate = '$id'";
+            $sql = "SELECT * FROM candidates WHERE id_candidate = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_charges($id){
-            $sql = "SELECT * FROM charges WHERE id_charge = '$id'";
+            $sql = "SELECT * FROM charges WHERE id_charge = $id";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
         }
         public function read_single_record_relation_charge_activity($id){
-            $sql = "SELECT * FROM charges_activities WHERE fk_activity = $id";
-            $res = mysqli_query($this->con, $sql);
-            $return = mysqli_fetch_object($res);
-            return $return;
-        }
-        public function read_single_record_relation_employee_training($table, $id){
-            $sql = "SELECT * FROM $table WHERE id_training = $id";
+            $sql = "SELECT * FROM charges_activities WHERE fk_activity = $id AND b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -213,14 +213,14 @@
             }
         }
         public function update_active_users($id){
-            $sql="SELECT b_active FROM users WHERE id_user ='$id'"; 
+            $sql="SELECT b_active FROM users WHERE id_user =$id"; 
             $res= mysqli_query($this->con, $sql);
             $return=mysqli_fetch_object($res);
             if($return->b_active == 1){
-                $sql ="UPDATE users SET b_active=0 WHERE id_user ='$id'";
+                $sql ="UPDATE users SET b_active=0 WHERE id_user =$id";
             }
             else{
-                $sql ="UPDATE users SET b_active=1 WHERE id_user ='$id'";
+                $sql ="UPDATE users SET b_active=1 WHERE id_user =$id";
             }
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -256,14 +256,14 @@
             }
         }
         public function update_active_announcements($id){
-            $sql="SELECT b_active FROM announcements WHERE id_announcement ='$id'"; 
+            $sql="SELECT b_active FROM announcements WHERE id_announcement =$id"; 
             $res= mysqli_query($this->con, $sql);
             $return=mysqli_fetch_object($res);
             if($return->b_active == 1){
-                $sql ="UPDATE announcements SET b_active=0 WHERE id_announcement ='$id'";
+                $sql ="UPDATE announcements SET b_active=0 WHERE id_announcement =$id";
             }
             else{
-                $sql ="UPDATE announcements SET b_active=1 WHERE id_announcement ='$id'";
+                $sql ="UPDATE announcements SET b_active=1 WHERE id_announcement =$id";
             }
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -333,7 +333,7 @@
 
         }
         public function proDeletePosition($id){
-            $sql = "CALL procedure_delete_position('$id');";
+            $sql = "CALL procedure_delete_position($id);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -344,7 +344,7 @@
 
         }
         public function proDeleteActivity($id){
-            $sql = "CALL procedure_delete_activity('$id');";
+            $sql = "CALL procedure_delete_activity($id);";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -388,7 +388,7 @@
             return $res;
         }
         public function read_info_employee($id){
-            $sql = "SELECT * FROM view_info_employee WHERE id_employee = $id";
+            $sql = "SELECT * FROM view_info_employee WHERE id_employee = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             return $obj;
@@ -406,7 +406,7 @@
             return $obj;
         }
         public function read_single_record_area_position($id){
-            $sql = "SELECT fk_area FROM positions_areas WHERE fk_position = $id";
+            $sql = "SELECT fk_area FROM positions_areas WHERE fk_position = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             return $obj;
@@ -492,7 +492,13 @@
             }
         }
         public function update_candidate($id, $name, $phone_number, $email, $appointment_date, $request_position, $perfil){
-            $sql = "CALL procedure_update_candidate($id, '$name', '$phone_number', '$email', '$appointment_date', $request_position, '$perfil')";
+            $consult = mysqli_query($this->con, "SELECT fk_position FROM candidates_positions WHERE fk_candidate = $id and b_deleted = 0");
+            $charge = intval($consult->num_rows) == 0 ? false : true; 
+            if($charge){
+                $sql = "UPDATE candidates as c, candidates_positions as cp SET c.`t_name` = '$name', c.`t_phone_number` = '$phone_number', c.`t_email` = '$email',c.`dt_appointment_date` = '$appointment_date', c.`t_profile` = '$perfil', cp.`fk_position` = $request_position  WHERE `id_candidate` = $id and `fk_candidate` = $id";
+            }else{
+                $sql = "CALL procedure_update_candidate($id, '$name', '$phone_number', '$email', '$appointment_date', $request_position, '$perfil')";
+            }
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -517,7 +523,7 @@
         }
 
         public function update_t_users($id, $user, $password){
-            $sql = "UPDATE `users` SET `t_user` = '$user', `t_password` = '$password' WHERE `id_user` = '$id'";
+            $sql = "UPDATE `users` SET `t_user` = '$user', `t_password` = '$password' WHERE `id_user` = $id";
             
             $res = mysqli_query($this->con, $sql);
             
@@ -542,7 +548,13 @@
         }
 
         public function update_t_positions($id, $name, $description, $area){
-            $sql = "CALL procedure_update_position($id, '$name', '$description', $area)";
+            $consult = mysqli_query($this->con, "SELECT fk_area FROM positions_areas WHERE fk_position = $id and b_deleted = 0");
+            $charge = intval($consult->num_rows) == 0 ? false : true; 
+            if($charge){
+                $sql = "UPDATE positions as p, positions_areas as pa SET p.t_name = '$name', p.t_description = '$description', pa.fk_area = $area WHERE p.id_position = $id and pa.fk_position = $id";
+            }else{
+                $sql = "CALL procedure_update_position($id, '$name', '$description', $area)";
+            }
             
             $res = mysqli_query($this->con, $sql);
             
@@ -598,7 +610,7 @@
             }
         }
         public function read_data_table_employees_trainings($id){
-            $sql = "SELECT * FROM employees_trainings WHERE fk_employee = $id";
+            $sql = "SELECT * FROM employees_trainings WHERE fk_employee = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
@@ -618,7 +630,7 @@
             }
         }
         public function num_employees_charge($id){
-            $sql = "SELECT COUNT(ec.fk_employee) as numEmpc FROM employees_charges ec INNER JOIN employees e on ec.fk_employee = e.id_employee WHERE fk_charge = $id";
+            $sql = "SELECT COUNT(ec.fk_employee) as numEmpc FROM employees_charges ec INNER JOIN employees e on ec.fk_employee = e.id_employee WHERE fk_charge = $id and ec.b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             if($res){

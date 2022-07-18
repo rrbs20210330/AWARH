@@ -70,13 +70,13 @@ require('process/update.php');
             <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
                 <div class="modal-body"> 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <label for="">Nombre </label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
-                        <div class="col-sm-6">
-                            <label for="">Descripción </label>
-                            <input type="text" class="form-control" id="description" name="description" required>
+                        <div class="col-sm-12">
+                            <label for="">Descripción</label>
+                            <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
                         </div>                    
                     </div>
                     <br>
@@ -107,19 +107,19 @@ require('process/update.php');
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Registro de cargos</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edición de cargo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
                 <div class="modal-body"> 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <label for="">Nombre </label>
                             <input type="text" class="form-control" id="name" name="name" value="<?php echo $nombre ?>">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <label for="">Descripción </label>
-                            <input type="text" class="form-control" id="description" name="description" value="<?php echo $description ?>">
+                            <textarea class="form-control" id="description" name="description" required rows="1"><?php echo $description ?></textarea>
                         </div>                    
                     </div>
                     <br>

@@ -80,7 +80,7 @@ require('process/update.php');
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nuevo de Empleado</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Registro de Empleados</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -182,8 +182,10 @@ require('process/update.php');
                             while ($row = mysqli_fetch_object($l_positions_select)) {
                                 $id = $row->id_position;
                                 $name = $row->t_name;
+                                $area_id = $DataBase->read_single_record_positions_areas($id) ? $DataBase->read_single_record_positions_areas($id)->fk_position : 0;
+                                $area = $area_id == 0 ? "Ninguna" : ($DataBase->read_single_record_area($area_id) ? $DataBase->read_single_record_area($area_id)->t_name : "Ninguna");?>
                                 ?>
-                        <option value="<?php echo $id ?>"><?php echo $name ?></option>
+                        <option value="<?php echo $id ?>"><?php echo $name." - ".$area ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -240,7 +242,7 @@ require('process/update.php');
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edición<nav></nav> de Empleado</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edición de Empleado</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -342,8 +344,10 @@ require('process/update.php');
                                 while ($row = mysqli_fetch_object($l_positions_select)) {
                                     $idp = $row->id_position;
                                     $namep = $row->t_name;
+                                    $area_id = $DataBase->read_single_record_positions_areas($id) ? $DataBase->read_single_record_positions_areas($id)->fk_position : 0;
+                                    $area = $area_id == 0 ? "Ninguna" : ($DataBase->read_single_record_area($area_id) ? $DataBase->read_single_record_area($area_id)->t_name : "Ninguna");
                                     ?>
-                            <option value="<?php echo $idp ?>" <?php if($idp == $position){?> selected <?php }?>><?php echo $namep ?></option>
+                            <option value="<?php echo $idp ?>" <?php if($idp == $position){?> selected <?php }?>><?php echo $namep." - ".$area ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -410,10 +414,10 @@ require('process/update.php');
     while ($row = mysqli_fetch_object($l_employees)) {
         $idL = $row->id_employee;
         $employee_info = $DataBase->read_info_employee(intval($idL));
-        $id_area = $employee_info->fk_position !== null ? $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area : null;
-        $area_info = $id_area !== null ? $DataBase->read_single_record_area($id_area)->t_name : "Ninguna";
-        $puesto = $employee_info->fk_position !== null ? $DataBase->read_single_record_position($employee_info->fk_position)->t_name : "Ninguno";
-        $cargo = $employee_info->fk_charge !== null ? $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name : "Ninguno";
+        $puesto = $employee_info->fk_position === null ? "Ninguno" : ($DataBase->read_single_record_position($employee_info->fk_position)->b_deleted == 1 ? "Ninguno" : $DataBase->read_single_record_position($employee_info->fk_position)->t_name);
+        $cargo = $employee_info->fk_charge === null ? "Ninguno" : ($DataBase->read_single_record_charges($employee_info->fk_charge)->b_deleted == 1 ? "Ninguno" : $DataBase->read_single_record_charges($employee_info->fk_charge)->t_name);
+        $id_area = $employee_info->fk_position == null ? null : ($DataBase->read_single_record_area_position($employee_info->fk_position) ? $DataBase->read_single_record_area_position($employee_info->fk_position)->fk_area : null);
+        $area = $id_area == null ? "Ninguna" : $DataBase->read_single_record_area($id_area)->t_name;
         $path_p = $DataBase->read_single_record_files($employee_info->fk_img)->t_path;
         $id_user = $DataBase->read_single_record_employee_user($idL)->fk_user;
         $user_info = $DataBase->read_single_record_user($id_user);
@@ -453,7 +457,7 @@ require('process/update.php');
                             <strong>Cargo:</strong> <?php echo $cargo ?>  <br>
                             <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
                             <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
-                            <strong>Área:</strong> <?php echo $area_info ?> <br>
+                            <strong>Área:</strong> <?php echo $area ?> <br>
                             <strong>Usuario:</strong> <?php echo $user_info->t_user; ?> <br>
                             <strong>Contraseña:</strong> <?php echo $user_info->t_password; ?> <br>
                             <strong>Capacitaciones:</strong> <?php echo $count->count_data; ?> <button class="btn btn-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">

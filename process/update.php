@@ -96,7 +96,6 @@
             header('location: ../error.php');
         }
     }
-
     function update_user($data){
         $DataBase = new db();
         $id = intval($data['id']);

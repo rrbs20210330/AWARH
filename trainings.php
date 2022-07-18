@@ -51,7 +51,7 @@ require('process/update.php');
 <!-- FORMULARIO DE REGISTRO DE USUARIOS -->
 <div class="modal fade" id="registrousuario" tabindex="-1"  aria-hidden="true">
     <?php ?>
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Registro de Capacitaciones</h5>
@@ -65,22 +65,28 @@ require('process/update.php');
                   <input type="text" class="form-control" id="name" name="name" required value="">
                 </div>
                 <div class="col-sm-6">
-                  <label for="">Empleado</label>
-                  <select class="form-select" aria-label="Default select example" id="employee" name="employee" required>
-                    <?php     
-                      $l_employees_select = $DataBase->read_data_table('employees');
-                      if(mysqli_num_rows($l_employees_select) === 0 ) { ?>
-                      <option selected disabled value="">Necesitas crear un empleado primero</option>
-                      <?php } else { ?> <option selected disabled value="">Selecciona un empleado</option><?php } ?>
+            <br>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-areas" aria-expanded="true" aria-controls="collapseOne">
+                      Empleados
+                    </button>
+                  </h2>
+                  <div id="collapse-areas" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
                       <?php 
+                        $l_employees_select = $DataBase->read_data_table('employees');
                         while ($row = mysqli_fetch_object($l_employees_select)) {
-                            $id = $row->id_employee;
-                            $name = $row->t_names." ".$row->t_last_names;
-                            ?>
-                    <option value="<?php echo $id ?>"><?php echo $name ?></option>
-                    <?php } ?>
-                  </select>
+                          $id = $row->id_employee; 
+                          $name = $row->t_names.' '.$row->t_last_names?>
+                          <input type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php }?>
+                    </div>
+                  </div>
                 </div>
+              </div>
+            </div>
                 <div class="col-sm-12">
                   <label for="">Descripción</label>
                   <textarea class="form-control" id="description" name="description" required rows="1"></textarea>

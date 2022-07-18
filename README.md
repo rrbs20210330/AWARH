@@ -1,76 +1,61 @@
 # Proyecto AWARH | Aplicación Web de Administración de Recusos Humanos
 
 
-Configuración `config/db.php`
-```php
-private $dbhost = "localhost";
-private $dbuser = "root";
-private $dbpass = "";
-private $dbname = "recursoshumanos";
-````
 
 
-# Información
-Se agrego confirmacion en toda creacion y edicion de informacion, se agrego identificacion de dropdown en navbar, breves correcciones ortograficas, acomodo de diseño, se hizo funcional el boton de edicion de empleados y todo el apartado de capacitaciones, aunque sigue algo incompleto en la muestra de informacion, se agregaron mas procedimientos para el funcionamiento de los mencionados anteriormente, en la vision de un empleado ahora le permitira solicitar un cambio de sus datos.
+> Hacer
 
-
-# Manejo de Variables y Codigo
-- Todas las variables se espera que sean en ingles.
-- puede ser un acronimo de la misma palabra si llega a ser muy larga.
-- si es mas de una palabra se usaran giones bajos.
-- No se pondran mayusculas.
-- se espera por obvias razones que el nombre de la variable tenga sentido con el apartado de codigo.
-- Intentar comentariar partes complejas para entendimiento general.
-- este razonamiento sera aplicado tanto en la base de datos como en variables de la aplicacion web.
-- indenta tu codigo no seas flojo y acomodalo, una buena indentación puede ayudar a encontrar errores y mejorar el entendimiento general.
-- 
-
-
-
-# Hacer
 | STATUS | TAREA | ENCARGADO |
 | :---: | :---: | :---: |
-|COMPLETADO| puestos-areas: un puesto puede estar o no a una area lo que definira el puesto del Empleado | |
-|COMPLETADO| Un empleado tendra un usuario que sera generado automaticamente | |
-|COMPLETADO| Un empleado podra solicitar actualizar ciertos datos | |
-|COMPLETADO| Una convocatoria podra o no tener un cargo y/o un puesto. | |
-|COMPLETADO| Condicionales para la muestra de convocatorias en base a el puesto y/o cargo del empleado | |
-|COMPLETADO| Muestra de conteo de los empleados que tienen un puesto |  |
-|COMPLETADO| Muestra de conteo de los empleados que tienen un cargo | |
-|COMPLETADO| Muestra de todas las actividades de un cargo | |
-|COMPLETADO| Muestra de todos los puestos de una area | |
-|COMPLETADO| Se podra ver en la informacion del empleado, las capacitaciones relacionadas | |
-|NO APLICABLE| Se podra mandar para que actualicen su cv | |
-|COMPLETADO| Herramientas de ayuda | |
-| | verificar si existe la relacion, si no, insertar una | |
-|COMPLETADO| Validaciones de Telefono y Selects| |
-| | Cambiar selects por checkbox en convocatorias | |
-| | Cambiar selects por checkbox en puesto para que un puesto pueda pertenecer a varias areas | |
-| | Mostrar en el puesto a que area pertenece al momento de seleccionar en empleado o candidato | |
+|EN ESPERA| Condicionales para la muestra de convocatorias en base a el puesto, cargo y/o area del empleado | |
+|EN ESPERA| Herramientas de ayuda | |
+|EN PROGRESO| verificar si existe la relacion, si no, insertar una | |
+|EN PROGRESO| Cambiar selects por checkbox en convocatorias | |
+|EN PROGRESO| Cambiar selects por checkbox en puesto para que un puesto pueda pertenecer a varias areas | |
 | | Validacion de si el empleado puede o no meterse a una convocatoria en especifico dependiendo de su cargo, area y puesto | |
-| | Adaptar funcionalidad de borrado a nueva base de datos para borrado logico. | |
+|EN PROGRESO| Adaptar funcionalidad de borrado a nueva base de datos para borrado logico. | |
+| | Validar si una convocatoria fue eliminada | |
+| | Host | |
+| | Subir Documentacion | |
+| | Dar mejor formato a la vista de un solo anuncio | | 
+| | Generar Reportes PDF | |
+| | Corregir errores de aplicar a una convocatoria | |
 | | Funcionalidad mostrar boton cuando un empleado solicite cambio de información en la lista de empleados | |
 | | Funcionalidad de actualizacion de informacion de la vista del empleado | |
-|COMPLETADO| Si un empleado es eliminado tambien deben de ser eliminadas sus capacitaciones | |
-|COMPLETADO| Modificar error.php | |
-|COMPLETADO| Si un empleado se deshabilita tambien debe de deshabilitar el usuario | |
-|COMPLETADO| Mostrar la cantidad de puestos en una area | |
-|COMPLETADO| Poder definir una hora en candidatos | |
-|COMPLETADO| Funcionalidad de muestra de numero de capacitaciones en un empleado| |
-|COMPLETADO| Funcionalidad de muestra de numero y informacion de todas las capacitaciones de un empleado en overview | |
-|COMPLETADO| Cambiar modales por mas anchos | |
-|COMPLETADO| Muestra de informacion faltante en empleado | |
-|COMPLETADO| Muestra de todos los archivos de una capacitacion  | |
-|COMPLETADO| Nueva tabla de solicitud de aspirar a convocatoria | |
-|COMPLETADO| Nueva tabla de solicitud para actualizar informacion de empleado | |
-|COMPLETADO| Funcionalidad de actualizacion de contraseña del usuario desde la vista del empleado | |
-|COMPLETADO| Un empleado podra aplicar a la convocatoria | |
-|COMPLETADO| Una convocatoria podra mostrar la cantidad de aspirantes a ella y quienes | |
-|COMPLETADO| El administrador podra rechazar o aceptar el aspirante a esa convocatoria | |
-|COMPLETADO| Login sin que sea plantilla | |
-|COMPLETADO| Administrar Limites de fechas con "https://www.daterangepicker.com/" o "https://bootstrap-datepicker.readthedocs.io/en/latest/markup.html"| |
-|COMPLETADO| Validación de numero de telefono | |
-|COMPLETADO| Cerrar sesión | |
-|COMPLETADO| Manejo de sesiones | |
-|COMPLETADO| validation type user in other pages with no access for employees | |
-|COMPLETADO| El usuario podra cambiar contraseña de usuario | |
+| | Modificar error.php | |
+|ERROR| Un empleado podra aplicar a la convocatoria | |
+|PENDIENTE| Una convocatoria podra mostrar la cantidad de aspirantes a ella y quienes | |
+|ERROR| El administrador podra rechazar o aceptar el aspirante a esa convocatoria | |
+| | hacer con el "swap" que se tiene en los archivos de la carpeta "process" errores customs de login| |
+| | Al darle al ojo, y mostrar el listado de actividades relacionadas a ese cargo, agregar un boton al lado de cerrar que te permita "cambiar de pagina(modal)" hacia uno que te muestre los nombres de los empleados que tienen ese cargo | |
+| | Crear boton de ojo que te permita ver los empleados que tienen ese puesto en particular | |
+| | En usuarios, mas especificamente en la funcion de actualizacion, hay que añadir try catch debido a que si se cambia el nombre a uno que ya existe marcara error, entonces con "swap" podremos almenos darle uno custom | |
+| | En empleados añadir try catch al momento de subir y actualizar datos debido a que el nss y rfc son datos unicos y marcara error | |
+| | Capacitaciones, finalizar el funcionamiento de poder seleccionar varios empleados al momento de crear una capacitacion, asi creando la misma capacitacion para cada empleado seleccionado | |
+| | Convocatorias, finalizar funcionamiento de poder seleccionar varias areas, puestos y/o cargos al momento de crear una convocatoria, asi insertando varias relaciones y pueda filtrar la convocatoria de mejor manera | |
+| | validar si la convocatoria fue eliminada | |
+
+
+
+> Modulos Admin
+
+| STATUS | MODULO | '#' PRUEBAS  |
+| :---: | :---: | :---: |
+| 90% | Login | |
+| 70% | Overview | |
+| 90% | Cargos | |
+| 100% | Actividades | |
+| 90% | Puestos | |
+| 100% | Areas | |
+| 90% | Usuarios | |
+| 100% | Candidatos
+| 90% | Empleados | |
+| 85% | Capacitaciones | |
+| 70% | Convocatorias | |
+
+> Modulos Empleado
+
+| STATUS | MODULO | '#' PRUEBAS  |
+| :---: | :---: | :---: |
+| 80% | Overview | |
+| 80% | Convocatorias | |

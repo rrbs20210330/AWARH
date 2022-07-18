@@ -29,14 +29,8 @@ require('process/update.php');
                     $id = $row->id_activity;
                     $nombre = $row->t_name;
                     $description = $row->t_description;
-                    $object = $DataBase->read_single_record_relation_charge_activity($id) ? $DataBase->read_single_record_relation_charge_activity($id)->fk_charge : 0;
-                    $charge;
-                    
-                    if(intval($object) === 0){
-                        $charge = "Ninguno";
-                    }else{
-                        $charge = $DataBase->read_single_record_charges(intval($object))->t_name;
-                    }
+                    $charge_id = $DataBase->read_single_record_relation_charge_activity($id) ? $DataBase->read_single_record_relation_charge_activity($id)->fk_charge : 0;
+                    $charge = $charge_id == 0 ? "Ninguno" : ($DataBase->read_single_record_charges($charge_id) ? $DataBase->read_single_record_charges($charge_id)->t_name : "Ninguno");
             ?>
             <tr>
                 <td>
@@ -72,13 +66,13 @@ require('process/update.php');
       <div class="modal-body">
       <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
         <div class="row needs-validation" novalidate>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label >Nombre </label>
             <input type="text" class="form-control" id="name" name="name">
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
             <label >Descripción </label>
-            <input type="text" class="form-control" id="description" name="description" required>
+            <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
             </div>
             <div class="col-sm-12">
                 <center><label>Cargo</label></center>
@@ -127,19 +121,19 @@ require('process/update.php');
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Edición de Actividades</h5>
+            <h5 class="modal-title">Edición de Actividad</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
         <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                 <label >Nombre </label>
                 <input value="<?php echo $nombre?>"type="text" class="form-control" id="name" name="name" required>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                 <label >Descripción </label>
-                <input value="<?php echo $description ?>"type="text" class="form-control" id="description" name="description" required>
+                <textarea class="form-control" id="description" name="description" required rows="1"><?php echo $description ?></textarea>
                 </div>
                 <div class="col-sm-12">
                     <label>Cargo </label>

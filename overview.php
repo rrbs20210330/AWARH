@@ -156,11 +156,11 @@ if($tipo == 1){?>
               <center><label for="">Contacto</label></center>
               <div class="col-sm-6">
                 <label>Teléfono </label>
-                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="" min="1111111111" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="<?php echo $employee_info->t_phone_number ?>" min="1111111111" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-6">
                 <label >Correo Electrónico</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo $employee_info->t_email ?>" required>
               </div>           
             </div>
             <br> 
@@ -168,23 +168,23 @@ if($tipo == 1){?>
               <center><label for="">Domicilio</label></center>
               <div class="col-sm-4">
                 <label>Calle</label>
-                <input type="text" class="form-control" id="street" name="street" required value="">
+                <input type="text" class="form-control" id="street" name="street" required value="<?php echo $employee_info->t_street ?>">
               </div>
               <div class="col-sm-4">
                 <label>Número Exterior</label>
-                <input type="number" class="form-control" id="no_exterior" name="no_exterior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input type="text" class="form-control" id="no_exterior" value="<?php echo $employee_info->t_no_exterior ?>" name="no_exterior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-4">
                 <label >Número Interior</label>
-                <input type="number" class="form-control" id="no_interior" name="no_interior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input type="text" class="form-control" id="no_interior" value="<?php echo $employee_info->t_no_interior ?>" name="no_interior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-4">
                 <label >Colonia</label>
-                <input type="text" class="form-control" id="colony" name="colony" required>
+                <input type="text" class="form-control" id="colony" name="colony" required value="<?php echo $employee_info->t_colony ?>">
               </div>
               <div class="col-sm-8">
                 <label>Referencias</label>
-                <textarea class="form-control" name="references" id="references" cols="30" rows="1"></textarea>
+                <textarea class="form-control" name="references" id="references" cols="30" rows="1"><?php echo $employee_info->t_references ?></textarea>
               </div>
             </div>
             <input type="hidden" name="typeOp" value="12">

@@ -121,7 +121,9 @@
                     $source = $_FILES["file"]["tmp_name"][$key];
                     $file_type = $_FILES['file']['type'][$key];
                     list($type, $extension) = explode('/', $file_type);
-                    if($extension !== 'pdf' || $extension !== 'jpg' || $extension !== 'png' || $extension !== 'jpeg'){
+                    if($extension === 'pdf' || $extension === 'jpg' || $extension === 'png' || $extension === 'jpeg'){
+                        continue;
+                    }else{
                         echo "<script> swal({
                             title: 'Ups!',
                             text: 'Parece que un archivo no es admitible, aregurate de que todos los archivos subidos tengan las extensiones: jpg, png, jpge o pdf.',
@@ -201,7 +203,7 @@
                 $file_type = $_FILES['photo']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
                 
-                if($extension !== 'jpg' || $extension !== 'png' || $extension !== 'jpeg'){
+                if($extension === 'jpg' || $extension === 'png' || $extension === 'jpeg'){ continue;}else{
                     array_push($errors_files, 'La extensión de la fotografia debe de ser: jpg, jpeg o png.\n');
                     break;
                 }
@@ -271,7 +273,6 @@
             for ($i=0; $i <= count($errors_files)-1; $i++) { 
                 $text .= $errors_files[$i];
             }
-            echo $text;
             echo "<script> swal({
                 title: 'Ups!',
                 text: '$text',
@@ -345,7 +346,19 @@
                 $source = $_FILES["archivo"]["tmp_name"][$key];
                 $file_type = $_FILES['archivo']['type'][$key];
                 list($type, $extension) = explode('/', $file_type);
-                if($extension !== 'jpg' || $extension !== 'png' || $extension !== 'jpeg'){
+                if($extension === 'jpg' || $extension === 'png' || $extension === 'jpeg'){
+                    
+                    $directorio = 'files/'; 
+                    if(!file_exists($directorio)){
+                        mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
+                    }
+                    
+                    $target_path = $directorio . $filename . '.' . $extension;
+                    $file_path = 'files/'.$filename.'.'.$extension;
+                    if(move_uploaded_file($source, $target_path)) {	} else {
+                        echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
+                    }
+                }else{
                     echo "<script> swal({
                         title: 'Ups!',
                         text: 'La extensión de la imagen debe de ser: jpg, jpeg o png.',
@@ -353,16 +366,6 @@
                         button: 'Ok!',
                     });</script>"; 
                     return;
-                }
-                $directorio = 'files/'; 
-                if(!file_exists($directorio)){
-                    mkdir($directorio, 0777) or die("No se puede crear el directorio de extracci&oacute;n");	
-                }
-                
-                $target_path = $directorio . $filename . '.' . $extension;
-                $file_path = 'files/'.$filename.'.'.$extension;
-                if(move_uploaded_file($source, $target_path)) {	} else {
-                    echo "Ha ocurrido un error, por favor inténtelo de nuevo.<br>";
                 }
             }
         }

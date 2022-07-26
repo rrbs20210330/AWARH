@@ -134,11 +134,11 @@ require('process/update.php');
                 </div>
                 <div class="col-sm-4">
                 <label>Número Exterior</label>
-                <input type="number" class="form-control" id="no_exterior" name="no_exterior" required>
+                <input type="text" class="form-control" id="no_exterior" name="no_exterior" required>
                 </div>
                 <div class="col-sm-4">
                 <label >Número Interior</label>
-                <input type="number" class="form-control" id="no_interior" name="no_interior" required>
+                <input type="text" class="form-control" id="no_interior" name="no_interior" required>
                 </div>
                 <div class="col-sm-4">
                 <label >Colonia</label>

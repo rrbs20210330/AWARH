@@ -226,7 +226,6 @@ CREATE TABLE IF NOT EXISTS `request_info_employees`(
     `t_references` VARCHAR(100),
     `i_status` INT NOT NULL,
     `d_registry_date` date NOT NULL,
-    `t_notice`VARCHAR(200),
     `b_deleted` BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (`fk_employee`) REFERENCES `employees`(`id_employee`),
     PRIMARY KEY (`id_request`)
@@ -445,25 +444,38 @@ CREATE PROCEDURE procedure_update_candidate(`id` int,`name` VARCHAR(100),`phone_
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`d_dates` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200), `charge` INT, `area` INT) 
+CREATE PROCEDURE procedure_new_announcement(`name` VARCHAR(100),`description` VARCHAR(100),`d_dates` VARCHAR(100),`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200),`file_name` VARCHAR(200),`file_path` VARCHAR(200)) 
 	BEGIN 
 		INSERT INTO `files`(`t_name`, `t_path`) VALUES (`file_name`, `file_path`);
 		SELECT MAX(`id_file`) INTO @id_file_announcement FROM `files`;
 		INSERT INTO `announcements`(`t_name`, `t_description`, `d_dates`,`t_process`, `t_profile`,`t_functions`, `b_active`,`fk_file`)VALUES (`name`, `description`, `d_dates`,`process`, `profile`,`functions`,true, @id_file_announcement);
-        SELECT MAX(`id_announcement`) INTO @id_announcement FROM `announcements`;
-        INSERT INTO `announcements_positions`(`fk_position`, `fk_announcement`) VALUES (`position`, @id_announcement);
-        INSERT INTO `announcements_charges`(`fk_charge`, `fk_announcement`) VALUES (`charge`, @id_announcement);
-        INSERT INTO `announcements_areas`(`fk_area`, `fk_announcement`) VALUES (`area`, @id_announcement);
-        
 	END$
 
 DELIMITER $
-CREATE PROCEDURE procedure_update_announcement(`id` INT,`name` VARCHAR(100),`description` VARCHAR(100),`d_dates` VARCHAR(100),`position` INT,`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200), `charge` INT, `area` INT) 
+CREATE PROCEDURE procedure_new_announcement_positions(`position` INT)
+  BEGIN
+  SELECT MAX(`id_announcement`) INTO @id_announcement FROM `announcements`;
+ INSERT INTO `announcements_positions`(`fk_position`, `fk_announcement`) VALUES (`position`, @id_announcement);
+ END$
+ 
+DELIMITER $
+CREATE PROCEDURE procedure_new_announcement_charges(`charge` INT)
+  BEGIN
+  SELECT MAX(`id_announcement`) INTO @id_announcement FROM `announcements`;
+   INSERT INTO `announcements_charges`(`fk_charge`, `fk_announcement`) VALUES (`charge`, @id_announcement);
+   END$
+
+DELIMITER $
+CREATE PROCEDURE procedure_new_announcement_areas(`area` INT)
+  BEGIN
+  SELECT MAX(`id_announcement`) INTO @id_announcement FROM `announcements`;
+  INSERT INTO `announcements_areas`(`fk_area`, `fk_announcement`) VALUES (`area`, @id_announcement);
+ END$
+
+DELIMITER $
+CREATE PROCEDURE procedure_update_announcement(`id` INT,`name` VARCHAR(100),`description` VARCHAR(100),`d_dates` VARCHAR(100),`process` VARCHAR(200),`profile` VARCHAR(200), `functions` VARCHAR(200)) 
 	BEGIN 
 		UPDATE `announcements` SET `t_name` = `name`, `t_description` = `description`, `d_dates` = `d_dates`,`t_process` = `process`, `t_profile` = `profile`,`t_functions` = `functions` WHERE `id_announcement` = `id`;
-        UPDATE `announcements_positions` SET `fk_position` = `position` WHERE `fk_announcement` = `id`;
-        UPDATE `announcements_charges` SET`fk_charge` = `charge` WHERE `fk_announcement` = `id`;
-        UPDATE `announcements_areas` SET `fk_area` = `area` WHERE `fk_announcement` = `id`;
         
 	END$
 
@@ -477,7 +489,7 @@ CREATE PROCEDURE procedure_update_activity(`id` INT,`name` VARCHAR(100),`descrip
 -- VIEWS
 
 CREATE VIEW view_info_employee as 
-SELECT e.*, a.id_address, a.t_no_interior,a.t_no_exterior,a.t_references,a.t_street,a.t_colony, ec.fk_charge, ep.fk_position FROM employees as e INNER JOIN addresses AS a on e.fk_address = a.id_address LEFT JOIN employees_charges as ec on e.id_employee = ec.fk_employee LEFT JOIN employees_positions as ep on e.id_employee = ec.fk_employee;
+SELECT DISTINCT e.*, a.id_address, a.t_no_interior,a.t_no_exterior,a.t_references,a.t_street,a.t_colony, ec.fk_charge, ep.fk_position FROM employees as e INNER JOIN addresses AS a on e.fk_address = a.id_address LEFT JOIN employees_charges as ec on e.id_employee = ec.fk_employee LEFT JOIN employees_positions as ep on e.id_employee = ec.fk_employee;
 
 CREATE VIEW view_list_charges as 
 select id_charge AS chargeID,t_description AS chargeDesc,t_name AS chargeName from charges c WHERE b_deleted = 0;
@@ -490,6 +502,12 @@ SELECT t.id_training, t.t_name,  t.d_dates, t_description, e.id_employee as empl
 
 CREATE VIEW view_number_activities_charges as
 select c.fk_charge, c.fk_activity, a.t_name from charges_activities c INNER JOIN activities a on id_activity = c.fk_activity WHERE c.b_deleted = 0;
+
+CREATE VIEW view_number_employees_charges as
+select ec.fk_charge, ec.fk_employee, e.id_employee, CONCAT(e.t_names,e.t_last_names) as full_name from employees_charges ec INNER JOIN employees e on id_employee = ec.fk_employee WHERE ec.b_deleted = 0;
+
+CREATE VIEW view_number_employees_positions as
+select ep.fk_position, ep.fk_employee, e.id_employee, CONCAT(e.t_names,e.t_last_names) as full_name from employees_positions ep INNER JOIN employees e on id_employee = ep.fk_employee WHERE ep.b_deleted = 0;
 
 CREATE VIEW view_number_positions_areas as
 select a.fk_area, a.fk_position, p.t_name from positions_areas a INNER JOIN positions p on id_position = a.fk_position WHERE a.b_deleted = 0;

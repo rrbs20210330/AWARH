@@ -1,6 +1,5 @@
 <?php
 include("components/header.php");
-include('config/db.php');
 $DataBase = new db();
 if($tipo === 2)header('Location: error.php');
 require('process/new.php');
@@ -49,7 +48,7 @@ require('process/update.php');
                 <td>
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditCharge-<?php echo $id?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteCharge-<?php echo $id?>"><i class="bi-trash"></i></a>
-                    <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeActivitiesCharge-<?php echo $id?>"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeInfoCharge-<?php echo $id?>"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>
             <?php }?>
@@ -178,26 +177,43 @@ require('process/update.php');
         $nombre = $row->chargeName;
 
 ?>
-<div class="modal fade" id="SeeActivitiesCharge-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+<div class="modal fade" id="SeeInfoCharge-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Actividades del cargo <strong><?php echo $nombre ?></strong></h5>
+                <h5 class="modal-title" id="exampleModalLabel">Información del cargo <strong><?php echo $nombre ?></strong></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body"> 
-                <div class="row">
-                    <?php $l_activities = $DataBase->read_activities_charges($id);
-                    $cont = 0;
-                    if($l_activities->num_rows === 0){?>
-                        <p>Este cargo no tiene ninguna actividad.</p>
-                    <?php }else{
-                        while($row = mysqli_fetch_object($l_activities)){ ?>
-                            <p><?php 
-                            $cont +=1;
-                            echo '<strong>'.$cont.'.</strong> '.$row->t_name;?></p><br>
-                        <?php } 
-                    }?>
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <center><h3>Actividades</h3></center>
+                        <?php $l_activities = $DataBase->read_activities_charges($id);
+                        $cont = 0;
+                        if($l_activities->num_rows === 0){?>
+                            <p>Este cargo no tiene ninguna actividad.</p>
+                        <?php }else{
+                            while($row = mysqli_fetch_object($l_activities)){ ?>
+                                <p><?php 
+                                $cont +=1;
+                                echo '<strong>'.$cont.'.</strong> '.$row->t_name;?></p>
+                            <?php } 
+                        }?>
+                    </div>
+                    <div class="col">
+                        <center><h3>Empleados</h3></center>
+                        <?php $l_activities = $DataBase->read_employees_charges($id);
+                        $cont = 0;
+                        if($l_activities->num_rows === 0){?>
+                            <p>Este cargo no lo tiene ningun empleado.</p>
+                        <?php }else{
+                            while($row = mysqli_fetch_object($l_activities)){ ?>
+                                <p><?php 
+                                $cont +=1;
+                                echo '<strong>'.$cont.'.</strong> '.$row->full_name;?></p>
+                            <?php } 
+                        }?>
+                    </div>
                 </div>
                 <br>
             </div>

@@ -1,35 +1,69 @@
 <?php
 include("components/header.php");
-include('config/db.php');
-include('process/new.php');
-include('process/update.php');
-//la  creacion para ver toda la Información junta como reporte
-
 $DataBase = new db();
 $id = $_GET['id'];
 $announcement = $DataBase->read_single_record_announcement($id);
+$va = $DataBase->read_single_record_announcement($id) ? true : false;
+
+if(!$va)echo "<script> window.location.href = 'error.php';</script>";
+include('process/new.php');
+include('process/update.php');
+
+$estado = $announcement->b_active;
+if($tipo === 2){
+  $id_employee = $DB->read_single_record_user_employee($id_usuario)->fk_employee;
+  $employee_info = $DB->read_info_employee(intval($id_employee));
+  $area_id = $DataBase->read_single_record_positions_areas($employee_info->fk_position) ? $DataBase->read_single_record_positions_areas($employee_info->fk_position)->fk_area : null;
+  if(!$estado) header('Location: announcements.php');
+  $positions = $DataBase->read_single_record_announcement_position($id) ? $DataBase->read_single_record_announcement_position($id) : null;
+  $charges = $DataBase->read_single_record_announcement_charge($id) ? $DataBase->read_single_record_announcement_charge($id) : null;
+  $areas = $DataBase->read_single_record_announcement_area($id) ? $DataBase->read_single_record_announcement_area($id) : null;
+  $position = false;
+  $charge = false;
+  $area = false;
+  if($positions !== null){
+    while ($row = mysqli_fetch_object($positions)) {
+      $id_position = intval($row->fk_position);
+      if($id_position === intval($employee_info->fk_position)){
+        $position = true;
+      }
+    }
+  }
+  if($charges !== null){
+    while ($row = mysqli_fetch_object($charges)) {
+      $id_charge = intval($row->fk_charge);
+      if($id_charge === intval($employee_info->fk_charge)){
+        $charge = true;
+      }
+    }
+  }
+  if($areas !== null){
+    while ($row = mysqli_fetch_object($areas)) {
+      $id_area = intval($row->fk_area);
+      if($id_area === intval($area_id)){
+        $area = true;
+      }
+    }
+  }
+  // if($position  || $charge || $area || ($positions === null && $charges === null && $areas === null)) header('Location: announcements.php');
+}
+
 $nombre = $announcement->t_name;
 $descripcion = $announcement->t_description;
 $fechadeinicio = $announcement->d_dates;
 $Procedimiento = $announcement->t_process;
 $Perfilsolicitado = $announcement->t_profile;
 $funciones = $announcement->t_functions;
-$estado = $announcement->b_active;
+
 $file = $announcement->fk_file;
-$path_file = $DataBase->read_single_record_files($file)->t_path;;
-if($tipo == 2){
-  $id_user = $_SESSION['id_usuario'];
-  $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
-  $employee_info = $DataBase->read_info_employee(intval($id_employee));
-  $position = $DataBase->read_single_record_announcement_position($id) ? $DataBase->read_single_record_announcement_position($id)->fk_position : 0;
-  $charge = $DataBase->read_single_record_announcement_charge($id) ? $DataBase->read_single_record_announcement_charge($id)->fk_charge : 0;
-  if(!$estado)echo "estado";
-  // if(intval($position) !== intval($employee_info->fk_position) || intval($charge) !== intval($employee_info->fk_charge))echo $employee_info->fk_position."-".$position."-".$employee_info->fk_charge."-".$charge;
-}
+$path_file = $DB->read_single_record_files($file)->t_path;;
 ?>
 <br>
 
 <div class="container">
+  <a href="announcements.php" class="btn btn-dark">Regresar</a>
+  <br>
+  <br>
   <div class="card-group">
     <div class="card" >
       <center><div class="card-header"><h3>Informe de la Convocatoria</h3> </div></center>
@@ -60,10 +94,10 @@ if($tipo == 2){
       </thead>
       <tbody>
         <?php 
-        $l_em_ann_list = $DataBase->read_data_table_announcements_employees($id);
+        $l_em_ann_list = $DB->read_data_table_announcements_employees($id);
         while ($row = mysqli_fetch_object($l_em_ann_list)) { 
-          $employee_info = $DataBase->read_info_employee($row->fk_employee);
-          $estado_e = intval($row->b_status);
+          $employee_info = $DB->read_info_employee($row->fk_employee);
+          $estado_e = intval($row->i_status);
           ?>
           <tr>
             <td>
@@ -96,10 +130,10 @@ if($tipo == 2){
     </table>
 
     <?php 
-        $l_em_ann_list = $DataBase->read_data_table_announcements_employees($id);
+        $l_em_ann_list = $DB->read_data_table_announcements_employees($id);
         while ($row = mysqli_fetch_object($l_em_ann_list)) { 
-          $employee_info = $DataBase->read_info_employee($row->fk_employee);
-          $estado_e = intval($row->b_status);
+          $employee_info = $DB->read_info_employee($row->fk_employee);
+          $estado_e = intval($row->i_status);
           if($estado_e == 2){?>
             <div class="modal fade" id="Accept-<?php echo $employee_info->id_employee ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -159,8 +193,8 @@ if($tipo == 2){
             <?php } ?>
         <?php } ?>
   <?php }else{
-    $consult = $DataBase->read_single_record_employee_announcement($id_employee);
-    $is_applied = $consult ? intval($consult->b_status) : null;?>
+    $consult = $DB->read_single_record_employee_announcement($id_employee, $id);
+    $is_applied = $consult ? intval($consult->i_status) : null;?>
     <?php if($is_applied === null){?>
       <form method="post">
         <input type="hidden" name="announcement" value="<?php echo $id ?>">
@@ -183,11 +217,7 @@ if($tipo == 2){
   
   <?php } }?>
 </div>
-
-
-
-
-<?php
+<?php 
 include("components/footer.php");
 ?>
 

@@ -1,6 +1,5 @@
 <?php
 include("components/header.php");
-include('config/db.php');
 $DataBase = new db();
 if($tipo === 2)header('Location: error.php');
 require('process/new.php');

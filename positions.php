@@ -1,6 +1,5 @@
 <?php
 include("components/header.php");
-include('config/db.php');
 $DataBase = new db();
 if($tipo === 2)header('Location: error.php');
 require('process/new.php');
@@ -48,6 +47,7 @@ require('process/update.php');
             <td>
               <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditPosition-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
               <a class="btn btn-danger btn-sm "data-bs-toggle="modal" data-bs-target="#DeletePosition-<?php echo $id ?>"><i class="bi-trash"></i></a>
+              <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeInfoPosition-<?php echo $id?>"><i class="bi bi-eye"></i></a>
             </td>
           </tr>
         <?php }?>
@@ -206,6 +206,47 @@ require('process/update.php');
       </div>
     </div>
   </div>
+<?php } ?>
+
+
+
+
+
+<?php 
+    $l_positions = $DataBase->read_data_table('positions');
+    while ($row = mysqli_fetch_object($l_positions)) {
+      $id = $row->id_position;
+?>
+<div class="modal fade" id="SeeInfoPosition-<?php echo $id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información del Puesto <strong><?php echo $nombre ?></strong></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> 
+              <div class="col">
+                  <center><h3>Empleados</h3></center>
+                  <?php $l_activities = $DataBase->read_employees_positions($id);
+                  $cont = 0;
+                  if($l_activities->num_rows === 0){?>
+                      <p>Este puesto no lo tiene ningun empleado.</p>
+                  <?php }else{
+                      while($row = mysqli_fetch_object($l_activities)){ ?>
+                          <p><?php 
+                          $cont +=1;
+                          echo '<strong>'.$cont.'.</strong> '.$row->full_name;?></p>
+                      <?php } 
+                  }?>
+              </div>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php } ?>
 <script>
   var elemento = document.getElementById('position_list');

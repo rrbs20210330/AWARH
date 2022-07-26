@@ -1,10 +1,7 @@
 <?php
 include("components/header.php");
-include('config/db.php');
 $DataBase = new db();
-?>
-
-<?php if($tipo === 1){ ?>
+if($tipo === 1){ ?>
   <center><h1>Convocatorias</h1></center>
 <?php 
 require('process/new.php');
@@ -36,7 +33,7 @@ require('process/update.php');}else{ ?>
         $path_file = $DataBase->read_single_record_files($file)->t_path;
     ?>
       <div class="col">
-        <div class="card text-bg-dark mb-3" style="max-width: 18rem ; ">
+        <div class="card text-bg-dark mb-3" style="max-width: 90% ; ">
           <div class="card-header">
             <center>
               <a href="announcement.php?id=<?php echo $id ?>">
@@ -49,20 +46,21 @@ require('process/update.php');}else{ ?>
           <div class="card-body">
             <p class="card-text"><?php echo $description ?></p>
             <br>
-            <p class="card-text">
+            
+          </div>
+          <div class="card-footer">
+            <form method="post">
               <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteAnnouncement-<?php echo $id ?>"><i class="bi-trash"></i></a>
-              <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eA-<?php echo $id ?>"><i class="bi bi-pencil-square"></i></a>
-              <form method="post">
-                <input type="hidden" name="update" value="1">
-                <input type="hidden" name="id" value="<?php echo $id ?>">
-                <input type="hidden" name="typeOp" value="12">
+              <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eA-<?php echo $id ?>"><i class="bi bi-pencil-square"></i></a>           
+              <input type="hidden" name="update" value="1">
+              <input type="hidden" name="id" value="<?php echo $id ?>">
+              <input type="hidden" name="typeOp" value="12">
               <?php if ($active == 0){ ?>
-                <button type="submit" class="btn btn-secondary"><i class="bi bi-eye-slash-fill"></i></button>
-                <?php }else{ ?>
-                  <button type="submit" class="btn btn-success"><i class="bi bi-eye-fill"></i></button>
-                  <?php }?>
-              </form>
-            </p>
+              <button type="submit" class="btn btn-secondary"><i class="bi bi-eye-slash-fill"></i></button>
+              <?php }else{ ?>
+              <button type="submit" class="btn btn-success"><i class="bi bi-eye-fill"></i></button>
+              <?php }?>
+            </form>
           </div>
         </div>     
       </div>
@@ -72,22 +70,50 @@ require('process/update.php');}else{ ?>
           if(mysqli_num_rows($l_annoucements) === 0) {?> <center><h3>Aún no hay ninguna convocatoria disponible para ti.</h3></center> <?php } ?>
         <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php 
-          $id_user = $_SESSION['id_usuario'];
-          $id_employee = $DataBase->read_single_record_user_employee($id_user)->fk_employee;
+          $id_employee = $DataBase->read_single_record_user_employee($id_usuario)->fk_employee;
           $employee_info = $DataBase->read_info_employee(intval($id_employee));
+          $area_id = $DataBase->read_single_record_positions_areas($employee_info->fk_position) ? $DataBase->read_single_record_positions_areas($employee_info->fk_position)->fk_area : 0;
           $count = 0;
           while ($row = mysqli_fetch_object($l_annoucements)) {
             $id = $row->id_announcement;
             $name = $row->t_name;
             $description = $row->t_description;
             $active = $row->b_active;
-            $position = $DataBase->read_single_record_announcement_position($id) ? $DataBase->read_single_record_announcement_position($id)->fk_position : 0;
-            $charge = $DataBase->read_single_record_announcement_charge($id) ? $DataBase->read_single_record_announcement_charge($id)->fk_charge : 0;
+            $positions = $DataBase->read_single_record_announcement_position($id) ? $DataBase->read_single_record_announcement_position($id) : null;
+            $charges = $DataBase->read_single_record_announcement_charge($id) ? $DataBase->read_single_record_announcement_charge($id) : null;
+            $areas = $DataBase->read_single_record_announcement_area($id) ? $DataBase->read_single_record_announcement_area($id) : null;
             if($active){
-              if(intval($position) === intval($employee_info->fk_position) || intval($charge) === intval($employee_info->fk_charge)){?>
+              $position = false;
+              $charge = false;
+              $area = false;
+              if($positions !== null){
+                while ($row = mysqli_fetch_object($positions)) {
+                  $id_position = intval($row->fk_position);
+                  if($id_position === intval($employee_info->fk_position)){
+                    $position = true;
+                  }
+                }
+              }
+              if($charges !== null){
+                while ($row = mysqli_fetch_object($charges)) {
+                  $id_charge = intval($row->fk_charge);
+                  if($id_charge === intval($employee_info->fk_charge)){
+                    $charge = true;
+                  }
+                }
+              }
+              if($areas !== null){
+                while ($row = mysqli_fetch_object($areas)) {
+                  $id_area = intval($row->fk_area);
+                  if($id_area === intval($area_id)){
+                    $area = true;
+                  }
+                }
+              }
+              if($position  || $charge || $area || ($positions === null && $charges === null && $areas === null)){?>
                 <?php $count += 1; ?>
                 <div class="col">
-                  <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+                  <div class="card text-bg-dark mb-3" style="max-width: 90% ; ">
                     <div class="card-header">
                       <center>
                         <a href="announcement.php?id=<?php echo $id ?>">
@@ -119,7 +145,7 @@ require('process/update.php');}else{ ?>
         <h5 class="modal-title">Nueva convocatoria </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="efe" method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');" enctype="multipart/form-data">
+      <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');" enctype="multipart/form-data">
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-6">
@@ -151,11 +177,14 @@ require('process/update.php');}else{ ?>
                     <div class="accordion-body">
                       <?php 
                         $l_position = $DataBase->read_data_table('positions');
+                        if($l_position->num_rows == 0){
+                          ?>No tienes ningun puesto, si quieres seleccionar que cierto puesto vea esta convocatoria, tendras que crear un puesto primero.
+                        <?php }else{
                         while ($row = mysqli_fetch_object($l_position)) {
                           $id = $row->id_position; 
                           $name = $row->t_name?>
                           <input type="checkbox" name="positions[]" value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
-                      <?php }?>
+                      <?php } }?>
                     </div>
                   </div>
                 </div>
@@ -174,11 +203,14 @@ require('process/update.php');}else{ ?>
                     <div class="accordion-body">
                       <?php 
                         $l_charge = $DataBase->read_data_table('charges');
+                        if($l_charge->num_rows == 0){
+                          ?>No tienes ningun cargo, si quieres seleccionar que cierto cargo vea esta convocatoria, tendras que crear un cargo primero.
+                        <?php }else{
                         while ($row = mysqli_fetch_object($l_charge)) {
                           $id = $row->id_charge; 
                           $name = $row->t_name?>
                           <input type="checkbox" name="charges[]" value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
-                      <?php }?>
+                      <?php } }?>
                     </div>
                   </div>
                 </div>
@@ -197,11 +229,14 @@ require('process/update.php');}else{ ?>
                     <div class="accordion-body">
                       <?php 
                         $l_area = $DataBase->read_data_table('areas');
+                        if($l_area->num_rows == 0){
+                          ?>No tienes ninguna area, si quieres seleccionar que cierta area vea esta convocatoria, tendras que crear una area primero.
+                        <?php }else{
                         while ($row = mysqli_fetch_object($l_area)) {
                           $id = $row->id_area; 
                           $name = $row->t_name?>
                           <input type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
-                      <?php }?>
+                      <?php } }?>
                     </div>
                   </div>
                 </div>
@@ -240,6 +275,42 @@ require('process/update.php');}else{ ?>
 
 <?php 
   $l_annoucements = $DataBase->read_data_table('announcements');
+  function isChecked(int $id, int $id_announcement, int $action)
+  {
+      $DataBase = new db();
+      switch ($action) {
+          case 1:
+              $consult = $DataBase->read_single_record_announcement_position($id_announcement);
+              break;
+          case 2:
+              $consult = $DataBase->read_single_record_announcement_charge($id_announcement);
+              break;
+          case 3:
+              $consult = $DataBase->read_single_record_announcement_area($id_announcement);
+              break;
+          default:
+              throw new Exception("Esa acción  no existe", 1);
+              break;
+      }
+      
+      while ($row = mysqli_fetch_object($consult)) {
+          switch ($action) {
+              case 1:
+                  $id_consult = intval($row->fk_position);
+                  break;
+              case 2:
+                  $id_consult = intval($row->fk_charge);
+                  break;
+              case 3:
+                  $id_consult = intval($row->fk_area);
+                  break;
+          }
+        if($id_consult === $id){
+          return true;
+        }
+      }
+      return false;
+  }
   while ($row = mysqli_fetch_object($l_annoucements)) {
     $ida = $row->id_announcement;
     $name = $row->t_name;
@@ -258,7 +329,7 @@ require('process/update.php');}else{ ?>
           <h5 class="modal-title">Editar convocatoria </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="efe" method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
+        <form method="post" onsubmit="return confirm('Estás seguro?\nTus datos serán guardados.');">
           <div class="modal-body">
           
             <div class="row">
@@ -294,7 +365,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_position)) {
                           $id = $row->id_position; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="positions[]" value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input type="checkbox" name="positions[]" disabled <?php if(isChecked($id,$ida,1)){ ?> checked <?php }?> value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php }?>
                     </div>
                   </div>
@@ -317,7 +388,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_charge)) {
                           $id = $row->id_charge; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="charges[]" value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input type="checkbox" name="charges[]" disabled <?php if(isChecked($id,$ida,2)){ ?> checked <?php }?> value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php }?>
                     </div>
                   </div>
@@ -340,7 +411,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_area)) {
                           $id = $row->id_area; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input type="checkbox" name="areas[]" disabled <?php if(isChecked($id,$ida,3)){ ?> checked <?php }?>value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php }?>
                     </div>
                   </div>

@@ -94,3 +94,17 @@
   .activo {
     display: block;
   }
+
+  thead{
+    background-color: #00252E;
+    border-bottom: solid 5px #0f362d;
+    color:white;
+  }
+  tr:nth-child(even){
+      background-color: #fff;
+  }
+  tr:hover td{
+      background-color: #949494;
+      color:white;
+  }
+  

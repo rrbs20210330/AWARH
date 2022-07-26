@@ -44,8 +44,16 @@
             case 14:
                 update_status_employee_announcement($_POST);
                 break;
+            case 15: 
+                update_request_data_employee($_POST);
+                break;
             default:
-                header('location: ../error.php');
+                echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
                 break;
         }
         
@@ -63,7 +71,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_status_user($data){
@@ -78,7 +91,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_status_announcement($data){
@@ -93,7 +111,43 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
+        }
+    }
+    function update_request_data_employee($data)
+    {
+        $DataBase = new db();
+        $id = intval($data['id']);
+        $action = intval($data['action']);
+        $res = $DataBase->act_data_employee_adm($id, $action);
+        if($res){
+            if($action === 1){
+                echo "<script> swal({
+                    title: 'Listo!',
+                    text: 'Se ha actualizado la información correctamente .',
+                    icon: 'success',
+                    button: 'Ok!',
+                  });</script>";
+            }else{
+                echo "<script> swal({
+                    title: 'Listo!',
+                    text: 'La peticion fue rechazada correctamente.',
+                    icon: 'success',
+                    button: 'Ok!',
+                  });</script>";
+            }
+        }else{
+            echo "<script> swal({
+                title: 'Ups!',
+                text: 'Parece ser que algo salio mal, intenta mas tarde.',
+                icon: 'error',
+                button: 'Ok!',
+            });</script>";
         }
     }
     function update_user($data){
@@ -101,16 +155,30 @@
         $id = intval($data['id']);
         $user = $data['user'];
         $password = $data['password'];
-        $res = $DataBase->update_t_users($id, $user,$password);
-        if($res){
+        try {
+            $res = $DataBase->update_t_users($id, $user,$password);
+            if($res){
+                echo "<script> swal({
+                    title: 'Listo!',
+                    text: 'El usuario seleccionado fue editado correctamente.',
+                    icon: 'success',
+                    button: 'Ok!',
+                });</script>";
+            }else{
+                echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
+            }
+        } catch (\Throwable $th) {
             echo "<script> swal({
-                title: 'Listo!',
-                text: 'El usuario seleccionado fue editado correctamente.',
-                icon: 'success',
+                title: 'Ups!',
+                text: 'Parece ser que ese nombre de usuario ya existe, intenta con uno diferente.',
+                icon: 'error',
                 button: 'Ok!',
-              });</script>";
-        }else{
-            header('location: ../error.php');
+            });</script>";
         }
     }
     function update_trainings($data){
@@ -128,7 +196,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                title: 'Ups!',
+                text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                icon: 'error',
+                button: 'Ok!',
+            });</script>";
         }
     }
     function update_charge($data){
@@ -145,7 +218,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_employee($data){
@@ -165,7 +243,8 @@
         $position = intval($data['position']);
         $nss = $DataBase->sanitize($data['nss']);
         $rfc = $DataBase->sanitize($data['rfc']);
-        $res = $DataBase->proEditEmployee($id,$names, $last_names, $birthday, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position,$nss,$rfc);
+        try {
+            $res = $DataBase->proEditEmployee($id,$names, $last_names, $birthday, $phone_number,$email, $no_interior, $no_exterior, $references, $street, $colony, $charge, $position,$nss,$rfc);
         if($res){
             echo "<script> swal({
                 title: 'Listo!',
@@ -174,7 +253,20 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
+        }
+        } catch (\Throwable $th) {
+            echo "<script> swal({
+                title: 'Ups!',
+                text: 'Parece ser que el Numero de Seguridad Social o El RFC ya existe, verifica la informacion ingresada.',
+                icon: 'error',
+                button: 'Ok!',
+            });</script>";
         }
     }
     function update_position($data){
@@ -211,7 +303,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_candidate($data){
@@ -232,7 +329,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_announcement($data){
@@ -241,14 +343,11 @@
         $name = $DataBase->sanitize($_POST['name']);
         $description = $DataBase->sanitize($_POST['description']);
         $dates = $DataBase->sanitize($_POST['dates']);
-        $position = intval($_POST['position']);
-        $charge = intval($_POST['charge']);
-        $area = intval($_POST['area']);
         $process = $DataBase->sanitize($_POST['process']);
         $profile = $DataBase->sanitize($_POST['profile']);
         $functions  = $DataBase->sanitize($_POST['functions']);
 
-        $res =$DataBase->update_t_announcements($id,$name,$description,$dates,$position,$process,$profile,$functions,$charge,$area);
+        $res =$DataBase->update_t_announcements($id,$name,$description,$dates,$process,$profile,$functions);
         if($res){
             echo "<script> swal({
                 title: 'Listo!',
@@ -257,7 +356,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_area($data){
@@ -275,7 +379,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_pass($data){
@@ -292,7 +401,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
     function update_status_employee_announcement($data){
@@ -316,7 +430,12 @@
                 button: 'Ok!',
               });</script>";
         }else{
-            header('location: ../error.php');
+            echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece ser que algo salio mal, verifica la informacion ingresada.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
         }
     }
 ?>

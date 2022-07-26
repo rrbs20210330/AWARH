@@ -10,17 +10,21 @@
   
   <script>
     
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-      document.getElementById("main").style.marginLeft = "250px";
-    }
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
-    } 
+    $user_name = document.getElementById('name-user');
+    $user_name.textContent = "<?php echo $usuario->t_user;?>";
     if(window.history.replaceState){
       window.history.replaceState(null, null, window.location.href)
     }
+    $(function(){
+      var requiredCheckboxes = $('.checkboxes :checkbox[required]');
+      requiredCheckboxes.change(function(){
+        if(requiredCheckboxes.is(':checked')) {
+            requiredCheckboxes.removeAttr('required');
+        } else {
+            requiredCheckboxes.attr('required', 'required');
+        }
+      });
+    });
     $(document).ready(function() {
         $('.userTable').DataTable();
     });

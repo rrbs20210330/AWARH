@@ -1,6 +1,5 @@
 <?php
 include("components/header.php");
-include('config/db.php');
 $DataBase = new db();
 if($tipo === 2)header('Location: error.php');
 require('process/new.php');
@@ -69,19 +68,23 @@ require('process/update.php');
               <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-areas" aria-expanded="true" aria-controls="collapseOne">
-                      Empleados
+                    
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-employee" aria-expanded="true" aria-controls="collapseOne">
+                      Empleados <?php $l_employees_select = $DataBase->read_data_table('employees');
+                        if($l_employees_select->num_rows == 0){?>   <i class="bi bi-exclamation-triangle-fill"></i><?php } ?>
                     </button>
                   </h2>
-                  <div id="collapse-areas" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
+                  <div id="collapse-employee" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body checkboxes">
                       <?php 
-                        $l_employees_select = $DataBase->read_data_table('employees');
+                        if($l_employees_select->num_rows == 0){
+                          ?><input type="checkbox" name="employee[]" required hidden>Necesitas crear un empleado primero.
+                        <?php }else{
                         while ($row = mysqli_fetch_object($l_employees_select)) {
                           $id = $row->id_employee; 
                           $name = $row->t_names.' '.$row->t_last_names?>
-                          <input type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
-                      <?php }?>
+                          <input type="checkbox" name="employee[]" value="<?php echo $id ?>" id="employee-<?php echo $id?>" required><label for="employee-<?php echo $id?>"><?php echo $name ?></label><br>
+                      <?php } }?>
                     </div>
                   </div>
                 </div>

@@ -1,6 +1,5 @@
 <?php
 include("components/header.php");
-include('config/db.php');
 $DataBase = new db();
 if($tipo === 2)header('Location: error.php');
 require('process/new.php');
@@ -34,6 +33,7 @@ require('process/update.php');
                     $email = $row->t_email;
                     $phone_number = $row->t_phone_number;
                     $id_user = $DataBase->read_single_record_employee_user($id)->fk_user;
+                    $request = $DataBase->read_single_record_request_edit_data($id) ? true : false;
             ?>
             <tr>
                 <td>
@@ -67,7 +67,7 @@ require('process/update.php');
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteEmployee-<?php echo $id ?>"><i class="bi-trash"></i></a>
                     <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeInfoEmployee-<?php echo $id ?>"><i class="bi bi-eye"></i></a>
-                    
+                    <?php if($request){?> <a class="btn btn-warning btn-sm " data-bs-toggle="modal" data-bs-target="#Request-<?php echo $id ?>"><i class="bi bi-exclamation-triangle-fill"></i></a> <?php }?>
                 </td>
             </tr>  
             <?php }?>
@@ -488,6 +488,69 @@ require('process/update.php');
             </div>
         </div>
     </div>    
+    <?php 
+    $request = $DataBase->read_single_record_request_edit_data($idL) ? true : false;
+    if($request){
+        $r_info = $DataBase->read_single_record_request_edit_data($idL);
+        $r_phone_number = $r_info->t_phone_number;
+        $r_email = $r_info->t_email;
+        $r_street = $r_info->t_street;
+        $r_no_exterior = $r_info->t_no_exterior;
+        $r_no_interior = $r_info->t_no_interior;
+        $r_colony = $r_info->t_colony;
+        $r_references = $r_info->t_references;
+        ?> 
+                        
+    <div class="modal fade" id="Request-<?php echo $idL ?>" tabindex="-1"  aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información del Empleado</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <div class="col">
+                        <center><label for="">Información Actual</label></center>
+                        <p>
+                            <strong>Email:</strong> <?php echo $employee_info->t_email; ?><br>
+                            <strong>Teléfono:</strong> <?php echo $employee_info->t_phone_number ?><br>
+                            <strong>No. Exterior:</strong> <?php echo $employee_info->t_no_exterior?><br>
+                            <strong>No. Interior:</strong> <?php echo $employee_info->t_no_interior ?><br>
+                            <strong>Referencias:</strong> <?php echo $employee_info->t_references ?><br>
+                            <strong>Calle:</strong> <?php echo $employee_info->t_street?><br>
+                            <strong>Colonia:</strong> <?php echo $employee_info->t_colony?><br>
+                        </p>    
+                    </div>
+                    <div class="col">
+                        <center><label for="">Información Nueva</label></center>
+                        <p>
+                            <strong>Email:</strong> <?php echo $r_email; ?><br>
+                            <strong>Teléfono:</strong> <?php echo $r_phone_number ?><br>
+                            <strong>No. Exterior:</strong> <?php echo $r_no_exterior?><br>
+                            <strong>No. Interior:</strong> <?php echo $r_no_interior ?><br>
+                            <strong>Referencias:</strong> <?php echo $r_references ?><br>
+                            <strong>Calle:</strong> <?php echo $r_street?><br>
+                            <strong>Colonia:</strong> <?php echo $r_colony?><br>
+                        </p>
+                    </div> 
+                </div>                 
+            </div>
+            <div class="modal-footer">
+                <form method="post">
+                    <button type="submit" name="action" class="btn btn-danger" value="0">Rechazar</button>
+                    <button type="submit" name="action" class="btn btn-success" value="1">Aceptar</button>
+                    <input type="hidden" name="typeOp" value="15">
+                    <input type="hidden" name="update" value="1">
+                    <input type="hidden" name="id" value="<?php echo $idL ?>">
+                </form>
+                
+            </div>
+            </div>
+        </div>
+    </div>    
+    
+    <?php } ?>
 <?php } ?>
 <script>
   function verificaNumeros(evt){

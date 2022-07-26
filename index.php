@@ -1,53 +1,4 @@
-<?php
-$mysqli = new mysqli("localhost", "root", "", "rh");
 
-function is_session_started()
-{
-  return session_status() === 2 ? TRUE : FALSE;
-}
-
-if (is_session_started() === true ) header('Location: overview.php');
-session_start();
-if(!empty($_SESSION['id_usuario']) && !empty($_SESSION['usuario']) && !empty($_SESSION['tipo_usuario']))header('Location: overview.php');
-
-
-if ($_POST) { //va a guardar lo que lleve en método post
-    $usuario = $_POST['user']; //$ es para indicar que es variable en php
-    $password = $_POST['password'];
-    $sql = "SELECT * FROM users  WHERE t_user = '$usuario'";
-    $resultado = $mysqli->query($sql);
-    $num = $resultado->num_rows;
-
-    if ($num > 0) {
-        $row = $resultado->fetch_assoc();
-        $password_bd = $row['t_password']; //cifrando en la bdd
-        
-        $pass_C = ($password);
-        if ($password_bd == $pass_C) { //comparar en este if, agregando un &&
-            $activo = $row['b_active'];
-            if($activo){
-                $_SESSION['id_usuario']=$row['id_user']; //
-                $_SESSION['usuario']=$row['t_user'];
-                $_SESSION['tipo_usuario']=$row['i_type'];
-                // session_write_close();
-                header("Location: overview.php"); //si puedes iniciar sesión te manda a esto
-            }else{
-                echo "El usuario ha sido desactivado";
-            }
-            
- 
-        }
-        else{
-            echo"Contraseña incorrecta";
-        }
-    }//en caso de que no se encuentre el usuario
-        else{
-            echo"NO EXISTE USUARIO";
-        }
-
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,6 +8,7 @@ if ($_POST) { //va a guardar lo que lleve en método post
 <!--===============================================================================================-->
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
    <link rel="stylesheet" href="assets/css/login.css">
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!--===============================================================================================-->
 </head>
 <body>
@@ -100,5 +52,74 @@ if ($_POST) { //va a guardar lo que lleve en método post
 </body>
 <!--===============================================================================================-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script>
+        if(window.history.replaceState){
+      window.history.replaceState(null, null, window.location.href)
+    }
+    </script>
 </html>
+<?php
+$mysqli = new mysqli("localhost", "root", "", "rh");
+
+function is_session_started()
+{
+  return session_status() === 2 ? TRUE : FALSE;
+}
+
+if (is_session_started() === true )header('Location: overview.php');
+session_start();
+if(!empty($_SESSION['id_usuario']) && !empty($_SESSION['usuario']) && !empty($_SESSION['tipo_usuario']))header('Location: overview.php');
+
+
+if ($_POST) { //va a guardar lo que lleve en método post
+    $usuario = $_POST['user']; //$ es para indicar que es variable en php
+    $password = $_POST['password'];
+    $sql = "SELECT * FROM users  WHERE t_user = '$usuario'";
+    $resultado = $mysqli->query($sql);
+    $num = $resultado->num_rows;
+
+    if ($num > 0) {
+        $row = $resultado->fetch_assoc();
+        $password_bd = $row['t_password']; //cifrando en la bdd
+        
+        $pass_C = ($password);
+        if ($password_bd == $pass_C) { //comparar en este if, agregando un &&
+            $activo = $row['b_active'];
+            if($activo){
+                $_SESSION['id_usuario']=$row['id_user']; //
+                $_SESSION['usuario']=$row['t_user'];
+                $_SESSION['tipo_usuario']=$row['i_type'];
+                // session_write_close();
+                header("Location: overview.php"); //si puedes iniciar sesión te manda a esto
+            }else{
+                echo "<script> swal({
+                    title: 'Ups!',
+                    text: 'Parece que el usuario ingresado fue desactivado por un administrador.',
+                    icon: 'error',
+                    button: 'Ok!',
+                });</script>";
+            }
+            
+ 
+        }
+        else{
+            echo "<script> swal({
+                title: 'Ups!',
+                text: 'La contraseña ingresada es incorrecta.',
+                icon: 'error',
+                button: 'Ok!',
+            });</script>";
+        }
+    }
+        else{
+            echo "<script> swal({
+                title: 'Ups!',
+                text: 'Ese usuario no existe.',
+                icon: 'error',
+                button: 'Ok!',
+            });</script>";
+        }
+
+}
+
+?>

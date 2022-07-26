@@ -1,5 +1,4 @@
 <?php
-include('config/db.php');
 include("components/header.php");
 
 $DataBase = new db();
@@ -255,9 +254,10 @@ require('process/update.php');
     $phone_number = $candidate->t_phone_number;
     $email = $candidate->t_email;
     $appointment_date = $candidate->dt_appointment_date;
+    $perfil  = $candidate->t_profile;
     $request_position_id = $DataBase->read_single_record_candidates_position($id) ? $DataBase->read_single_record_candidates_position($id)->fk_position : 0;
     $request_position_name = $DataBase->read_single_record_position($request_position_id) ? $DataBase->read_single_record_position($request_position_id)->t_name : "No seleccionado";
-    $perfil  = $candidate->t_profile;
+    
 
     $path_cv = $DataBase->read_single_record_files($id_cv)->t_path;
 ?>

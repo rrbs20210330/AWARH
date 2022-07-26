@@ -65,7 +65,7 @@
             }
         }
         public function update_status_emp_announcement($ide, $ida ,$status,$notice){
-            $sql = "UPDATE employees_announcements SET b_status = $status, t_notice = '$notice' WHERE fk_announcement = $ida AND fk_employee = $ide";
+            $sql = "UPDATE employees_announcements SET i_status = $status, t_notice = '$notice' WHERE fk_announcement = $ida AND fk_employee = $ide";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -78,8 +78,8 @@
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
-        public function read_single_record_employee_announcement($id){
-            $sql = "SELECT * FROM employees_announcements WHERE fk_employee = $id and b_deleted = 0";
+        public function read_single_record_employee_announcement($ide,$ida){
+            $sql = "SELECT * FROM employees_announcements WHERE fk_employee = $ide and fk_announcement = $ida and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -111,14 +111,17 @@
         public function read_single_record_announcement_position($id){
             $sql = "SELECT * FROM announcements_positions WHERE fk_announcement = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
-            $return = mysqli_fetch_object($res);
-            return $return;
+            return $res;
+        }
+        public function read_single_record_announcement_area($id){
+            $sql = "SELECT * FROM announcements_areas WHERE fk_announcement = $id and b_deleted = 0";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
         }
         public function read_single_record_announcement_charge($id){
             $sql = "SELECT * FROM announcements_charges WHERE fk_announcement = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
-            $return = mysqli_fetch_object($res);
-            return $return;
+            return $res;
         }
         public function read_single_record_candidates_position($id){
             $sql = "SELECT * FROM candidates_positions WHERE fk_candidate = $id AND b_deleted = 0";
@@ -128,6 +131,12 @@
         }
         public function read_single_record_position($id){
             $sql = "SELECT * FROM positions WHERE id_position = $id";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
+        }
+        public function read_single_record_request_edit_data($id){
+            $sql = "SELECT * FROM request_info_employees WHERE fk_employee = $id and i_status = 2 and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -157,7 +166,7 @@
             return $return;
         }
         public function read_single_record_candidates($id){
-            $sql = "SELECT * FROM candidates WHERE id_candidate = $id";
+            $sql = "SELECT * FROM candidates WHERE id_candidate = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
@@ -230,7 +239,7 @@
             }
         }
         public function insert_t_employees_announcements($announcement, $employee, $date, $status, $notice){
-            $sql = "INSERT INTO employees_announcements(`fk_announcement`, `fk_employee`, `d_registry_date`, `b_status`) VALUES ($announcement, $employee,'$date', $status)";
+            $sql = "INSERT INTO employees_announcements(`fk_announcement`, `fk_employee`, `d_registry_date`, `i_status`) VALUES ($announcement, $employee,'$date', $status)";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;
@@ -354,8 +363,8 @@
             }
 
         }
-        public function proNewAnnouncement($name, $description, $dates, $position, $process, $profile, $functions, $file_name,$file_path,$charge,$area){
-            $sql = "CALL procedure_new_announcement('$name','$description','$dates', $position,'$process','$profile', '$functions','$file_name','$file_path', $charge,$area)";
+        public function proNewAnnouncement($name, $description, $dates, $process, $profile, $functions, $file_name,$file_path){
+            $sql = "CALL procedure_new_announcement('$name','$description','$dates','$process','$profile', '$functions','$file_name','$file_path');";
 
             $res = mysqli_query($this->con, $sql);
             if($res){
@@ -364,6 +373,36 @@
                 return false;
             }
 
+        }
+        public function proNewAnnouncement_position($id_position){
+            $sql = "CALL procedure_new_announcement_positions($id_position);";
+            
+            $res = mysqli_query($this->con, $sql);
+                if($res){
+                    return true;
+                }else{
+                    return false;
+                }
+        }
+        public function proNewAnnouncement_charges($id_charge){
+            $sql = "CALL procedure_new_announcement_charges($id_charge);";
+            
+            $res = mysqli_query($this->con, $sql);
+                if($res){
+                    return true;
+                }else{
+                    return false;
+                }
+        }
+        public function proNewAnnouncement_areas($id_area){
+            $sql = "CALL procedure_new_announcement_areas($id_area);";
+            
+            $res = mysqli_query($this->con, $sql);
+                if($res){
+                    return true;
+                }else{
+                    return false;
+                }
         }
         public function proNewActivity($name, $description, $charge){
             $sql = "CALL procedure_new_activity('$name','$description', $charge);";
@@ -382,6 +421,11 @@
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
+        public function read_all_employees_info(){
+            $sql = "SELECT * FROM view_info_employee";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
+        }
         public function read_all_charges(){
             $sql = "SELECT * FROM view_list_charges";
             $res = mysqli_query($this->con, $sql);
@@ -394,7 +438,7 @@
             return $obj;
         }
         public function read_single_record_user($id){
-            $sql = "SELECT * FROM users WHERE id_user = $id";
+            $sql = "SELECT * FROM users WHERE id_user = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             return $obj;
@@ -413,6 +457,16 @@
         }
         public function read_activities_charges($id){
             $sql = "SELECT * FROM view_number_activities_charges WHERE fk_charge = $id";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
+        }
+        public function read_employees_charges($id){
+            $sql = "SELECT * FROM view_number_employees_charges WHERE fk_charge = $id";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
+        }
+        public function read_employees_positions($id){
+            $sql = "SELECT * FROM view_number_employees_positions WHERE fk_position = $id";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
@@ -480,6 +534,32 @@
                 return false;
             }
 
+        }
+        public function act_data_employee($id, $phone_number, $email, $street,$no_exterior,$no_interior,$colony, $references){
+            $today = date("Y/m/d");
+            $sql = "INSERT INTO request_info_employees(fk_employee, t_phone_number,t_email,t_street,t_no_exterior,t_no_interior,t_colony,t_references,i_status,d_registry_date) VALUES ($id,'$phone_number', '$email','$street','$no_exterior','$no_interior', '$colony','$references',2,'$today')";
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        public function act_data_employee_adm($id, $action){
+            if($action === 1){
+                $newinfo = mysqli_fetch_object(mysqli_query($this->con, "SELECT * FROM request_info_employees WHERE fk_employee = $id and b_deleted = 0"));
+                $infoemployee = mysqli_fetch_object(mysqli_query($this->con, "SELECT * FROM employees WHERE id_employee = $id"));
+                $update = "UPDATE employees as e, addresses as a SET e.t_phone_number = '$newinfo->t_phone_number',e.t_email = '$newinfo->t_email',a.t_street = '$newinfo->t_street',a.t_no_exterior = '$newinfo->t_no_exterior',a.t_no_interior = '$newinfo->t_no_interior' ,a.t_colony = '$newinfo->t_colony',a.t_references = '$newinfo->t_references' WHERE id_employee = $id and id_address = $infoemployee->fk_address";
+                $res = mysqli_query($this->con, $update);
+            }
+            $sql = "UPDATE request_info_employees SET `i_status` = $action, `b_deleted` = 1 WHERE fk_employee = $id";
+
+            $res = mysqli_query($this->con, $sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
         }
         public function proNewCandidate($name,$phone_number,$email,$appointment_date,$request_position,$perfil,$cv_name, $cv_path){
             $sql = "CALL procedure_new_candidate('$name','$phone_number','$email','$appointment_date', $request_position,'$perfil', '$cv_name','$cv_path')";
@@ -566,8 +646,8 @@
         }
         #CRUD ANNOUNCEMENTS
 
-        public function update_t_announcements($id,$name,$description,$dates,$position,$process,$profile,$functions,$charge,$area){
-            $sql = "CALL procedure_update_announcement($id,'$name','$description','$dates',$position,'$process','$profile','$functions',$charge,$area)";
+        public function update_t_announcements($id,$name,$description,$dates,$process,$profile,$functions){
+            $sql = "CALL procedure_update_announcement($id,'$name','$description','$dates','$process','$profile','$functions')";
             $res = mysqli_query($this->con, $sql);
             if($res){
                 return true;

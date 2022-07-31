@@ -17,17 +17,25 @@ require('process/update.php');}else{ ?>
     <abbr title=" Nueva Convocatoria "><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modal1">
     <i style='font-size:24px' class="bi bi-megaphone-fill"><span class="glyphicon">&#x2b;</span></i>
     </button></abbr>
+    <?php $l_annoucements = $DataBase->read_data_table('announcements');?>
+    <abbr title="Generar Reporte de todas los candidatos">
+      <?php if(mysqli_num_rows($l_annoucements) == 0){?> 
+            <button  disabled target="_blank" class="btn btn-dark"><i style='font-size:24px' class="bi bi-filetype-pdf"></i></button>    
+        <?php }else{?>
+            <a href="process/report.php?typeOp=1"  target="_blank" class="btn btn-dark"><i style='font-size:24px' class="bi bi-filetype-pdf"></i></a>
+        <?php } ?>
+    </abbr>
   </div>  
   <br>
-  <?php $l_annoucements = $DataBase->read_data_table('announcements');
-      if(mysqli_num_rows($l_annoucements) === 0){ ?> <center><h3>No hay ninguna convocatoria</h3></center> <?php } ?>
+  
+    <?php if(mysqli_num_rows($l_annoucements) === 0){ ?> <center><h3>No hay ninguna convocatoria</h3></center> <?php } ?>
     <div class="row row-cols-1 row-cols-md-3 g-4">
     <?php 
       $l_annoucements = $DataBase->read_data_table('announcements');
       while ($row = mysqli_fetch_object($l_annoucements)) {
         $id = $row->id_announcement;
         $name = $row->t_name;
-        $description = $row->t_description;
+        $description = substr($row->t_description,0,30)."...";
         $active = $row->b_active;
         $file = $row->fk_file;
         $path_file = $DataBase->read_single_record_files($file)->t_path;
@@ -51,10 +59,13 @@ require('process/update.php');}else{ ?>
           <div class="card-footer">
             <form method="post">
               <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteAnnouncement-<?php echo $id ?>"><i class="bi-trash"></i></a>
-              <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eA-<?php echo $id ?>"><i class="bi bi-pencil-square"></i></a>           
-              <input type="hidden" name="update" value="1">
-              <input type="hidden" name="id" value="<?php echo $id ?>">
-              <input type="hidden" name="typeOp" value="12">
+              <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eA-<?php echo $id ?>"><i class="bi bi-pencil-square"></i></a>     
+              <abbr title="Generar Reporte">
+                <a href="process/report.php?typeOp=1&id=<?php echo $id ?>" target="_blank" class="btn btn-dark"><i class="bi bi-filetype-pdf"></i></a>
+              </abbr>      
+              <input autocomplete="off"  type="hidden" name="update" value="1">
+              <input autocomplete="off"  type="hidden" name="id" value="<?php echo $id ?>">
+              <input autocomplete="off"  type="hidden" name="typeOp" value="12">
               <?php if ($active == 0){ ?>
               <button type="submit" class="btn btn-secondary"><i class="bi bi-eye-slash-fill"></i></button>
               <?php }else{ ?>
@@ -77,11 +88,18 @@ require('process/update.php');}else{ ?>
           while ($row = mysqli_fetch_object($l_annoucements)) {
             $id = $row->id_announcement;
             $name = $row->t_name;
-            $description = $row->t_description;
+            
+            $description = substr($row->t_description,0,30)."...";
             $active = $row->b_active;
-            $positions = $DataBase->read_single_record_announcement_position($id) ? $DataBase->read_single_record_announcement_position($id) : null;
-            $charges = $DataBase->read_single_record_announcement_charge($id) ? $DataBase->read_single_record_announcement_charge($id) : null;
-            $areas = $DataBase->read_single_record_announcement_area($id) ? $DataBase->read_single_record_announcement_area($id) : null;
+            $positions = (
+              $DataBase->read_single_record_announcement_position($id) && mysqli_num_rows($DataBase->read_single_record_announcement_position($id)) !== 0
+            ) ? $DataBase->read_single_record_announcement_position($id) : null;
+            $charges = (
+              $DataBase->read_single_record_announcement_charge($id) && mysqli_num_rows($DataBase->read_single_record_announcement_charge($id)) !== 0
+            ) ? $DataBase->read_single_record_announcement_charge($id) : null;
+            $areas = (
+              $DataBase->read_single_record_announcement_area($id) && mysqli_num_rows($DataBase->read_single_record_announcement_area($id)) !== 0
+            ) ? $DataBase->read_single_record_announcement_area($id) : null;
             if($active){
               $position = false;
               $charge = false;
@@ -110,7 +128,7 @@ require('process/update.php');}else{ ?>
                   }
                 }
               }
-              if($position  || $charge || $area || ($positions === null && $charges === null && $areas === null)){?>
+              if(($positions == null && $charges == null && $areas == null) || $position  || $charge || $area ){?>
                 <?php $count += 1; ?>
                 <div class="col">
                   <div class="card text-bg-dark mb-3" style="max-width: 90% ; ">
@@ -150,19 +168,19 @@ require('process/update.php');}else{ ?>
           <div class="row">
             <div class="col-sm-6">
               <center><label>Nombre de convocatoria </label></center>
-              <input type="text" class="form-control" id="name" name="name" required>
+              <input autocomplete="off"  type="text" class="form-control" id="name" name="name" maxlength="50" required>
             </div>
             <div class="col-sm-6">
               <center><label >Descripción de convocatoria</label></center>
-              <input type="text" class="form-control" id="description" name="description" required>
+              <input autocomplete="off"  type="text" class="form-control" id="description" name="description" maxlength="256" required>
             </div>
             <div class="col-sm-28">
               <center><label >Imagen <i class="bi bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo se permite una imagen."></i></label></center>
-              <input type="file" class="form-control" id="archivo[]" name="archivo[]" required>
+              <input autocomplete="off"  type="file" class="form-control" id="archivo[]" name="archivo[]" required>
             </div> 
             <div class="col-sm-12">
               <center><label >Fecha de la convocatoria</label></center>
-              <input type="text" class="form-control" id="dates" name="dates" required>
+              <input autocomplete="off"  type="text" class="form-control" id="dates" name="dates" required>
             </div>
             <div class="col-sm-4">
             <br>
@@ -183,7 +201,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_position)) {
                           $id = $row->id_position; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="positions[]" value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input autocomplete="off"  type="checkbox" name="positions[]" value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php } }?>
                     </div>
                   </div>
@@ -209,7 +227,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_charge)) {
                           $id = $row->id_charge; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="charges[]" value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input autocomplete="off"  type="checkbox" name="charges[]" value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php } }?>
                     </div>
                   </div>
@@ -235,7 +253,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_area)) {
                           $id = $row->id_area; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input autocomplete="off"  type="checkbox" name="areas[]" value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php } }?>
                     </div>
                   </div>
@@ -248,14 +266,14 @@ require('process/update.php');}else{ ?>
             </div> 
             <div class="col-sm-4">
               <center><label >Perfil solicitado</label></center>
-              <textarea type="text" class="form-control" id="profile" name="profile" required ></textarea>
+              <textarea type="text" class="form-control" id="profile" name="profile" maxlength="256" required ></textarea>
             </div>
 
             <div class="col-sm-4">
               <label >Funciones</label>
-              <textarea type="text" class="form-control" id="functions" name="functions" required ></textarea>
-              <input type="hidden" name="typeOp" value="5">
-              <input type="hidden" name="new" value="1">
+              <textarea type="text" class="form-control" id="functions" name="functions" maxlength="256" required ></textarea>
+              <input autocomplete="off"  type="hidden" name="typeOp" value="5">
+              <input autocomplete="off"  type="hidden" name="new" value="1">
             </div>
 
           </div>
@@ -335,19 +353,19 @@ require('process/update.php');}else{ ?>
             <div class="row">
               <div class="col-sm-6">
                 <center><label>Nombre de convocatoria </label></center>
-                <input type="text" class="form-control" id="name" name="name" required value="<?php echo $name?>">
+                <input autocomplete="off"  type="text" class="form-control" id="name" name="name" maxlength="50" required value="<?php echo $name?>">
               </div>
               <div class="col-sm-6">
                 <center><label >Descripción de convocatoria</label></center>
-                <input type="text" class="form-control" id="description" name="description" required value="<?php echo $description?>">
+                <input autocomplete="off"  type="text" class="form-control" id="description" name="description" maxlength="256" required value="<?php echo $description?>">
               </div>
               <div class="col-sm-28">
                 <center><label >Imagen <i class="bi bi-exclamation-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Solo se permite una imagen."></i></label></center>
-                <input type="file" disabled class="form-control" id="archivo[]" name="archivo[]" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede modificar el archivo.">
+                <input autocomplete="off"  type="file" disabled class="form-control" id="archivo[]" name="archivo[]" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede modificar el archivo.">
               </div> 
               <div class="col-sm-12">
                 <center><label >Fecha de la convocatoria</label></center>
-                <input type="text" class="form-control" id="dates" name="dates" required value="<?php echo $date?>">
+                <input autocomplete="off"  type="text" class="form-control" id="dates" name="dates" required value="<?php echo $date?>">
               </div>
               <div class="col-sm-4">
             <br>
@@ -365,7 +383,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_position)) {
                           $id = $row->id_position; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="positions[]" disabled <?php if(isChecked($id,$ida,1)){ ?> checked <?php }?> value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input autocomplete="off"  type="checkbox" name="positions[]" disabled <?php if(isChecked($id,$ida,1)){ ?> checked <?php }?> value="<?php echo $id ?>" id="positions-<?php echo $id?>"><label for="positions-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php }?>
                     </div>
                   </div>
@@ -388,7 +406,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_charge)) {
                           $id = $row->id_charge; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="charges[]" disabled <?php if(isChecked($id,$ida,2)){ ?> checked <?php }?> value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input autocomplete="off"  type="checkbox" name="charges[]" disabled <?php if(isChecked($id,$ida,2)){ ?> checked <?php }?> value="<?php echo $id ?>" id="charges-<?php echo $id?>"><label for="charges-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php }?>
                     </div>
                   </div>
@@ -411,7 +429,7 @@ require('process/update.php');}else{ ?>
                         while ($row = mysqli_fetch_object($l_area)) {
                           $id = $row->id_area; 
                           $name = $row->t_name?>
-                          <input type="checkbox" name="areas[]" disabled <?php if(isChecked($id,$ida,3)){ ?> checked <?php }?>value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input autocomplete="off"  type="checkbox" name="areas[]" disabled <?php if(isChecked($id,$ida,3)){ ?> checked <?php }?>value="<?php echo $id ?>" id="areas-<?php echo $id?>"><label for="areas-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php }?>
                     </div>
                   </div>
@@ -424,15 +442,15 @@ require('process/update.php');}else{ ?>
               </div> 
               <div class="col-sm-4">
                 <center><label >Perfil solicitado</label></center>
-                <textarea type="text" class="form-control" id="profile" name="profile" required ><?php echo $profile?></textarea>
+                <textarea type="text" class="form-control" id="profile" name="profile" maxlength="256" required ><?php echo $profile?></textarea>
               </div>
 
               <div class="col-sm-4">
                 <label >Funciones</label>
-                <textarea type="text" class="form-control" id="functions" name="functions" required ><?php echo $functions?></textarea>
-                <input type="hidden" name="typeOp" value="8">
-                <input type="hidden" name="id" value="<?php echo $ida ?>">
-                <input type="hidden" name="update" value="1">
+                <textarea type="text" class="form-control" id="functions" name="functions" maxlength="256" required ><?php echo $functions?></textarea>
+                <input autocomplete="off"  type="hidden" name="typeOp" value="8">
+                <input autocomplete="off"  type="hidden" name="id" value="<?php echo $ida ?>">
+                <input autocomplete="off"  type="hidden" name="update" value="1">
               </div>
             <div>
           </div>
@@ -470,9 +488,9 @@ require('process/update.php');}else{ ?>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <form method="post">
-            <input type="hidden" name="id" id="id" value="<?php echo $id?>">
-            <input type="hidden" name="typeOp" id="typeOp" value="8">
-            <input type="hidden" name="delete" value="1">
+            <input autocomplete="off"  type="hidden" name="id" id="id" value="<?php echo $id?>">
+            <input autocomplete="off"  type="hidden" name="typeOp" id="typeOp" value="8">
+            <input autocomplete="off"  type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>

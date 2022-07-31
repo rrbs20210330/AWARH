@@ -68,11 +68,11 @@ require('process/update.php');
         <div class="row needs-validation" novalidate>
             <div class="col-sm-12">
             <label >Nombre </label>
-            <input type="text" class="form-control" id="name" name="name">
+            <input autocomplete="off"  type="text" class="form-control" id="name" name="name" maxlength="50">
             </div>
             <div class="col-sm-12">
             <label >Descripción </label>
-            <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
+            <textarea class="form-control" id="description" name="description" maxlength="256" required rows="1"></textarea>
             </div>
             <div class="col-sm-12">
                 <center><label>Cargo</label></center>
@@ -92,8 +92,8 @@ require('process/update.php');
                     <?php } ?>
                 </select>
             </div>
-            <input type="hidden" name="typeOp" value="4">
-            <input type="hidden" name="new" value="1">
+            <input autocomplete="off"  type="hidden" name="typeOp" value="4">
+            <input autocomplete="off"  type="hidden" name="new" value="1">
         </div>
         
         <br>
@@ -129,11 +129,11 @@ require('process/update.php');
             <div class="row">
                 <div class="col-sm-12">
                 <label >Nombre </label>
-                <input value="<?php echo $nombre?>"type="text" class="form-control" id="name" name="name" required>
+                <input autocomplete="off"  value="<?php echo $nombre?>"type="text" class="form-control" id="name" name="name" maxlength="50" required>
                 </div>
                 <div class="col-sm-12">
                 <label >Descripción </label>
-                <textarea class="form-control" id="description" name="description" required rows="1"><?php echo $description ?></textarea>
+                <textarea class="form-control" id="description" name="description" maxlength="256" required rows="1"><?php echo $description ?></textarea>
                 </div>
                 <div class="col-sm-12">
                     <label>Cargo </label>
@@ -153,9 +153,9 @@ require('process/update.php');
                         <?php } ?>
                     </select>
                 </div>
-                <input type="hidden" name="typeOp" value="6">
-                <input type="hidden" name="id" value="<?php echo $id?>">
-                <input type="hidden" name="update" value="1">
+                <input autocomplete="off"  type="hidden" name="typeOp" value="6">
+                <input autocomplete="off"  type="hidden" name="id" value="<?php echo $id?>">
+                <input autocomplete="off"  type="hidden" name="update" value="1">
             </div>
             
             <br>
@@ -193,9 +193,9 @@ require('process/update.php');
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <form method="post">
-            <input type="hidden" name="id" id="id" value="<?php echo $id?>">
-            <input type="hidden" name="typeOp" id="typeOp" value="2">
-            <input type="hidden" name="delete" value="1">
+            <input autocomplete="off"  type="hidden" name="id" id="id" value="<?php echo $id?>">
+            <input autocomplete="off"  type="hidden" name="typeOp" id="typeOp" value="2">
+            <input autocomplete="off"  type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>

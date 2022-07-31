@@ -45,6 +45,7 @@ if($tipo === 2){
       }
     }
   }
+  if($position === false && $charge === false && $area === false && $positions !== null && $charges !== null && $areas !== null)header('Location: announcements.php');
   // if($position  || $charge || $area || ($positions === null && $charges === null && $areas === null)) header('Location: announcements.php');
 }
 
@@ -61,26 +62,74 @@ $path_file = $DB->read_single_record_files($file)->t_path;;
 <br>
 
 <div class="container">
-  <a href="announcements.php" class="btn btn-dark">Regresar</a>
+<a href="announcements.php" class="btn btn-dark">Regresar</a>
   <br>
-  <br>
-  <div class="card-group">
-    <div class="card" >
-      <center><div class="card-header"><h3>Informe de la Convocatoria</h3> </div></center>
-      <div class="card-body">
-        <h5 class="card-title">Información General</h5>
-        <p class="card-text">
-        <b>Nombre de la convocatoria:</b> <?php echo $nombre?><br>
-        <b>Descripción de la convocatoria:</b> <?php echo $descripcion ?><br>
-        <b>Fecha de la convocatoria:</b> <?php echo $fechadeinicio?><br>
-        <b>Procedimiento:</b> <?php echo $Perfilsolicitado?><br>
-        <b>Perfil solicitado:</b> <?php echo $Procedimiento?><br>
-        <b>Funciones:</b> <?php echo $funciones?><br>
-        <b>Estado:</b> <?php echo $estado == 0 ? "Inactiva" : "Activa"?><br>
+<center><h1>Información general de la convocatoria</h1></center>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="embed-responsive embed-responsive-16by9 table-responsive">
+        <table style="table-layout: fixed; width: 100%; " class="table">
+        <tr>
+            <th>
+              <b>Nombre: </b>
+            </th>
+            <td style="word-wrap: break-word">
+              <?php echo $nombre?>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Estado: </b>
+            </th>
+            <td style="word-wrap: break-word">
+              <?php echo $estado == 0 ? "Inactiva" : "Activa"?>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Fechas: </b>
+            </th>
+            <td style="word-wrap: break-word">
+              <?php echo $fechadeinicio?>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Descripción: </b>
+            </th>
+            <td style="word-wrap: break-word;">
+              <?php echo $descripcion ?>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Procedimiento: </b>
+            </th>
+            <td style="word-wrap: break-word">
+              <?php echo $Perfilsolicitado?>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Perfil solicitado: </b>
+            </th>
+            <td style="word-wrap: break-word">
+              <?php echo $Procedimiento?>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <b>Funciones: </b>
+            </th>
+            <td style="word-wrap: break-word">
+              <?php echo $funciones?>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
-    <div class="card">
-    <iframe src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/awarh/'.$path_file ?>" width="" height="100%"></iframe>
+    <div class="col">
+      <iframe alias="Imagen Informativa" display="block" frameborder="0" scrolling="no" height="100%" width="100%" src="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$path_file?>"></iframe>
     </div>
   </div>
   <br>
@@ -148,11 +197,11 @@ $path_file = $DB->read_single_record_files($file)->t_path;;
                     <form method="post">
                       <label for="notice"><strong>Nota:</strong></label>
                       <textarea name="notice" id="notice" class="form-control" rows="1" required></textarea>
-                      <input type="hidden" name="id" value="<?php echo $employee_info->id_employee ?>">
-                      <input type="hidden" name="ida" value="<?php echo $id ?>">
-                      <input type="hidden" name="status" value="1">
-                      <input type="hidden" name="typeOp" value="14">
-                      <input type="hidden" name="update" value="1">
+                      <input autocomplete="off"  type="hidden" name="id" value="<?php echo $employee_info->id_employee ?>">
+                      <input autocomplete="off"  type="hidden" name="ida" value="<?php echo $id ?>">
+                      <input autocomplete="off"  type="hidden" name="status" value="1">
+                      <input autocomplete="off"  type="hidden" name="typeOp" value="14">
+                      <input autocomplete="off"  type="hidden" name="update" value="1">
                     
                   </div>
                   <div class="modal-footer">
@@ -175,11 +224,11 @@ $path_file = $DB->read_single_record_files($file)->t_path;;
                     <form method="post">
                       <label for="notice"><strong>Nota:</strong></label>
                       <textarea name="notice" id="notice" class="form-control" rows="1" required></textarea>
-                      <input type="hidden" name="id" value="<?php echo $employee_info->id_employee ?>">
-                      <input type="hidden" name="ida" value="<?php echo $id ?>">
-                      <input type="hidden" name="status" value="0">
-                      <input type="hidden" name="typeOp" value="14">
-                      <input type="hidden" name="update" value="1">
+                      <input autocomplete="off"  type="hidden" name="id" value="<?php echo $employee_info->id_employee ?>">
+                      <input autocomplete="off"  type="hidden" name="ida" value="<?php echo $id ?>">
+                      <input autocomplete="off"  type="hidden" name="status" value="0">
+                      <input autocomplete="off"  type="hidden" name="typeOp" value="14">
+                      <input autocomplete="off"  type="hidden" name="update" value="1">
                   </div>
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-danger">Rechazar</button>
@@ -197,10 +246,10 @@ $path_file = $DB->read_single_record_files($file)->t_path;;
     $is_applied = $consult ? intval($consult->i_status) : null;?>
     <?php if($is_applied === null){?>
       <form method="post">
-        <input type="hidden" name="announcement" value="<?php echo $id ?>">
-        <input type="hidden" name="employee" value="<?php echo $id_employee ?>">
-        <input type="hidden" name="new" value="1">
-        <input type="hidden" name="typeOp" value="11">
+        <input autocomplete="off"  type="hidden" name="announcement" value="<?php echo $id ?>">
+        <input autocomplete="off"  type="hidden" name="employee" value="<?php echo $id_employee ?>">
+        <input autocomplete="off"  type="hidden" name="new" value="1">
+        <input autocomplete="off"  type="hidden" name="typeOp" value="11">
         <button class="btn btn-dark btn-sm" type="submit">Aplicar</button>
       </form>
     <?php }else{ ?>

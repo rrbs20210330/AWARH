@@ -61,7 +61,7 @@ require('process/update.php');
             <div class="row">
                 <div class="col-sm-6">
                   <label for="">Nombre </label>
-                  <input type="text" class="form-control" id="name" name="name" required value="">
+                  <input autocomplete="off"  type="text" class="form-control" id="name" name="name" maxlength="50" required value="">
                 </div>
                 <div class="col-sm-6">
             <br>
@@ -78,12 +78,12 @@ require('process/update.php');
                     <div class="accordion-body checkboxes">
                       <?php 
                         if($l_employees_select->num_rows == 0){
-                          ?><input type="checkbox" name="employee[]" required hidden>Necesitas crear un empleado primero.
+                          ?><input autocomplete="off"  type="checkbox" name="employee[]" required hidden>Necesitas crear un empleado primero.
                         <?php }else{
                         while ($row = mysqli_fetch_object($l_employees_select)) {
                           $id = $row->id_employee; 
                           $name = $row->t_names.' '.$row->t_last_names?>
-                          <input type="checkbox" name="employee[]" value="<?php echo $id ?>" id="employee-<?php echo $id?>" required><label for="employee-<?php echo $id?>"><?php echo $name ?></label><br>
+                          <input autocomplete="off"  type="checkbox" name="employee[]" value="<?php echo $id ?>" id="employee-<?php echo $id?>" required><label for="employee-<?php echo $id?>"><?php echo $name ?></label><br>
                       <?php } }?>
                     </div>
                   </div>
@@ -92,21 +92,21 @@ require('process/update.php');
             </div>
                 <div class="col-sm-12">
                   <label for="">Descripción</label>
-                  <textarea class="form-control" id="description" name="description" required rows="1"></textarea>
+                  <textarea class="form-control" id="description" name="description" maxlength="256" required rows="1"></textarea>
                 </div>
                 <div class="col-sm-12">
                     <center><label >Fecha de Inicio - Final</label></center>
-                    <input type="text" class="form-control" id="dates" name="dates" required >
+                    <input autocomplete="off"  type="text" class="form-control" id="dates" name="dates" required >
                 </div>
                 <div class="col-sm-12">
                 <center><label for="">Archivos</label></center>
-                <input type="file" class="form-control" id="file[]" name="file[]" multiple>
+                <input autocomplete="off"  type="file" class="form-control" id="file[]" name="file[]" multiple>
                 </div>
             </div>
             <br>    
           </div>
-          <input type="hidden" name="typeOp" value="8">
-          <input type="hidden" name="new" value="1">
+          <input autocomplete="off"  type="hidden" name="typeOp" value="8">
+          <input autocomplete="off"  type="hidden" name="new" value="1">
           <div class="modal-footer">
             <button type="submit" class="btn btn-success" >Registrar</button>
           </div>
@@ -140,7 +140,7 @@ require('process/update.php');
                 <div class="row">
                     <div class="col-sm-6">
                     <label for="">Nombre </label>
-                    <input type="text" class="form-control" id="name" name="name" value="<?php echo $name_t ?>">
+                    <input autocomplete="off"  type="text" class="form-control" id="name" name="name" maxlength="50" value="<?php echo $name_t ?>">
                     </div>
                     <div class="col-sm-6">
                         <label for="">Empleado</label>
@@ -150,15 +150,15 @@ require('process/update.php');
                     </div>
                     <div class="col-sm-12">
                     <label for="">Descripción</label>
-                    <textarea class="form-control" id="description" name="description" rows="1"><?php echo $description_t ?></textarea>
+                    <textarea class="form-control" id="description" name="description" maxlength="256" rows="1"><?php echo $description_t ?></textarea>
                     </div>
                     <div class="col-sm-12">
                         <center><label >Fecha de Inicio - Final</label></center>
-                        <input type="text" class="form-control" id="dates" name="dates" required value="<?php echo $date?>">
+                        <input autocomplete="off"  type="text" class="form-control" id="dates" name="dates" required value="<?php echo $date?>">
                     </div>
                     <div class="col-sm-12">
                     <center><label for="">Archivos</label></center>
-                    <input type="file" disabled class="form-control" id="file" name="file" data-bs-toggle="tooltip" data-bs-placement="top" title="No se pueden editar los archivos">
+                    <input autocomplete="off"  type="file" disabled class="form-control" id="file" name="file" data-bs-toggle="tooltip" data-bs-placement="top" title="No se pueden editar los archivos">
                     </div>
                     
                     
@@ -166,9 +166,9 @@ require('process/update.php');
                 <br>    
             </div>
             <div class="modal-footer">
-            <input type="hidden" name="id" value="<?php echo $id_t ?>">
-                <input type="hidden" name="typeOp" value="2">
-                <input type="hidden" name="update" value="1">
+            <input autocomplete="off"  type="hidden" name="id" value="<?php echo $id_t ?>">
+                <input autocomplete="off"  type="hidden" name="typeOp" value="2">
+                <input autocomplete="off"  type="hidden" name="update" value="1">
                 <button type="submit" class="btn btn-success" >Editar</button>
             </div>
             </form>
@@ -197,9 +197,9 @@ require('process/update.php');
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <form  method="post">
-            <input type="hidden" name="id" id="id" value="<?php echo $id?>">
-            <input type="hidden" name="typeOp" id="typeOp" value="7">
-            <input type="hidden" name="delete" value="1">
+            <input autocomplete="off"  type="hidden" name="id" id="id" value="<?php echo $id?>">
+            <input autocomplete="off"  type="hidden" name="typeOp" id="typeOp" value="7">
+            <input autocomplete="off"  type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -243,7 +243,7 @@ require('process/update.php');
                       $idfile = $row->fk_file;
                       $infofile = $DataBase->read_single_record_files($idfile);
                       ?>
-                    <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$infofile->t_path ?>" target="_blank"><li class="list-group-item"><?php echo $infofile->t_name ?></li></a> 
+                    <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$infofile->t_path ?>" target="_blank"><li class="list-group-item"><?php echo $infofile->t_name ?></li></a> 
                     <?php } ?>
                   </ul>
                 </div>

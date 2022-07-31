@@ -232,21 +232,6 @@ CREATE TABLE IF NOT EXISTS `request_info_employees`(
 );
 INSERT INTO `users`(`t_user`, `t_password`, `b_active`, `i_type`) VALUES ('superadmin', 'tamarindo123', 1, 1);
 
--- FUNCTIONS
-DELIMITER $
-CREATE FUNCTION `number_activities_charges`(`id` INT) RETURNS int(11)
-BEGIN
-	SELECT COUNT(ca.fk_charge) INTO @cant FROM `charges` AS `c` INNER JOIN `charges_activities` AS `ca` ON ca.fk_charge = c.id_charge WHERE c.id_charge = id and ca.b_deleted = 0; 
-    RETURN @cant;
-END$
-
-DELIMITER $
-CREATE FUNCTION `number_positions_areas` (`id` INT) RETURNS int(11)
-BEGIN
-    SELECT COUNT(ap.fk_area) INTO @cant FROM `areas` AS `a` INNER JOIN `positions_areas` AS `ap` ON ap.fk_area = a.id_area WHERE a.id_area = id and ap.b_deleted = 0;
-    RETURN @cant;
-END$
-
 -- PROCEDURES
 
 DELIMITER $

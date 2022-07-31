@@ -3,6 +3,17 @@ require('fpdf.php');
 require("db.php");
 class Report extends FPDF{
     function Header(){
+        $this->SetFont('Arial','B',8);
+        $this->setXY(150,10);
+        $this->cell(10, 2,'Universidad Teconologica de Manzanillo', 4, 3, 'c', 0);
+        $this->setXY(156,13);
+        $this->cell(10, 2,utf8_decode(' Camino hacías las humedades S/N, '), 4, 3, 'c', 0);
+        $this->setXY(155,16);
+        $this->cell(10, 2,utf8_decode(' Salagua, Manzanillo, Colima, México'), 4, 3, 'c', 0);
+        $this->setXY(176,19);
+        $this->cell(10, 2,' utem@utem.edu.mx  ', 4, 3, 'c', 0);
+        $this->setXY(180,22);
+        $this->cell(10, 2,utf8_decode(' 01 (314) 33 14450 '), 4, 3, 'c', 0);
         // Logo
         $this->Image('../assets/img/utem_logo.png',10,8,33);
         // Arial bold 15
@@ -16,6 +27,7 @@ class Report extends FPDF{
         // $this->Cell(30,10,'Resumen - Listado de Empleados ',0,0,'C');
         // Salto de línea
         $this->Ln(20);
+        
     }
 
     // Pie de página
@@ -29,10 +41,247 @@ class Report extends FPDF{
     }
 
     function GenerateReportAllAnnouncements(){
+        $DataBase = new db();
+        //Create new pdf file
         
+        //Disable automatic page break
+        // $this->SetAutoPageBreak(false);
+        $list_announcements = $DataBase->read_data_table('announcements');
+        if(!$list_announcements || $list_announcements->num_rows == 0){
+            return null;
+        }
+        //Add first page
+        $this->AddPage();
+        
+        //set initial y axis position per page
+        $y_initial = 35;
+        $x_initial = 5;
+        $row_height = 6;
+        $i = 0;
+        
+        //Set maximum rows per page
+        $max = 30;
+        
+        //Set Row Height
+        $row_height_table = $y_initial+$row_height;
+        $y_actual = $row_height_table;
+        //print column titles
+        $this->SetFillColor(255,255,255);
+        $this->SetFont('Arial','B',12);
+        $this->SetY($y_initial);
+        $this->SetX($x_initial);
+        $this->Cell(200,$row_height,'Listado de convocatorias',0,0,'C',1);
+        $y_actual += ($row_height_table-$y_initial);
+        $this->SetY($y_actual);
+        $this->SetX($x_initial);
+        $y_actual += ($row_height_table-$y_initial);
+        
+        $this->Cell(87,$row_height,'Nombre Completo',1,0,'L',1);
+        $this->Cell(33,$row_height,'Estado',1,0,'C',1);
+        $this->Cell(80,$row_height,'Fechas Inicio - Termino',1,0,'C',1); 
+        
+        
+        
+        //Select the Products you want to show in your PDF file
+        
+        
+        //initialize counter
+        
+        
+        
+        while ($row = mysqli_fetch_object($list_announcements)) {
+            $id = $row->id_announcement;
+            $fullname = $row->t_name;
+            $email = $row->d_dates;
+            $phone_number = $row->b_active ? "Activo" : "Inactivo";
+            //If the current row is the last one, create new page and print column title
+            if ($i == $max)
+            {
+                $this->AddPage();
+        
+                //print column titles for the current page
+                $this->SetY($y_initial);
+                $this->SetX($x_initial);
+                $this->Cell(87,$row_height,'Nombre Completo',1,0,'L',1);
+                $this->Cell(33,$row_height,'Estado',1,0,'C',1);
+                $this->Cell(80,$row_height,'Fechas Inicio - Termino',1,0,'C',1);
+                
+                
+                //Go to next row
+                $y_actual = $row_height_table-$row_height;
+                $y_actual += ($row_height_table-$y_initial);
+                
+                //Set $i variable to 0 (first row)
+                $i = 0;
+            }
+        
+            $this->SetY($y_actual);
+            $this->SetX($x_initial);
+            
+            $this->Cell(87,$row_height,$fullname,1,0,'L',1);
+            $this->Cell(33,$row_height,$phone_number,1,0,'C',1);
+            $this->Cell(80,$row_height,$email,1,0,'C',1);
+        
+            //Go to next row
+            $y_actual += ($row_height_table-$y_initial);
+            $i = $i + 1;
+        }
+        $list_announcements2 = $DataBase->read_data_table('announcements');
+        $contador = 0;
+        while ($row = mysqli_fetch_object($list_announcements2)) {
+            $contador += 1;
+            $id = $row->id_announcement;
+            $info_announcement_v = $DataBase->read_single_record_announcement_report($id);
+            if(!$info_announcement_v || $info_announcement_v->num_rows == 0){
+                return null;
+            }
+            $info_announcement = mysqli_fetch_object($info_announcement_v);
+            
+            //Add first page
+            $this->AddPage();
+            
+            //set initial y axis position per page
+            $y_initial = 35;
+            $x_initial = 5;
+            $row_height = 6;
+            //print column titles¿
+            
+            //Set Row Height
+            $row_height_table = $y_initial+$row_height;
+            $y_actual = $row_height_table;
+            //Seccion, Reporte General Por empleado
+            
+            $this->SetFillColor(255,255,255);
+            $this->SetFont('Arial','B',12);
+            $id = $info_announcement->id_announcement;
+            $name = $info_announcement->t_name;
+            $descripcion = $info_announcement->t_description;
+            $status = $info_announcement->b_active ? "Activa" : "Inactiva";
+            $dates = $info_announcement->d_dates;
+            $process = $info_announcement->t_process;
+            $profile = $info_announcement->t_profile;
+            $functions = $info_announcement->t_functions;
+            $path_p = $DataBase->read_single_record_files($info_announcement->fk_file)->t_path;
+            $count = $DataBase->count_data_announcements_employees($id)->contador; 
+            $this->SetY($y_initial);
+            $this->SetX($x_initial);
+            $this->Cell(200,$row_height,"Reporte de Convocatoria - No. $contador",0,0,'C',1);
+            $y_actual += ($row_height_table-$y_initial);
+            $this->SetY($y_actual);
+            $this->SetX($x_initial);
+            $this->Cell(200,$row_height,"Informacion General",1,0,'C',1);
+            $y_actual += ($row_height_table-$y_initial);
+            $rows_static_info_general = array('Nombre', 'Fecha de Inicio - Final','Estado','Cantidad de Aspirantes');
+            $rows_dynamic_info_general = array("$name","$dates","$status", "$count");
+            
+            for ($a = 0; $a <= count($rows_static_info_general)-1; $a++) {
+                $this->SetY($y_actual);
+                $this->SetX($x_initial);
+                $this->Cell(70,$row_height,"$rows_static_info_general[$a]",1);
+                $this->Cell(130,$row_height,"$rows_dynamic_info_general[$a]",1);
+                $y_actual += ($row_height_table-$y_initial);
+            }
+            $this->SetY($y_actual);
+            $this->SetX($x_initial);
+            $this->Cell(50,$row_height,"Descripcion",1,0,"C");
+            $this->Cell(50,$row_height,"Funciones",1,0,"C");
+            $this->Cell(50,$row_height,"Process",1,0,"C");
+            $this->Cell(50,$row_height,"Perfil",1,0,"C");
+            $y_actual += ($row_height_table-$y_initial);
+            $this->SetY($y_actual);
+            $this->SetX($x_initial);
+            $this->MultiCell(50,$row_height,"$descripcion",1);
+            $this->SetY($y_actual);
+            $this->SetX($x_initial+50);
+            $this->MultiCell(50,$row_height,"$functions",1);
+            $this->SetY($y_actual);
+            $this->SetX($x_initial+100);
+            $this->MultiCell(50,$row_height,"$process",1);
+            $this->SetY($y_actual);
+            $this->SetX($x_initial+150);
+            $this->MultiCell(50,$row_height,"$profile",1);
+        }
+
+        $this->AliasNbPages();
+        $this->Output();
     }
     function GenerateReportAnnouncement($id){
+        $DataBase = new db();
+        //Select the Products you want to show in your PDF file
+        $this->SetAutoPageBreak(true);
+        $info_announcement_v = $DataBase->read_single_record_announcement_report($id);
+        if(!$info_announcement_v || $info_announcement_v->num_rows == 0){
+            return null;
+        }
+        $info_announcement = mysqli_fetch_object($info_announcement_v);
+        //Add first page
+        $this->AddPage();
         
+        //set initial y axis position per page
+        $y_initial = 35;
+        $x_initial = 5;
+        $row_height = 6;
+        //print column titles¿
+        
+        //Set Row Height
+        $row_height_table = $y_initial+$row_height;
+        $y_actual = $row_height_table;
+        //Seccion, Reporte General Por empleado
+        
+        $this->SetFillColor(255,255,255);
+        $this->SetFont('Arial','B',12);
+        $id = $info_announcement->id_announcement;
+        $name = $info_announcement->t_name;
+        $descripcion = $info_announcement->t_description;
+        $status = $info_announcement->b_active ? "Activa" : "Inactiva";
+        $dates = $info_announcement->d_dates;
+        $process = $info_announcement->t_process;
+        $profile = $info_announcement->t_profile;
+        $functions = $info_announcement->t_functions;
+        $path_p = $DataBase->read_single_record_files($info_announcement->fk_file)->t_path;
+        $count = $DataBase->count_data_announcements_employees($id)->contador; 
+        $this->SetY($y_initial);
+        $this->SetX($x_initial);
+        $this->Cell(200,$row_height,"Reporte de Convocatoria",0,0,'C',1);
+        $y_actual += ($row_height_table-$y_initial);
+        $this->SetY($y_actual);
+        $this->SetX($x_initial);
+        $this->Cell(200,$row_height,"Informacion General",1,0,'C',1);
+        $y_actual += ($row_height_table-$y_initial);
+        $rows_static_info_general = array('Nombre', 'Fecha de Inicio - Final','Estado','Cantidad de Aspirantes');
+        $rows_dynamic_info_general = array("$name","$dates","$status", "$count");
+        
+        for ($a = 0; $a <= count($rows_static_info_general)-1; $a++) {
+            $this->SetY($y_actual);
+            $this->SetX($x_initial);
+            $this->Cell(70,$row_height,"$rows_static_info_general[$a]",1);
+            $this->Cell(130,$row_height,"$rows_dynamic_info_general[$a]",1);
+            $y_actual += ($row_height_table-$y_initial);
+        }
+        $this->SetY($y_actual);
+        $this->SetX($x_initial);
+        $this->Cell(50,$row_height,"Descripcion",1,0,"C");
+        $this->Cell(50,$row_height,"Funciones",1,0,"C");
+        $this->Cell(50,$row_height,"Process",1,0,"C");
+        $this->Cell(50,$row_height,"Perfil",1,0,"C");
+        $y_actual += ($row_height_table-$y_initial);
+        $this->SetY($y_actual);
+        $this->SetX($x_initial);
+        $this->MultiCell(50,$row_height,"$descripcion",1);
+        $this->SetY($y_actual);
+        $this->SetX($x_initial+50);
+        $this->MultiCell(50,$row_height,"$functions",1);
+        $this->SetY($y_actual);
+        $this->SetX($x_initial+100);
+        $this->MultiCell(50,$row_height,"$process",1);
+        $this->SetY($y_actual);
+        $this->SetX($x_initial+150);
+        $this->MultiCell(50,$row_height,"$profile",1);
+        
+        
+        $this->AliasNbPages();
+        //Send file
+        $this->Output();
     }
     function GenerateReportAllCandidates(){
         $DataBase = new db();
@@ -41,7 +290,7 @@ class Report extends FPDF{
         //Disable automatic page break
         // $this->SetAutoPageBreak(false);
         $list_candidates = $DataBase->read_data_table('candidates');
-        if(!$list_candidates){
+        if(!$list_candidates || $list_candidates->num_rows == 0){
             return null;
         }
         //Add first page
@@ -126,11 +375,11 @@ class Report extends FPDF{
         while ($row = mysqli_fetch_object($list_candidates2)) {
             $id = $row->id_candidate;
             $cont += 1;
-            $info_candidate = $DataBase->read_single_record_candidates($id);
-            if(!$info_candidate){
+            $info_candidate_v = $DataBase->read_single_record_candidates_report($id);
+            if(!$info_candidate_v || $info_candidate_v->num_rows == 0){
                 return null;
             }
-            
+            $info_candidate = mysqli_fetch_object($info_candidate_v);
             //Add first page
             $this->AddPage();
             
@@ -191,11 +440,11 @@ class Report extends FPDF{
         $DataBase = new db();
         //Select the Products you want to show in your PDF file
         $this->SetAutoPageBreak(true);
-        $info_candidate = $DataBase->read_single_record_candidates($id);
-        if(!$info_candidate){
+        $info_candidate_v = $DataBase->read_single_record_candidates_report($id);
+        if(!$info_candidate_v || $info_candidate_v->num_rows == 0){
             return null;
         }
-        
+        $info_candidate = mysqli_fetch_object($info_candidate_v);
         //Add first page
         $this->AddPage();
         
@@ -258,7 +507,7 @@ class Report extends FPDF{
         //Disable automatic page break
         // $this->SetAutoPageBreak(false);
         $list_employees = $DataBase->read_all_employees();
-        if(!$list_employees){
+        if(!$list_employees || $list_employees->num_rows == 0){
             return null;
         }
         //Add first page
@@ -417,10 +666,11 @@ class Report extends FPDF{
         $DataBase = new db();
         //Select the Products you want to show in your PDF file
         $this->SetAutoPageBreak(true);
-        $info_employee = $DataBase->read_info_employee($id);
-        if(!$info_employee){
+        $info_employee_t = $DataBase->read_info_employee_Report($id);
+        if(!$info_employee_t || $info_employee_t->num_rows == 0){
             return null;
         }
+        $info_employee = mysqli_fetch_object($info_employee_t);
         
         //Add first page
         $this->AddPage();

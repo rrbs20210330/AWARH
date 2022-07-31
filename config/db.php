@@ -1,10 +1,10 @@
 <?php 
     class db{
-        private $con;
+        protected $con;
         private $dbhost = "localhost";
-        private $dbuser = "root";
-        private $dbpass = "";
-        private $dbname = "rh";
+        private $dbuser = "c1451710_rh";
+        private $dbpass = "palilu69NE";
+        private $dbname = "c1451710_rh";
 
         function __construct(){
             $this->connect_db();
@@ -77,6 +77,12 @@
             $sql = "SELECT * FROM employees_announcements WHERE fk_announcement = $id and b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             return $res;
+        }
+        public function count_data_announcements_employees($id){
+            $sql = "SELECT count(*) as contador FROM employees_announcements WHERE fk_announcement = $id and b_deleted = 0";
+            $res = mysqli_query($this->con, $sql);
+            $return = mysqli_fetch_object($res);
+            return $return;
         }
         public function read_single_record_employee_announcement($ide,$ida){
             $sql = "SELECT * FROM employees_announcements WHERE fk_employee = $ide and fk_announcement = $ida and b_deleted = 0";
@@ -159,6 +165,11 @@
             $return = mysqli_fetch_object($res);
             return $return;
         }
+        public function read_single_record_announcement_report($id){
+            $sql = "SELECT * FROM announcements WHERE id_announcement = $id and b_deleted = 0";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
+        }
         public function read_single_record_files($id){
             $sql = "SELECT * FROM files WHERE id_file = $id";
             $res = mysqli_query($this->con, $sql);
@@ -170,6 +181,11 @@
             $res = mysqli_query($this->con, $sql);
             $return = mysqli_fetch_object($res);
             return $return;
+        }
+        public function read_single_record_candidates_report($id){
+            $sql = "SELECT * FROM candidates WHERE id_candidate = $id and b_deleted = 0";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
         }
         public function read_single_record_charges($id){
             $sql = "SELECT * FROM charges WHERE id_charge = $id";
@@ -422,7 +438,7 @@
             return $res;
         }
         public function read_all_employees_info(){
-            $sql = "SELECT * FROM view_info_employee";
+            $sql = "SELECT * FROM view_info_employee WHERE b_deleted = 0";
             $res = mysqli_query($this->con, $sql);
             return $res;
         }
@@ -436,6 +452,11 @@
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             return $obj;
+        }
+        public function read_info_employee_Report($id){
+            $sql = "SELECT * FROM view_info_employee WHERE id_employee = $id and b_deleted = 0";
+            $res = mysqli_query($this->con, $sql);
+            return $res;
         }
         public function read_single_record_user($id){
             $sql = "SELECT * FROM users WHERE id_user = $id and b_deleted = 0";
@@ -669,7 +690,7 @@
         #NUM OF ACTIVITIES FROM CHARGE
 
         public function num_activities_charge($id){
-            $sql= "SELECT `number_activities_charges`($id) AS `numActCh`;" ;
+            $sql= "SELECT COUNT(ca.fk_charge) as numActCh FROM `charges` AS `c` INNER JOIN `charges_activities` AS `ca` ON ca.fk_charge = c.id_charge WHERE c.id_charge = $id and ca.b_deleted = 0; " ;
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             if($res){
@@ -680,7 +701,7 @@
             
         }
         public function num_position_area($id){
-            $sql = "SELECT `number_positions_areas`($id) AS `numPosAr`;";
+            $sql = "SELECT COUNT(ap.fk_area) as numPosAr FROM `areas` AS `a` INNER JOIN `positions_areas` AS `ap` ON ap.fk_area = a.id_area WHERE a.id_area = $id and ap.b_deleted = 0;";
             $res = mysqli_query($this->con, $sql);
             $obj = mysqli_fetch_object($res);
             if($res){

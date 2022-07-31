@@ -13,6 +13,14 @@ require('process/update.php');
 <abbr title="Nuevo empleado"><button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#registroempleado">
 <i style='font-size:24px' class="bi bi-person-fill"><span class="glyphicon">&#x2b;</span></i>
 </button></abbr>
+<abbr title="Generar Reporte de todas los candidatos">
+    <?php $l_employees = $DataBase->read_all_employees(); ?>
+    <?php if(mysqli_num_rows($l_employees) == 0){?> 
+            <button  disabled target="_blank" class="btn btn-dark"><i style='font-size:24px' class="bi bi-filetype-pdf"></i></button>    
+        <?php }else{?>
+            <a href="process/report.php?typeOp=2"  target="_blank" class="btn btn-dark"><i style='font-size:24px' class="bi bi-filetype-pdf"></i></a>
+        <?php } ?>
+</abbr>
 <br><br>
     <table class="table table-striped table-bordered userTable" style='background: #00252e '>
         <thead style="color: white"> 
@@ -25,7 +33,6 @@ require('process/update.php');
         </thead>
         <tbody>
             <?php 
-                $l_employees = $DataBase->read_all_employees();
                 while ($row = mysqli_fetch_object($l_employees)) {
                     $id = $row->id_employee;
                     $active = $row->b_active;
@@ -38,10 +45,10 @@ require('process/update.php');
             <tr>
                 <td>
                     <form method="post">
-                    <input type="hidden" name="update" value="1">
-                    <input type="hidden" name="typeOp" value="11">
-                    <input type="hidden" name="id" value="<?php echo $id ?>">
-                    <input type="hidden" name="idu" value="<?php echo $id_user ?>">
+                    <input autocomplete="off"  type="hidden" name="update" value="1">
+                    <input autocomplete="off"  type="hidden" name="typeOp" value="11">
+                    <input autocomplete="off"  type="hidden" name="id" value="<?php echo $id ?>">
+                    <input autocomplete="off"  type="hidden" name="idu" value="<?php echo $id_user ?>">
                     <?php if ($active == 0){
                       ?>
                     <button type="submit"class="btn btn-secondary btn-sm"><i class="bi bi-eye-slash-fill"></i></button>
@@ -67,6 +74,9 @@ require('process/update.php');
                     <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditEmployee-<?php echo $id ?>" ><i class="bi bi-pencil-square"></i></a>
                     <a class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#DeleteEmployee-<?php echo $id ?>"><i class="bi-trash"></i></a>
                     <a class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#SeeInfoEmployee-<?php echo $id ?>"><i class="bi bi-eye"></i></a>
+                    <abbr title="Generar Reporte">
+                    <a href="process/report.php?typeOp=2&id=<?php echo $id ?>" target="_blank" class="btn btn-dark btn-sm"><i class="bi bi-filetype-pdf"></i></a>
+                    </abbr>
                     <?php if($request){?> <a class="btn btn-warning btn-sm " data-bs-toggle="modal" data-bs-target="#Request-<?php echo $id ?>"><i class="bi bi-exclamation-triangle-fill"></i></a> <?php }?>
                 </td>
             </tr>  
@@ -90,27 +100,27 @@ require('process/update.php');
                 
                 <div class="col-sm-4">
                 <label>Nombres </label>
-                <input type="text" class="form-control" id="names" name="names" required value="">
+                <input autocomplete="off"  type="text" class="form-control" id="names" name="names" required value="">
                 </div>
                 <div class="col-sm-4">
                 <label >Apellidos</label>
-                <input type="text" class="form-control" id="last_names" name="last_names" required>
+                <input autocomplete="off"  type="text" class="form-control" id="last_names" name="last_names" required>
                 </div>    
                 <div class="col-sm-4">
                 <label >F. de Nacimiento</label>
-                <input type="date" class="form-control" id="birthday" name="birthday" required>
+                <input autocomplete="off"  type="date" class="form-control" id="birthday" name="birthday" required>
                 </div>       
                 <div class="col-sm-4">
                 <label >Fotografía</label>
-                <input type="file" class="form-control" id="photo[]" name="photo[]" required>
+                <input autocomplete="off"  type="file" class="form-control" id="photo[]" name="photo[]" required>
                 </div>
                 <div class="col-sm-4">
                 <label >RFC</label>
-                <input type="text" class="form-control" id="rfc" name="rfc" required>
+                <input autocomplete="off"  type="text" class="form-control" id="rfc" name="rfc" required>
                 </div>
                 <div class="col-sm-4">
                 <label >NSS</label>
-                <input type="text" class="form-control" id="nss" name="nss" required>
+                <input autocomplete="off"  type="text" class="form-control" id="nss" name="nss" required>
                 </div>
             </div>
             <br> 
@@ -118,11 +128,11 @@ require('process/update.php');
                 <center><label for="">Contacto</label></center>
                 <div class="col-sm-6">
                 <label>Teléfono </label>
-                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input autocomplete="off"  type="number" class="form-control" id="phone_number" name="phone_number" required value="" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                 </div>
                 <div class="col-sm-6">
                 <label >Correo Electrónico</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input autocomplete="off"  type="email" class="form-control" id="email" name="email" required>
                 </div>           
             </div>
             <br> 
@@ -130,23 +140,23 @@ require('process/update.php');
                 <center><label for="">Domicilio</label></center>
                 <div class="col-sm-4">
                 <label>Calle</label>
-                <input type="text" class="form-control" id="street" name="street" required value="">
+                <input autocomplete="off"  type="text" class="form-control" id="street" name="street" required value="">
                 </div>
                 <div class="col-sm-4">
                 <label>Número Exterior</label>
-                <input type="text" class="form-control" id="no_exterior" name="no_exterior" required>
+                <input autocomplete="off"  type="text" class="form-control" id="no_exterior" name="no_exterior" required>
                 </div>
                 <div class="col-sm-4">
                 <label >Número Interior</label>
-                <input type="text" class="form-control" id="no_interior" name="no_interior" required>
+                <input autocomplete="off"  type="text" class="form-control" id="no_interior" name="no_interior" required>
                 </div>
                 <div class="col-sm-4">
                 <label >Colonia</label>
-                <input type="text" class="form-control" id="colony" name="colony" required>
+                <input autocomplete="off"  type="text" class="form-control" id="colony" name="colony" required>
                 </div>
                 <div class="col-sm-8">
                 <label>Referencias</label>
-                <textarea class="form-control" name="references" id="references" rows="1" required></textarea>
+                <textarea class="form-control" name="references" maxlength="256" id="references" rows="1" required></textarea>
                 
                 </div>
             </div>
@@ -191,15 +201,15 @@ require('process/update.php');
                 </div>
                 <div class="col-sm-6">
                 <label>Contrato</label>
-                <input type="file" class="form-control" id="contract[]" name="contract[]" required>
+                <input autocomplete="off"  type="file" class="form-control" id="contract[]" name="contract[]" required>
                 </div>
                 <div class="col-sm-6">
                 <label>CV</label>
-                <input type="file" class="form-control" id="cv[]" name="cv[]" required>
+                <input autocomplete="off"  type="file" class="form-control" id="cv[]" name="cv[]" required>
                 </div>
             </div>
-            <input type="hidden" name="typeOp" value="3">
-            <input type="hidden" name="new" value="1">
+            <input autocomplete="off"  type="hidden" name="typeOp" value="3">
+            <input autocomplete="off"  type="hidden" name="new" value="1">
             <br>    
           </div>
           <div class="modal-footer">
@@ -252,27 +262,27 @@ require('process/update.php');
                     
                     <div class="col-sm-4">
                     <label>Nombres </label>
-                    <input value="<?php echo $names?>" type="text" class="form-control" id="names" name="names">
+                    <input autocomplete="off"  value="<?php echo $names?>" type="text" class="form-control" id="names" name="names">
                     </div>
                     <div class="col-sm-4">
                     <label >Apellidos</label>
-                    <input value="<?php echo $last_names?>" type="text" class="form-control" id="last_names" name="last_names" >
+                    <input autocomplete="off"  value="<?php echo $last_names?>" type="text" class="form-control" id="last_names" name="last_names" >
                     </div>    
                     <div class="col-sm-4">
                     <label >F. de Nacimiento</label>
-                    <input value="<?php echo $birthday?>"type="date" class="form-control" id="birthday" name="birthday" >
+                    <input autocomplete="off"  value="<?php echo $birthday?>"type="date" class="form-control" id="birthday" name="birthday" >
                     </div>       
                     <div class="col-sm-4">
                     <label >Fotografía</label>
-                    <input type="file" disabled class="form-control" id="photo" name="photo" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
+                    <input autocomplete="off"  type="file" disabled class="form-control" id="photo" name="photo" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                     </div>
                     <div class="col-sm-4">
                     <label >RFC</label>
-                    <input value="<?php echo $rfc?>" type="text" class="form-control" id="rfc" name="rfc" >
+                    <input autocomplete="off"  value="<?php echo $rfc?>" type="text" class="form-control" id="rfc" name="rfc" >
                     </div>
                     <div class="col-sm-4">
                     <label >NSS</label>
-                    <input value="<?php echo $nss?>" type="text" class="form-control" id="nss" name="nss" >
+                    <input autocomplete="off"  value="<?php echo $nss?>" type="text" class="form-control" id="nss" name="nss" >
                     </div>
                 </div>
                 <br> 
@@ -280,11 +290,11 @@ require('process/update.php');
                     <center><label for="">Contacto</label></center>
                     <div class="col-sm-6">
                     <label>Teléfono </label>
-                    <input value="<?php echo $phone_number?>" type="number" class="form-control" id="phone_number" name="phone_number" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                    <input autocomplete="off"  value="<?php echo $phone_number?>" type="number" class="form-control" id="phone_number" name="phone_number" minlength="10" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                     </div>
                     <div class="col-sm-6">
                     <label >Correo Electronico</label>
-                    <input value="<?php echo $email?>" type="email" class="form-control" id="email" name="email" >
+                    <input autocomplete="off"  value="<?php echo $email?>" type="email" class="form-control" id="email" name="email" >
                     </div>           
                 </div>
                 <br> 
@@ -292,23 +302,23 @@ require('process/update.php');
                     <center><label for="">Domicilio</label></center>
                     <div class="col-sm-4">
                     <label>Calle</label>
-                    <input value="<?php echo $street?>"type="text" class="form-control" id="street" name="street" >
+                    <input autocomplete="off"  value="<?php echo $street?>"type="text" class="form-control" id="street" name="street" >
                     </div>
                     <div class="col-sm-4">
                     <label>Número Exterior</label>
-                    <input value="<?php echo $no_exterior?>" type="number" class="form-control" id="no_exterior" name="no_exterior" >
+                    <input autocomplete="off"  value="<?php echo $no_exterior?>" type="number" class="form-control" id="no_exterior" name="no_exterior" >
                     </div>
                     <div class="col-sm-4">
                     <label >Número Interior</label>
-                    <input value="<?php echo $no_interior?>" type="number" class="form-control" id="no_interior" name="no_interior" >
+                    <input autocomplete="off"  value="<?php echo $no_interior?>" type="number" class="form-control" id="no_interior" name="no_interior" >
                     </div>
                     <div class="col-sm-4">
                     <label >Colonia</label>
-                    <input value="<?php echo $colony?>" type="text" class="form-control" id="colony" name="colony" >
+                    <input autocomplete="off"  value="<?php echo $colony?>" type="text" class="form-control" id="colony" name="colony" >
                     </div>
                     <div class="col-sm-8">
                     <label>Referencias</label>
-                    <textarea class="form-control" name="references" id="references" rows="1" required><?php echo $references?></textarea>
+                    <textarea class="form-control" name="references" maxlength="256" id="references" rows="1" required><?php echo $references?></textarea>
                     
                     </div>
                 </div>
@@ -353,16 +363,16 @@ require('process/update.php');
                     </div>
                     <div class="col-sm-6">
                     <label>Contrato</label>
-                    <input type="file" disabled class="form-control" id="contract" name="contract" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
+                    <input autocomplete="off"  type="file" disabled class="form-control" id="contract" name="contract" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                     </div>
                     <div class="col-sm-6">
                     <label>CV</label>
-                    <input type="file" disabled class="form-control" id="cv" name="cv" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
+                    <input autocomplete="off"  type="file" disabled class="form-control" id="cv" name="cv" data-bs-toggle="tooltip" data-bs-placement="top" title="No se puede editar el archivo">
                     </div>
                 </div>
-                <input type="hidden" name="typeOp" value="4">
-                <input type="hidden" name="id" value="<?php echo $idL ?>">
-                <input type="hidden" name="update" value="1">
+                <input autocomplete="off"  type="hidden" name="typeOp" value="4">
+                <input autocomplete="off"  type="hidden" name="id" value="<?php echo $idL ?>">
+                <input autocomplete="off"  type="hidden" name="update" value="1">
                 <br>    
             </div>
             <div class="modal-footer">
@@ -394,9 +404,9 @@ require('process/update.php');
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <form method="post">
-            <input type="hidden" name="id" id="id" value="<?php echo $id?>">
-            <input type="hidden" name="typeOp" id="typeOp" value="4">
-            <input type="hidden" name="delete" value="1">
+            <input autocomplete="off"  type="hidden" name="id" id="id" value="<?php echo $id?>">
+            <input autocomplete="off"  type="hidden" name="typeOp" id="typeOp" value="4">
+            <input autocomplete="off"  type="hidden" name="delete" value="1">
             <button type="submit" class="btn btn-danger">Sí, borrar ahora!</button>
           </form>
         </div>
@@ -447,7 +457,7 @@ require('process/update.php');
                             <strong>Referencias:</strong> <?php echo $employee_info->t_references ?><br>
                             <strong>Calle:</strong> <?php echo $employee_info->t_street?><br>
                             <strong>Colonia:</strong> <?php echo $employee_info->t_colony?><br>
-                            <strong>Fotografía:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$path_p ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                            <strong>Fotografía:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$path_p ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
                         </p>    
                     </div>
                     <div class="col">
@@ -455,8 +465,8 @@ require('process/update.php');
                         <p>
                             <strong>Puesto:</strong> <?php echo $puesto ?>  <br>
                             <strong>Cargo:</strong> <?php echo $cargo ?>  <br>
-                            <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
-                            <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                            <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+                            <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
                             <strong>Área:</strong> <?php echo $area ?> <br>
                             <strong>Usuario:</strong> <?php echo $user_info->t_user; ?> <br>
                             <strong>Contraseña:</strong> <?php echo $user_info->t_password; ?> <br>
@@ -540,9 +550,9 @@ require('process/update.php');
                 <form method="post">
                     <button type="submit" name="action" class="btn btn-danger" value="0">Rechazar</button>
                     <button type="submit" name="action" class="btn btn-success" value="1">Aceptar</button>
-                    <input type="hidden" name="typeOp" value="15">
-                    <input type="hidden" name="update" value="1">
-                    <input type="hidden" name="id" value="<?php echo $idL ?>">
+                    <input autocomplete="off"  type="hidden" name="typeOp" value="15">
+                    <input autocomplete="off"  type="hidden" name="update" value="1">
+                    <input autocomplete="off"  type="hidden" name="id" value="<?php echo $idL ?>">
                 </form>
                 
             </div>

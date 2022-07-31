@@ -4,17 +4,18 @@
 
 | STATUS | TAREA | ENCARGADO |
 | :---: | :---: | :---: |
-|EN ESPERA| Herramientas de ayuda | |
-|RAZONANDO| Cambiar selects por checkbox en puesto para que un puesto pueda pertenecer a varias areas | |
-| | Validacion de si el empleado puede o no meterse a una convocatoria en especifico dependiendo de su cargo, area y puesto | |
-|VALIDANDO| Adaptar funcionalidad de borrado a nueva base de datos para borrado logico. | |
-| | Host | |
-| | Subir Documentacion | |
-| | Dar mejor formato a la vista de un solo anuncio | | 
-| | Generar Reportes PDF | |
+|COMPLETADO| Validacion de si el empleado puede o no meterse a una convocatoria en especifico dependiendo de su cargo, area y puesto | |
+|COMPLETADO| Adaptar funcionalidad de borrado a nueva base de datos para borrado logico. | |
+|COMPLETADO| Host | |
+|COMPLETADO| Subir Documentacion | |
+|COMPLETADO| Dar mejor formato a la vista de un solo anuncio | | 
+|COMPLETADO| Generar Reportes PDF | |
 |COMPLETADO| Modificar error.php | |
 |COMPLETADO| Un empleado podra aplicar a la convocatoria | |
-|PENDIENTE| Una convocatoria podra mostrar la cantidad de aspirantes a ella y quienes | |
+| | Limitar el nombre de una convocatoria y de una capacitacion | |
+| | Limitar el muestreo de descripcion dentro de la pagina de una convocatoria | |
+|COMPLETADO| Terminar el funcionamiento de generacion de reportes | |
+| | Agregar todas las info tools | |
 |COMPLETADO| El administrador podra rechazar o aceptar el aspirante a esa convocatoria | |
 
 
@@ -23,16 +24,16 @@
 | STATUS | MODULO | '#' PRUEBAS  |
 | :---: | :---: | :---: |
 | 100% | Login | |
-| 85% | Overview | |
+| 100% | Overview | |
 | 100% | Cargos | |
 | 100% | Actividades | |
 | 100% | Puestos | |
 | 100% | Areas | |
 | 100% | Usuarios | |
-| 98% | Candidatos | |
-| 98% | Empleados | |
+| 100% | Candidatos | |
+| 100% | Empleados | |
 | 100% | Capacitaciones | |
-| 85% | Convocatorias | |
+| 95% | Convocatorias | |
 
 > Modulos Empleado
 

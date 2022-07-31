@@ -98,7 +98,7 @@ if($tipo == 1){?>
               <strong>NSS:</strong> <?php echo $employee_info->t_nss; ?> <br>
               <strong>Teléfono:</strong> <?php echo $employee_info->t_phone_number; ?> <br>
               <strong>Fecha de Nacimiento:</strong> <?php echo $employee_info->d_birthday; ?> <br>
-              <strong>Fotografía:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_img)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+              <strong>Fotografía:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$DataBase->read_single_record_files($employee_info->fk_img)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
             </div>
             <div class="col">
               <strong>No. Exterior:</strong> <?php echo $employee_info->t_no_exterior; ?> <br>
@@ -125,8 +125,8 @@ if($tipo == 1){?>
           <div class="col">
             <strong>Puesto:</strong> <?php echo $puesto; ?>  <br>
             <strong>Cargo:</strong> <?php echo $cargo; ?>  <br>
-            <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
-            <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/AWARH/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+            <strong>Contrato:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$DataBase->read_single_record_files($employee_info->fk_contract)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
+            <strong>CV:</strong> <a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'.$DataBase->read_single_record_files($employee_info->fk_cv)->t_path; ?>" target="_blank" rel="noopener noreferrer">Click Aqui</a> <br>
             <strong>Área:</strong> <?php echo $area_info ?> <br>
             <strong>Capacitaciones:</strong> <?php echo $count->count_data; ?> <br>
           </div>
@@ -156,11 +156,11 @@ if($tipo == 1){?>
               <center><label for="">Contacto</label></center>
               <div class="col-sm-6">
                 <label>Teléfono </label>
-                <input type="number" class="form-control" id="phone_number" name="phone_number" required value="<?php echo $employee_info->t_phone_number ?>" min="1111111111" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input autocomplete="off"  type="number" class="form-control" id="phone_number" name="phone_number" required value="<?php echo $employee_info->t_phone_number ?>" min="1111111111" onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-6">
                 <label >Correo Electrónico</label>
-                <input type="email" class="form-control" id="email" name="email" value="<?php echo $employee_info->t_email ?>" required>
+                <input autocomplete="off"  type="email" class="form-control" id="email" name="email" value="<?php echo $employee_info->t_email ?>" required>
               </div>           
             </div>
             <br> 
@@ -168,28 +168,28 @@ if($tipo == 1){?>
               <center><label for="">Domicilio</label></center>
               <div class="col-sm-4">
                 <label>Calle</label>
-                <input type="text" class="form-control" id="street" name="street" required value="<?php echo $employee_info->t_street ?>">
+                <input autocomplete="off"  type="text" class="form-control" id="street" name="street" required value="<?php echo $employee_info->t_street ?>">
               </div>
               <div class="col-sm-4">
                 <label>Número Exterior</label>
-                <input type="text" class="form-control" id="no_exterior" value="<?php echo $employee_info->t_no_exterior ?>" name="no_exterior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input autocomplete="off"  type="text" class="form-control" id="no_exterior" value="<?php echo $employee_info->t_no_exterior ?>" name="no_exterior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-4">
                 <label >Número Interior</label>
-                <input type="text" class="form-control" id="no_interior" value="<?php echo $employee_info->t_no_interior ?>" name="no_interior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <input autocomplete="off"  type="text" class="form-control" id="no_interior" value="<?php echo $employee_info->t_no_interior ?>" name="no_interior" required onkeypress="return verificaNumeros(event);" maxlength="10" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
               </div>
               <div class="col-sm-4">
                 <label >Colonia</label>
-                <input type="text" class="form-control" id="colony" name="colony" required value="<?php echo $employee_info->t_colony ?>">
+                <input autocomplete="off"  type="text" class="form-control" id="colony" name="colony" required value="<?php echo $employee_info->t_colony ?>">
               </div>
               <div class="col-sm-8">
                 <label>Referencias</label>
-                <textarea class="form-control" name="references" id="references" cols="30" rows="1"><?php echo $employee_info->t_references ?></textarea>
+                <textarea class="form-control" name="references" maxlength="256" id="references" cols="30" rows="1"><?php echo $employee_info->t_references ?></textarea>
               </div>
             </div>
-            <input type="hidden" name="typeOp" value="12">
-            <input type="hidden" name="new">
-            <input type="hidden" name="id" value="<?php echo $id_employee?>">
+            <input autocomplete="off"  type="hidden" name="typeOp" value="12">
+            <input autocomplete="off"  type="hidden" name="new">
+            <input autocomplete="off"  type="hidden" name="id" value="<?php echo $id_employee?>">
             <br>    
           </div>
           <div class="modal-footer">
@@ -218,12 +218,12 @@ if($tipo == 1){?>
             <div class="row">
               <div class="col-sm-12">
                 <label>Nueva Contraseña </label>
-                <input type="text" class="form-control" name="password" required value="<?php echo $passwrd?>">
+                <input autocomplete="off"  type="text" class="form-control" name="password" maxlength="40" required value="<?php echo $passwrd?>">
               </div>          
             </div>
-            <input type="hidden" name="id" value="<?php echo $id ?>">
-            <input type="hidden" name="typeOp" value="10">
-            <input type="hidden" name="update" value="1">
+            <input autocomplete="off"  type="hidden" name="id" value="<?php echo $id ?>">
+            <input autocomplete="off"  type="hidden" name="typeOp" value="10">
+            <input autocomplete="off"  type="hidden" name="update" value="1">
             <br>    
           </div>
           <div class="modal-footer">
